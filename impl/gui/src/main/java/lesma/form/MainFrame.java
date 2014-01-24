@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tesma.form;
+package lesma.form;
 
 import static java.awt.Frame.MAXIMIZED_BOTH;
 

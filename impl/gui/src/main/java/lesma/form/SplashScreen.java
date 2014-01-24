@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tesma.form;
+package lesma.form;
 
 import java.awt.BorderLayout;
 import javax.swing.ImageIcon;
@@ -11,7 +11,8 @@ import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 
-import tesma.Tesma;
+import lesma.Lesma;
+
 
 public class SplashScreen extends JWindow {
 
@@ -21,7 +22,7 @@ public class SplashScreen extends JWindow {
     private JProgressBar progressBar = new JProgressBar(0, 100);
 
     public SplashScreen() {
-        ImageIcon imageIcon = new ImageIcon(Tesma.class.getResource("/tesmalogo.png"));
+        ImageIcon imageIcon = new ImageIcon(Lesma.class.getResource("/tesmalogo.png"));
         imageLabel.setIcon(imageIcon);
         setLayout(borderLayout);
         add(imageLabel, BorderLayout.CENTER);

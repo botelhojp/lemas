@@ -3,17 +3,17 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>tesma.parent</groupId>
-	<artifactId>tesma-parent-base</artifactId>
+	<groupId>lesma.parent</groupId>
+	<artifactId>lesma-parent-base</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>TESMA - Parent Base</name>
-	<url>https://github.com/botelhojp/tesma</url>
+	<name>Lesma - Parent Base</name>
+	<url>https://github.com/botelhojp/lesma</url>
 
 	<properties>
 		<encoding.default>UTF-8</encoding.default>
-		<tesma.release.version>1.0.0-SNAPSHOT</tesma.release.version>
+		<lesma.release.version>1.0.0-SNAPSHOT</lesma.release.version>
 	</properties>
 
 	<licenses>
@@ -75,7 +75,7 @@
 			<dependency>
 				<groupId>open-jade</groupId>
 				<artifactId>open-jade</artifactId>
-				<version>1.0.0</version>
+				<version>1.0.1</version>
 			</dependency>
 
 			<!-- Certificate -->

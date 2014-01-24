@@ -1,13 +1,14 @@
-package tesma;
+package lesma;
+
+import lesma.form.SplashScreen;
 
 import org.apache.log4j.Logger;
 
-import tesma.form.SplashScreen;
 
 
-public class Tesma {
+public class Lesma {
 
-	private static Logger log = Logger.getLogger(Tesma.class);
+	private static Logger log = Logger.getLogger(Lesma.class);
 
 	public static void main(String args[]) {
 		SplashScreen spaScreen = new SplashScreen();
@@ -21,7 +22,7 @@ public class Tesma {
 			java.awt.EventQueue.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					new tesma.form.MainFrame().setVisible(true);
+					new lesma.form.MainFrame().setVisible(true);
 				}
 			});
 		} catch (Exception ex) {

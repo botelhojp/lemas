@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>tesma</groupId>
-	<artifactId>tesma-gui</artifactId>
+	<groupId>lesma</groupId>
+	<artifactId>lesma-gui</artifactId>
 	<packaging>jar</packaging>
 
-	<name>TESMA - Application GUI</name>
+	<name>Lesma - Application GUI</name>
 	<url>https://github.com/botelhojp/cronos</url>
 
 	<properties>
@@ -14,12 +14,14 @@
 	</properties>
 
 	<parent>
-		<groupId>tesma.parent</groupId>
-		<artifactId>tesma-parent-base</artifactId>
+		<groupId>lesma.parent</groupId>
+		<artifactId>lesma-parent-base</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<dependencies />
+	<dependencies>
+		
+	</dependencies>
 
 	<build>
 		<plugins>

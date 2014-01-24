@@ -2,19 +2,26 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>tesma.model</groupId>
-	<artifactId>tesma-model-direct</artifactId>
+	<groupId>lesma.model</groupId>
+	<artifactId>lesma-model-direct</artifactId>
 	<packaging>jar</packaging>
 
-	<name>TESMA - TrustModel - Direct</name>
+	<name>Lesma - TrustModel - Direct</name>
 
 	<properties>
 		<encoding.default>UTF-8</encoding.default>
 	</properties>
 
 	<parent>
-		<groupId>tesma.parent</groupId>
-		<artifactId>tesma-parent-trustmodel</artifactId>
+		<groupId>lesma.parent</groupId>
+		<artifactId>lesma-parent-trustmodel</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>open-jade</groupId>
+			<artifactId>open-jade</artifactId>
+		</dependency>
+	</dependencies>
 </project>
