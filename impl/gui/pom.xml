@@ -4,7 +4,6 @@
 
 	<groupId>tesma</groupId>
 	<artifactId>tesma-gui</artifactId>
-	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>TESMA - Application GUI</name>
