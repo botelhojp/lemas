@@ -15,18 +15,18 @@ public class Lesma {
 	public static void main(String args[]) {
 		SplashScreen spaScreen = new SplashScreen();
 		try {
-			spaScreen.showScreen();
-			spaScreen.setProgress("interface", 0);
-			delay(5);
-			spaScreen.setProgress("agents", 30);
-			delay(5);
-			spaScreen.setProgress("openjade", 70);
 			java.awt.EventQueue.invokeLater(new Runnable() {
 				@Override
 				public void run() {
 					new lesma.form.FrameMain().setVisible(true);
 				}
 			});
+			spaScreen.showScreen();
+			spaScreen.setProgress("interface", 0);
+			delay(500);
+			spaScreen.setProgress("agents", 30);
+			delay(500);
+			spaScreen.setProgress("openjade", 70);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			log.error("Erro ao inicar o lesma. \nCausa:", ex);

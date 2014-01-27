@@ -13,6 +13,8 @@ import static java.awt.Frame.MAXIMIZED_BOTH;
  */
 @SuppressWarnings("all")
 public class FrameMain extends javax.swing.JFrame {
+    
+    public static FrameMain instance;
 
     /**
      * Creates new form FrameCronos
@@ -21,6 +23,7 @@ public class FrameMain extends javax.swing.JFrame {
         setExtendedState(MAXIMIZED_BOTH);  
         initComponents();  
         this.setExtendedState(FrameMain.MAXIMIZED_BOTH);
+        instance = this;
     }
 
     /**
@@ -35,6 +38,8 @@ public class FrameMain extends javax.swing.JFrame {
         jFrame1 = new javax.swing.JFrame();
         jFrame2 = new javax.swing.JFrame();
         jMenu1 = new javax.swing.JMenu();
+        jPanel1 = new javax.swing.JPanel();
+        lbMessage = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmenuAgents = new javax.swing.JMenu();
         mnNewProject = new javax.swing.JMenuItem();
@@ -68,6 +73,23 @@ public class FrameMain extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Learning Environment for Systems Multi Agent");
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lbMessage.setText("message");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lbMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lbMessage))
+        );
+
         jmenuAgents.setText("Project");
 
         mnNewProject.setText("New");
@@ -92,20 +114,23 @@ public class FrameMain extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 548, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 310, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 288, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnNewProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnNewProjectActionPerformed
+        message("New project...");
         FrameNewProject frame = FrameNewProject.getInstance();
         frame.load();
-        frame.setVisible(true);
+        frame.setVisible(true);        
     }//GEN-LAST:event_mnNewProjectActionPerformed
 
      private void log(String message) {
@@ -150,11 +175,17 @@ public class FrameMain extends javax.swing.JFrame {
     private javax.swing.JFrame jFrame2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JMenu jmenuAbout;
     private javax.swing.JMenu jmenuAgents;
+    private javax.swing.JLabel lbMessage;
     private javax.swing.JMenuItem mnNewProject;
     private javax.swing.JMenuItem mnOpenProject;
     // End of variables declaration//GEN-END:variables
+
+    public static void message(String message) {
+        instance.lbMessage.setText(message);
+    }
 
 
 }

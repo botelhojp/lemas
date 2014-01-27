@@ -27,9 +27,15 @@
 		<dependency>
 			<groupId>open-jade</groupId>
 			<artifactId>open-jade</artifactId>
-                        <version>1.0.1-SNAPSHOT</version>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>lesma.model</groupId>
+			<artifactId>lesma-model-direct</artifactId>
+			<version>${lesma.release.version}</version>
+		</dependency>
+
 	</dependencies>
+
 
 	<build>
 		<plugins>

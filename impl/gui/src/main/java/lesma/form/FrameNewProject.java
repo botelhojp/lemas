@@ -6,8 +6,11 @@
 
 package lesma.form;
 
+import java.awt.event.ItemEvent;
+import java.util.List;
 import javax.swing.JDialog;
-import lesma.model.LesmaClassLoader;
+import lesma.model.LesmaReflection;
+import lesma.model.TrustModelBean;
 
 /**
  * 
@@ -24,6 +27,11 @@ public class FrameNewProject extends JDialog {
     }
     
     void load() {
+        List<TrustModelBean> list = LesmaReflection.loadTrusModel();
+        cbTrustModelList.removeAllItems();
+        for(TrustModelBean item : list){
+            cbTrustModelList.addItem(item);
+        }
         
     }
 
@@ -47,7 +55,7 @@ public class FrameNewProject extends JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox();
+        cbTrustModelList = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         btNext = new javax.swing.JButton();
         btCancel = new javax.swing.JButton();
@@ -56,7 +64,12 @@ public class FrameNewProject extends JDialog {
         setTitle("New Project");
         setModalExclusionType(java.awt.Dialog.ModalExclusionType.TOOLKIT_EXCLUDE);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbTrustModelList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbTrustModelList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbTrustModelListActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Trust Model:");
 
@@ -77,7 +90,7 @@ public class FrameNewProject extends JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbTrustModelList, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 13, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -86,7 +99,7 @@ public class FrameNewProject extends JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbTrustModelList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btNext)
@@ -96,6 +109,13 @@ public class FrameNewProject extends JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbTrustModelListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTrustModelListActionPerformed
+        if (cbTrustModelList.getSelectedItem() != null){
+            TrustModelBean item =  (TrustModelBean) cbTrustModelList.getSelectedItem();
+            FrameMain.message("trust model: " + item.getName());
+        }
+    }//GEN-LAST:event_cbTrustModelListActionPerformed
 
     /**
      * @param args the command line arguments
@@ -135,7 +155,7 @@ public class FrameNewProject extends JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancel;
     private javax.swing.JButton btNext;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox cbTrustModelList;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 
