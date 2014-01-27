@@ -2,10 +2,12 @@ package lesma;
 
 import lesma.form.SplashScreen;
 
+import openjade.core.annotation.TrustModel;
+
 import org.apache.log4j.Logger;
 
 
-
+@TrustModel(name="oba")
 public class Lesma {
 
 	private static Logger log = Logger.getLogger(Lesma.class);
@@ -15,19 +17,19 @@ public class Lesma {
 		try {
 			spaScreen.showScreen();
 			spaScreen.setProgress("interface", 0);
-			delay(500);
-			spaScreen.setProgress("agents", 0);
-			delay(500);
-			spaScreen.setProgress("openjade", 0);
+			delay(5);
+			spaScreen.setProgress("agents", 30);
+			delay(5);
+			spaScreen.setProgress("openjade", 70);
 			java.awt.EventQueue.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					new lesma.form.MainFrame().setVisible(true);
+					new lesma.form.FrameMain().setVisible(true);
 				}
 			});
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			log.error("Erro ao inicar o cronos. \nCausa:", ex);
+			log.error("Erro ao inicar o lesma. \nCausa:", ex);
 		} finally {
 			spaScreen.close();
 		}

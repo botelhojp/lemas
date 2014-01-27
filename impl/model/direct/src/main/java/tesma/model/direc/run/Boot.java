@@ -1,5 +1,7 @@
 package tesma.model.direc.run;
 
+import openjade.core.annotation.TrustModel;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -7,6 +9,7 @@ import org.apache.log4j.Logger;
  * @author vanderson
  *
  */
+@TrustModel(name="Direct Model")
 public class Boot {
 	
 	protected static Logger log = Logger.getLogger(Boot.class);

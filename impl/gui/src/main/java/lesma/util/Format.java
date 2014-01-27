@@ -49,4 +49,16 @@ public class Format {
 		}
 	}
 	
+	public static void main(String args[]) {  
+	      System.out.println("Boot class path: " + System.getProperty("sun.boot.class.path"));  
+	      System.out.println("Extension class path: " + System.getProperty("java.ext.dirs"));  
+	      System.out.println("AppClassPath: " + System.getProperty("java.class.path"));  
+	  
+	      Format i=new Format();  
+	      System.out.println("\nBoot CL: " + java.lang.Object.class.getClassLoader());  
+	      System.out.println("App ClassLoader: " + i.getClass().getClassLoader());  
+	   }  
+
+
+	
 }
