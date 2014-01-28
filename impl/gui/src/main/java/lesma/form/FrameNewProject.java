@@ -184,6 +184,7 @@ public class FrameNewProject extends JDialog {
     private void btRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRunActionPerformed
         TrustModelBean item = (TrustModelBean) cbTrustModelList.getSelectedItem();
         try {
+        	this.setVisible(false);
             Method m = item.getClazz().getMethod("main", String[].class);
             String[] params = null;
             m.invoke(null, (Object) params);

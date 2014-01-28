@@ -1,9 +1,7 @@
-package tesma.model.direc.ontology;
+package lesma.model.direct.ontology;
 
 
-import jade.content.*;
-import jade.util.leap.*;
-import jade.core.*;
+import jade.content.AgentAction;
 
 /**
 * Protege name: SendTask

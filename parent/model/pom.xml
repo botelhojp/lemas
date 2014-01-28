@@ -16,8 +16,8 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>open-jade</groupId>
-			<artifactId>open-jade</artifactId>
+			<groupId>openj</groupId>
+			<artifactId>openj-framework</artifactId>
 		</dependency>
 	</dependencies>
 

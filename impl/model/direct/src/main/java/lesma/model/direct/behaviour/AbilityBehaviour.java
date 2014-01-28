@@ -1,15 +1,16 @@
-package tesma.model.direc.behaviour;
+package lesma.model.direct.behaviour;
 
 import jade.core.Agent;
 
 import java.util.List;
 
+import lesma.model.direct.agent.TaskAgent;
+import lesma.model.direct.ontology.Task;
+
 import openjade.core.behaviours.CyclicTimerBehaviour;
 
 import org.apache.log4j.Logger;
 
-import tesma.model.direc.agent.TaskAgent;
-import tesma.model.direc.ontology.Task;
 /**
  * Habilidade para tratar tarefas 
  */

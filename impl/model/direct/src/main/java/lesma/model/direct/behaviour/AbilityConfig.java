@@ -1,4 +1,4 @@
-package tesma.model.direc.behaviour;
+package lesma.model.direct.behaviour;
 
 public enum AbilityConfig {
 

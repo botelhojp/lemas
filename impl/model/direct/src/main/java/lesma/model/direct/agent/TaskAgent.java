@@ -1,4 +1,4 @@
-package tesma.model.direc.agent;
+package lesma.model.direct.agent;
 
 import jade.content.ContentElement;
 import jade.core.AID;
@@ -7,6 +7,14 @@ import jade.lang.acl.ACLMessage;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+
+import lesma.model.direct.behaviour.AbilityBehaviour;
+import lesma.model.direct.behaviour.AbilityConfig;
+import lesma.model.direct.behaviour.RequestTaskBehaviour;
+import lesma.model.direct.behaviour.ResponseTaskBehaviour;
+import lesma.model.direct.ontology.SendTask;
+import lesma.model.direct.ontology.Task;
+import lesma.model.direct.ontology.TaskOntology;
 
 import openjade.core.OpenAgent;
 import openjade.core.OpenJadeException;
@@ -21,13 +29,6 @@ import openjade.trust.TrustModelFactory;
 
 import org.apache.log4j.Logger;
 
-import tesma.model.direc.behaviour.AbilityBehaviour;
-import tesma.model.direc.behaviour.AbilityConfig;
-import tesma.model.direc.behaviour.RequestTaskBehaviour;
-import tesma.model.direc.behaviour.ResponseTaskBehaviour;
-import tesma.model.direc.ontology.SendTask;
-import tesma.model.direc.ontology.Task;
-import tesma.model.direc.ontology.TaskOntology;
 
 public class TaskAgent extends OpenAgent {
 
@@ -62,7 +63,7 @@ public class TaskAgent extends OpenAgent {
 		tasks.put(TASK_TO_PROCESS, new ArrayList<Task>());
 		tasks.put(TASK_TO_COMPLETED, new ArrayList<Task>());
 
-		addBehaviour(ability);
+		this.addBehaviour(ability);
 
 		log.debug("setup: " + getAID().getLocalName());
 		cache = new RatingCache(1, 10);

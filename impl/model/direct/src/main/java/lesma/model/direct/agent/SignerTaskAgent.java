@@ -1,4 +1,4 @@
-package tesma.model.direc.agent;
+package lesma.model.direct.agent;
 
 import java.io.InputStream;
 

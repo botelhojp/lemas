@@ -73,9 +73,22 @@
 
 			<!-- Open Jade -->
 			<dependency>
-				<groupId>open-jade</groupId>
-				<artifactId>open-jade</artifactId>
+				<groupId>openj</groupId>
+				<artifactId>openj-framework</artifactId>
 				<version>1.0.1-SNAPSHOT</version>
+			</dependency>
+
+			<!-- Lesma -->
+			<dependency>
+				<groupId>lesma.model</groupId>
+				<artifactId>lesma-trustmodel-direct</artifactId>
+				<version>${lesma.release.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>lesma</groupId>
+				<artifactId>lesma-annotations</artifactId>
+				<version>${lesma.release.version}</version>
 			</dependency>
 
 			<!-- Certificate -->
@@ -118,7 +131,7 @@
 				<version>4.5</version>
 				<scope>test</scope>
 			</dependency>
-			
+
 			<!-- Utils -->
 			<dependency>
 				<groupId>org.reflections</groupId>

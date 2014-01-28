@@ -1,4 +1,4 @@
-package tesma.model.direc.behaviour;
+package lesma.model.direct.behaviour;
 
 import jade.core.AID;
 import jade.core.Agent;
@@ -6,15 +6,16 @@ import jade.lang.acl.ACLMessage;
 
 import java.util.List;
 
+import lesma.model.direct.agent.TaskAgent;
+import lesma.model.direct.ontology.SendTask;
+import lesma.model.direct.ontology.Task;
+import lesma.model.direct.ontology.TaskOntology;
+
 import openjade.core.behaviours.CyclicTimerBehaviour;
 import openjade.trust.model.Pair;
 
 import org.apache.log4j.Logger;
 
-import tesma.model.direc.agent.TaskAgent;
-import tesma.model.direc.ontology.SendTask;
-import tesma.model.direc.ontology.Task;
-import tesma.model.direc.ontology.TaskOntology;
 /**
  * Comportamento para remover as tarefas no estado delegate
  */

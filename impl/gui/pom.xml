@@ -25,15 +25,17 @@
 			<artifactId>reflections</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>open-jade</groupId>
-			<artifactId>open-jade</artifactId>
+			<groupId>openj</groupId>
+			<artifactId>openj-framework</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>lesma.model</groupId>
-			<artifactId>lesma-model-direct</artifactId>
-			<version>${lesma.release.version}</version>
+			<artifactId>lesma-trustmodel-direct</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>lesma</groupId>
+			<artifactId>lesma-annotations</artifactId>
+		</dependency>
 	</dependencies>
 
 

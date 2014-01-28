@@ -7,11 +7,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import openjade.core.annotation.TrustModel;
+import lesma.annotations.StartSMA;
 
 import org.reflections.Reflections;
-
-import tesma.model.direc.agent.TaskAgent;
 
 public class LesmaReflection {
 
@@ -23,10 +21,10 @@ public class LesmaReflection {
 			
 			loadAll(reflections, Agent.class);
 			
-			Set<Class<?>> annotatedClasses = reflections.getTypesAnnotatedWith(TrustModel.class);
+			Set<Class<?>> annotatedClasses = reflections.getTypesAnnotatedWith(StartSMA.class);
 			for (Class<?> clazz : annotatedClasses) {
-				TrustModel annotation = clazz.getAnnotation(TrustModel.class);
-				listTrustModel.add(new TrustModelBean(annotation.name(), clazz));
+				StartSMA annotation = clazz.getAnnotation(StartSMA.class);
+				listTrustModel.add(new TrustModelBean(annotation.trustmodel(), clazz));
 			}
 			Collections.sort(listTrustModel);
 		}

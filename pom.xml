@@ -10,6 +10,7 @@
 	<modules>
 		<module>parent/base</module>
 		<module>parent/model</module>
+		<module>impl/annotations</module>
 		<module>impl/model/direct</module>
 		<module>impl/gui</module>
 	</modules>

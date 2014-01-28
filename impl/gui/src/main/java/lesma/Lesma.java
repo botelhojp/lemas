@@ -1,13 +1,12 @@
 package lesma;
 
+import lesma.annotations.StartSMA;
 import lesma.form.SplashScreen;
-
-import openjade.core.annotation.TrustModel;
 
 import org.apache.log4j.Logger;
 
 
-@TrustModel(name="oba")
+@StartSMA(trustmodel="oba")
 public class Lesma {
 
 	private static Logger log = Logger.getLogger(Lesma.class);
