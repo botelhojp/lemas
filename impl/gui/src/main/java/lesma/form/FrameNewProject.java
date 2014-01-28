@@ -3,45 +3,50 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package lesma.form;
 
-import java.awt.event.ItemEvent;
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import lesma.model.LesmaReflection;
 import lesma.model.TrustModelBean;
 
 /**
- * 
+ *
  */
 public class FrameNewProject extends JDialog {
-    
+
+    private static final long serialVersionUID = 1L;
     private static FrameNewProject instance;
 
     public static FrameNewProject getInstance() {
-        if (instance == null){
+        if (instance == null) {
             instance = new FrameNewProject();
         }
         return instance;
     }
-    
+
     void load() {
         List<TrustModelBean> list = LesmaReflection.loadTrusModel();
         cbTrustModelList.removeAllItems();
-        for(TrustModelBean item : list){
+        for (TrustModelBean item : list) {
             cbTrustModelList.addItem(item);
         }
-        
+
     }
 
     /**
      * Creates new form FrameNewProject
      */
     private FrameNewProject() {
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);  
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         initComponents();
-        setLocationRelativeTo(null);         
+        setLocationRelativeTo(null);
         setResizable(false);
         setModal(true);
     }
@@ -57,8 +62,12 @@ public class FrameNewProject extends JDialog {
 
         cbTrustModelList = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
-        btNext = new javax.swing.JButton();
-        btCancel = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        btFinish = new javax.swing.JButton();
+        btRun = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtFLM = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Project");
@@ -73,25 +82,71 @@ public class FrameNewProject extends JDialog {
 
         jLabel1.setText("Trust Model:");
 
-        btNext.setText("Next");
+        btFinish.setText("Save");
+        btFinish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btFinishActionPerformed(evt);
+            }
+        });
 
-        btCancel.setText("Cancel");
+        btRun.setText("Run");
+        btRun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btRunActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(btRun)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btFinish)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btFinish)
+                    .addComponent(btRun))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        txtFLM.setColumns(20);
+        txtFLM.setRows(5);
+        jScrollPane1.setViewportView(txtFLM);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btNext))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbTrustModelList, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 13, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbTrustModelList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(569, 569, 569))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,21 +156,50 @@ public class FrameNewProject extends JDialog {
                     .addComponent(jLabel1)
                     .addComponent(cbTrustModelList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btNext)
-                    .addComponent(btCancel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbTrustModelListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTrustModelListActionPerformed
-        if (cbTrustModelList.getSelectedItem() != null){
-            TrustModelBean item =  (TrustModelBean) cbTrustModelList.getSelectedItem();
+        if (cbTrustModelList.getSelectedItem() != null) {
+            TrustModelBean item = (TrustModelBean) cbTrustModelList.getSelectedItem();
             FrameMain.message("trust model: " + item.getName());
+            txtFLM.setText(""
+                    + "@trustmodel name='" + item.getName() + "' class='" + item.getClazz().getName() + "'\n"
+                    + "@iterations {0.1;0.1}");
         }
     }//GEN-LAST:event_cbTrustModelListActionPerformed
+
+    private void btFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinishActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+        }
+    }//GEN-LAST:event_btFinishActionPerformed
+
+    private void btRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRunActionPerformed
+        TrustModelBean item = (TrustModelBean) cbTrustModelList.getSelectedItem();
+        try {
+            Method m = item.getClazz().getMethod("main", String[].class);
+            String[] params = null;
+            m.invoke(null, (Object) params);
+
+        } catch (NoSuchMethodException ex) {
+            Logger.getLogger(FrameNewProject.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(FrameNewProject.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException e) {
+            Logger.getLogger(e.getMessage());            
+        } catch (IllegalAccessException e) {
+            Logger.getLogger(e.getMessage());            
+        } catch (InvocationTargetException e) {
+            Logger.getLogger(e.getMessage());            
+        }
+    }//GEN-LAST:event_btRunActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,11 +237,14 @@ public class FrameNewProject extends JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btCancel;
-    private javax.swing.JButton btNext;
+    private javax.swing.JButton btFinish;
+    private javax.swing.JButton btRun;
     private javax.swing.JComboBox cbTrustModelList;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea txtFLM;
     // End of variables declaration//GEN-END:variables
-
 
 }
