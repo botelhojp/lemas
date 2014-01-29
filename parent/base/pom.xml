@@ -12,7 +12,7 @@
 
 	<properties>
 		<encoding.default>UTF-8</encoding.default>
-		<lesma.release.version>1.0.0-BETA-01</lesma.release.version>
+		<lesma.release.version>1.0.0-BETA-02-SNAPSHOT</lesma.release.version>
 	</properties>
 
 	<licenses>
