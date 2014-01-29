@@ -4,7 +4,7 @@
 
 	<groupId>lesma.parent</groupId>
 	<artifactId>lesma-parent-base</artifactId>
-	<version>1.0.0-BETA-01</version>
+	<version>1.0.0-BETA-02-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Lesma - Parent Base</name>

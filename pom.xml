@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>lesma</groupId>
 	<artifactId>lesma-build</artifactId>
-	<version>1.0.0-BETA-01</version>
+	<version>1.0.0-BETA-02-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Lesma - Build Aggregate</name>
 	<description>Lesma - Build Aggregate</description>

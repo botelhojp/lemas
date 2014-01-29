@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>lesma.parent</groupId>
 		<artifactId>lesma-parent-trustmodel</artifactId>
-		<version>1.0.0-BETA-01</version>
+		<version>1.0.0-BETA-02-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
