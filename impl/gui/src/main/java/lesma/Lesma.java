@@ -2,6 +2,7 @@ package lesma;
 
 import lesma.annotations.StartSMA;
 import lesma.form.SplashScreen;
+import lesma.model.Workspace;
 
 import org.apache.log4j.Logger;
 
@@ -21,8 +22,8 @@ public class Lesma {
 				}
 			});
 			spaScreen.showScreen();
-			spaScreen.setProgress("interface", 0);
-			delay(500);
+			spaScreen.setProgress("workspace", 0);
+			Workspace.getIntance().initialize();
 			spaScreen.setProgress("agents", 30);
 			delay(500);
 			spaScreen.setProgress("openjade", 70);

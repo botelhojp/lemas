@@ -14,7 +14,7 @@ import static java.awt.Frame.MAXIMIZED_BOTH;
 @SuppressWarnings("all")
 public class FrameMain extends javax.swing.JFrame {
     
-    public static FrameMain instance;
+    private static FrameMain instance;
 
     /**
      * Creates new form FrameCronos
@@ -44,6 +44,8 @@ public class FrameMain extends javax.swing.JFrame {
         jmenuAgents = new javax.swing.JMenu();
         mnNewProject = new javax.swing.JMenuItem();
         mnOpenProject = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        mnExit = new javax.swing.JMenuItem();
         jmenuAbout = new javax.swing.JMenu();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
@@ -102,6 +104,15 @@ public class FrameMain extends javax.swing.JFrame {
 
         mnOpenProject.setText("Open");
         jmenuAgents.add(mnOpenProject);
+        jmenuAgents.add(jSeparator3);
+
+        mnExit.setText("Exit");
+        mnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnExitActionPerformed(evt);
+            }
+        });
+        jmenuAgents.add(mnExit);
 
         jMenuBar1.add(jmenuAgents);
 
@@ -132,6 +143,10 @@ public class FrameMain extends javax.swing.JFrame {
         frame.load();
         frame.setVisible(true);        
     }//GEN-LAST:event_mnNewProjectActionPerformed
+
+    private void mnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnExitActionPerformed
+       System.exit(0);
+    }//GEN-LAST:event_mnExitActionPerformed
 
      private void log(String message) {
      }
@@ -176,9 +191,11 @@ public class FrameMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JMenu jmenuAbout;
     private javax.swing.JMenu jmenuAgents;
     private javax.swing.JLabel lbMessage;
+    private javax.swing.JMenuItem mnExit;
     private javax.swing.JMenuItem mnNewProject;
     private javax.swing.JMenuItem mnOpenProject;
     // End of variables declaration//GEN-END:variables
