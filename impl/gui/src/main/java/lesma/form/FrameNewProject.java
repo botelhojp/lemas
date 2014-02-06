@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import lesma.model.LesmaReflection;
+import lesma.model.Project;
 import lesma.model.TrustModelBean;
 import lesma.model.Workspace;
 import lesma.util.Data;
@@ -26,6 +27,7 @@ public class FrameNewProject extends JDialog {
 
     private static final long serialVersionUID = 1L;
     private static FrameNewProject instance;
+    private Project project = new Project();
 
     public static FrameNewProject getInstance() {
         if (instance == null) {
@@ -189,21 +191,21 @@ public class FrameNewProject extends JDialog {
 
     private void cbTrustModelListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTrustModelListActionPerformed
         if (cbTrustModelList.getSelectedItem() != null) {
-            TrustModelBean item = (TrustModelBean) cbTrustModelList.getSelectedItem();
-            FrameMain.message("trust model: " + item.getName());           
+            TrustModelBean item = (TrustModelBean) cbTrustModelList.getSelectedItem();            
+            project.setTrustmodel(item.getName());
+            project.setClazz(item.getClazz().getName());
+            FrameMain.message("trust model: " + project.getTrustmodel());           
         }
     }//GEN-LAST:event_cbTrustModelListActionPerformed
 
     private void btFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinishActionPerformed
-        String sb = "TEST CONTENT";
+        project.setFile(txtFLM.getText());                
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new File(Workspace.FOLDER_PROJECT));
         int retrival = chooser.showSaveDialog(null);
         if (retrival == JFileChooser.APPROVE_OPTION) {
-            try {
-                FileWriter fw = new FileWriter(chooser.getSelectedFile()+".lma");
-                fw.write(sb.toString());
-                fw.close();
+            try {                
+                Data.saveLma(project, chooser.getSelectedFile()+".lma");                
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
