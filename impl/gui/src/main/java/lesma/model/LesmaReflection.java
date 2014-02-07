@@ -31,7 +31,8 @@ public class LesmaReflection {
 		return listTrustModel;
 	}
 
-	private static void loadAll(Reflections reflections, Class class1) {
+	@SuppressWarnings("all")
+	private static void loadAll(Reflections reflections, Class class1) {		
 		Set<Class<?>> subTypes = reflections.getSubTypesOf(class1);
 		for (Class<?> clazz : subTypes) {
 			listTrustModel.add(new TrustModelBean(clazz.getSimpleName(), clazz));

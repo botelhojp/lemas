@@ -6,6 +6,13 @@ package lesma.form;
 
 import java.awt.BorderLayout;
 import static java.awt.Frame.MAXIMIZED_BOTH;
+import java.io.File;
+import java.lang.reflect.Method;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import lesma.model.Project;
+import lesma.model.Workspace;
+import lesma.util.Data;
 
 /**
  *
@@ -45,6 +52,7 @@ public class FrameMain extends javax.swing.JFrame {
         mnNewProject = new javax.swing.JMenuItem();
         mnOpenProject = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        btReload = new javax.swing.JMenuItem();
         mnExit = new javax.swing.JMenuItem();
         jmenuAbout = new javax.swing.JMenu();
 
@@ -103,8 +111,21 @@ public class FrameMain extends javax.swing.JFrame {
         jmenuAgents.add(mnNewProject);
 
         mnOpenProject.setText("Open");
+        mnOpenProject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnOpenProjectActionPerformed(evt);
+            }
+        });
         jmenuAgents.add(mnOpenProject);
         jmenuAgents.add(jSeparator3);
+
+        btReload.setText("Reload");
+        btReload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btReloadActionPerformed(evt);
+            }
+        });
+        jmenuAgents.add(btReload);
 
         mnExit.setText("Exit");
         mnExit.addActionListener(new java.awt.event.ActionListener() {
@@ -139,14 +160,38 @@ public class FrameMain extends javax.swing.JFrame {
 
     private void mnNewProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnNewProjectActionPerformed
         message("New project...");
-        FrameNewProject frame = FrameNewProject.getInstance();
+        FrameNewProject frame = FrameNewProject.getInstance();        
         frame.load();
+        frame.clean();
         frame.setVisible(true);        
     }//GEN-LAST:event_mnNewProjectActionPerformed
 
     private void mnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnExitActionPerformed
        System.exit(0);
     }//GEN-LAST:event_mnExitActionPerformed
+
+    private void mnOpenProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnOpenProjectActionPerformed
+        message("Open project...");
+        FrameNewProject frame = FrameNewProject.getInstance();
+        frame.setTitle("Open project");
+        FileNameExtensionFilter filterExt = new FileNameExtensionFilter("Project Lesma file (.lma)", "lma"); 
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.addChoosableFileFilter(filterExt);
+        fileChooser.setCurrentDirectory(new File(Workspace.FOLDER_PROJECT));
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();                 
+            FrameMain.message("open file: " +  file.getAbsolutePath());                    
+            Project project = Data.fileToProject(file);            
+            project.setSaveIn(file.getAbsolutePath());
+            frame.updateScreen(project);
+        }        
+        frame.setVisible(true);        
+    }//GEN-LAST:event_mnOpenProjectActionPerformed
+
+    private void btReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReloadActionPerformed
+        lesma.Lesma.main(null);   
+        System.exit(0);
+    }//GEN-LAST:event_btReloadActionPerformed
 
      private void log(String message) {
      }
@@ -186,6 +231,7 @@ public class FrameMain extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem btReload;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JMenu jMenu1;

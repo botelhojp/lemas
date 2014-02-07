@@ -1,10 +1,23 @@
 package lesma.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Project {
 
 	private String trustmodel;
 	private String clazz;
-	private String file;
+	private String saveIn;
+	private String arff;
+	private String ip;
+	private String conteiner;
+	private boolean monitor;
+
+	private List<Result> results;
+
+	public Project() {
+		results = new ArrayList<Result>();
+	}
 
 	public String getTrustmodel() {
 		return trustmodel;
@@ -14,8 +27,8 @@ public class Project {
 		return clazz;
 	}
 
-	public String getFile() {
-		return file;
+	public String getARFF() {
+		return arff;
 	}
 
 	public void setTrustmodel(String trustmodel) {
@@ -26,8 +39,44 @@ public class Project {
 		this.clazz = clazz;
 	}
 
-	public void setFile(String file) {
-		this.file = file;
+	public void setARFF(String file) {
+		this.arff = file;
+	}
+
+	public List<Result> getResults() {
+		return results;
+	}
+
+	public String getSaveIn() {
+		return saveIn;
+	}
+
+	public void setSaveIn(String saveIn) {
+		this.saveIn = saveIn;
+	}
+
+	public void setIP(String ip) {
+		this.ip = ip;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public String getConteiner() {
+		return conteiner;
+	}
+
+	public void setConteiner(String conteiner) {
+		this.conteiner = conteiner;
+	}
+
+	public boolean isMonitor() {
+		return monitor;
+	}
+
+	public void setMonitor(boolean monitor) {
+		this.monitor = monitor;
 	}
 
 }
