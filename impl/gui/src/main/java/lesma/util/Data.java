@@ -1,33 +1,19 @@
 package lesma.util;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import lesma.model.Project;
+
+import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 public class Data {
 
@@ -48,46 +34,21 @@ public class Data {
 		return sb.toString();
 	}
 
-	public static void saveLma(Project project, String file) {
-		OutputStream outputStream;
+	public static void saveLma(Project project, String filePath) {		
 		try {
-
-			Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-
-			Transformer t = TransformerFactory.newInstance().newTransformer();
-
-			Element a = d.createElement("a");
-			Element b = d.createElement("b");
-
-			a.appendChild(b);
-
-			d.appendChild(a);
-
-			t.setParameter(OutputKeys.INDENT, "yes");
-
-			ByteArrayOutputStream s = new ByteArrayOutputStream();
-
-			t.transform(new DOMSource(d), new StreamResult(s));
-
-			System.out.println(new String(s.toByteArray()));
-	
-
-			BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(xmlFile)));
-			bufferedWriter.write(xmlString);
-			bufferedWriter.flush();
-			bufferedWriter.close();
-
-		} catch (FileNotFoundException e) {
-			Message.error(e.getMessage());
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			Message.error(e.getMessage());
-			e.printStackTrace();
-		} catch (XMLStreamException e) {
-			Message.error(e.getMessage());
-			e.printStackTrace();
-		} catch (FactoryConfigurationError e) {
-			Message.error(e.getMessage());
+			File file = new File(filePath);
+			XMLStreamWriter out = XMLOutputFactory.newInstance().createXMLStreamWriter(new OutputStreamWriter( new FileOutputStream(file), "utf-8"));
+			out = new IndentingXMLStreamWriter(out);
+			out.writeStartDocument();
+			out.writeStartElement("doc");
+			out.writeStartElement("title");
+			out.writeCharacters("Document Title");
+			out.writeEndElement();
+			out.writeEndElement();
+			out.writeEndDocument();
+			out.close();
+		} catch (Exception e) {
+			Message.error(e.getMessage());			
 			e.printStackTrace();
 		}
 
