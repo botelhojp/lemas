@@ -9,6 +9,7 @@ public class Project {
 	private String clazz;
 	private String saveIn;
 	private String arff;
+	private String loading;
 	private String ip;
 	private String conteiner;
 	private boolean monitor;
@@ -77,6 +78,14 @@ public class Project {
 
 	public void setMonitor(boolean monitor) {
 		this.monitor = monitor;
+	}
+
+	public String getLoading() {
+		return loading;
+	}
+
+	public void setLoading(String loading) {
+		this.loading = loading;
 	}
 
 }

@@ -1,13 +1,12 @@
 package lesma;
 
-import lesma.annotations.StartSMA;
+import lesma.form.FrameMain;
 import lesma.form.SplashScreen;
 import lesma.model.Workspace;
 
 import org.apache.log4j.Logger;
 
 
-@StartSMA(trustmodel="oba")
 public class Lesma {
 
 	private static Logger log = Logger.getLogger(Lesma.class);
@@ -18,7 +17,7 @@ public class Lesma {
 			java.awt.EventQueue.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					new lesma.form.FrameMain().setVisible(true);
+					FrameMain.getInstance().setVisible(true);
 				}
 			});
 			spaScreen.showScreen();

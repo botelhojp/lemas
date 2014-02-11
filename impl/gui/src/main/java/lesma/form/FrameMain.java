@@ -21,16 +21,20 @@ import lesma.util.Data;
 @SuppressWarnings("all")
 public class FrameMain extends javax.swing.JFrame {
     
-    private static FrameMain instance;
-
+    private static FrameMain instance = new FrameMain();
+    
     /**
      * Creates new form FrameCronos
      */
-    public FrameMain() {
+    private FrameMain() {
         setExtendedState(MAXIMIZED_BOTH);  
         initComponents();  
         this.setExtendedState(FrameMain.MAXIMIZED_BOTH);
-        instance = this;
+        
+    }
+    
+    public static FrameMain getInstance(){
+        return instance;
     }
 
     /**

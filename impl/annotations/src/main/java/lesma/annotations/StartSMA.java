@@ -1,6 +1,8 @@
 package lesma.annotations;
 
 
+import jade.core.Agent;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,5 +15,6 @@ import java.lang.annotation.Target;
 public @interface StartSMA {
 
 	String trustmodel();
+	Class<? extends Agent>[] agents();
 
 }

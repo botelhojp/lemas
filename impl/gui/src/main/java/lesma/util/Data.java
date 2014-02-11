@@ -38,9 +38,7 @@ public class Data {
 
 	public static void projectToFile(Project project, String filePath) {
 		try {
-			project.getResults().add(new Result());
-			project.getResults().add(new Result());	
-                        project.setSaveIn(filePath);
+			project.setSaveIn(filePath);
 			File file = new File(filePath);
 			XMLStreamWriter out = XMLOutputFactory.newInstance().createXMLStreamWriter(new OutputStreamWriter(new FileOutputStream(file), "utf-8"));
 			out = new IndentingXMLStreamWriter(out);
@@ -84,6 +82,11 @@ public class Data {
 						out.writeCharacters(project.getARFF());
 					}
 					out.writeEndElement();
+					out.writeStartElement(LMASchema.TAG_LOADING);
+					{
+						out.writeCharacters(project.getLoading());
+					}
+					out.writeEndElement();					
 					out.writeStartElement(LMASchema.TAG_RESULTS);
 					{
 						for (Result result : project.getResults()) {
@@ -119,6 +122,15 @@ public class Data {
 			while (streamReader.hasNext()) {
 				streamReader.next();
 				if (streamReader.getEventType() == XMLStreamReader.START_ELEMENT) {
+					if (streamReader.getLocalName().equals(LMASchema.TAG_IP)){
+						project.setIP(streamReader.getElementText());
+					}
+					if (streamReader.getLocalName().equals(LMASchema.TAG_CONTAINER)){
+						project.setConteiner(streamReader.getElementText());
+					}					
+					if (streamReader.getLocalName().equals(LMASchema.TAG_MONITOR)){
+						project.setMonitor(Boolean.parseBoolean(streamReader.getElementText()));
+					}
 					if (streamReader.getLocalName().equals(LMASchema.TAG_TRUSTMODEL)){
 						project.setTrustmodel(streamReader.getElementText());
 					}
@@ -127,7 +139,10 @@ public class Data {
 					}
 					if (streamReader.getLocalName().equals(LMASchema.TAG_ARFF)){
 						project.setARFF(streamReader.getElementText());
-					}				
+					}		
+					if (streamReader.getLocalName().equals(LMASchema.TAG_LOADING)){
+						project.setLoading(streamReader.getElementText());
+					}						
 					if (streamReader.getLocalName().equals(LMASchema.TAG_TIME)){						
 						project.getResults().add(new Result(Workspace.dateFormat.parse(streamReader.getElementText())));
 					}

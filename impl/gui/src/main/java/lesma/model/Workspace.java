@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 
 public class Workspace {
 
-	private static Workspace instance = new Workspace();
+	private static final Workspace instance = new Workspace();
 
 	public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss SSS");
 	public static final String LESMA_HOME = System.getProperty("user.home") + File.separator + ".lesma";
