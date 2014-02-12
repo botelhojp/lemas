@@ -242,8 +242,13 @@ public class FrameNewProject extends JDialog {
             this.setVisible(false);
             Class c = Class.forName(project.getClazz());
             Method m = c.getMethod("main", String[].class);
-            Object[] params = {project};
-            m.invoke(null, params);
+            String[] params = {
+            		project.getIp(),
+            		project.getConteiner(),
+            		project.getARFF(),
+            		project.getLoading()
+            		};
+            m.invoke(null, (Object)params);
         } catch (Exception ex) {
             Message.error(ex.getMessage(), this);
             Logger.getLogger(FrameNewProject.class.getName()).log(Level.SEVERE, null, ex);

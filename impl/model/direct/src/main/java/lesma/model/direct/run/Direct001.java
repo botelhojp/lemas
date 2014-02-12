@@ -4,6 +4,7 @@ import lesma.annotations.StartSMA;
 import lesma.model.direct.agent.TaskAgent;
 
 import org.apache.log4j.Logger;
+import org.jfree.ui.about.ProjectInfo;
 
 @StartSMA(
 		trustmodel = "Direct Model - d001 - v1.0", 
@@ -15,6 +16,7 @@ public class Direct001 {
 
 	public static void main(String[] args) {
 		try {
+			
 			if (args != null && args.length > 0) {
 				openjade.Boot.main(args);
 			} else {
