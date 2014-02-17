@@ -16,7 +16,6 @@ public class Direct001 {
 
 	public static void main(String[] args) {
 		try {
-			
 			if (args != null && args.length > 0) {
 				openjade.Boot.main(args);
 			} else {

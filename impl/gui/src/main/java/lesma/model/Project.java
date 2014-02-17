@@ -10,7 +10,7 @@ public class Project {
 	private String saveIn;
 	private String arff;
 	private String loading;
-	private String ip;
+	private String host;
 	private String conteiner;
 	private boolean monitor;
 
@@ -18,6 +18,30 @@ public class Project {
 
 	public Project() {
 		results = new ArrayList<Result>();
+		host = "-gui, -local-host, 127.0.0.1";
+		conteiner = "-container, -container-name, Agents-Container";
+		monitor = true;
+		loading="1 :: seller:lesma.model.direct.agent.TaskAgent(Agents-Container,openjade.trust.DirectModel,TERRIBLE)\n" +
+				"1 :: buyer:lesma.model.direct.agent.TaskAgent(Agents-Container,openjade.trust.DirectModel,TERRIBLE)";
+		arff="%\n" +
+				"% Creator..: Vanderson Botelho\n" +
+				"% Date.....: Fevereiro, 2014\n" +
+				"% \n" +
+				"@RELATION iterations\n" +
+				"\n" +
+				"@ATTRIBUTE aidA		{agent_001, agent_002, agent_003, agent_004, agent_005, agent_006, agent_007, agent_008}\n" +
+				"@ATTRIBUTE aidb		{agent_009, agent_010}\n" +
+				"@ATTRIBUTE iteration	NUMERIC\n" +
+				"@ATTRIBUTE context	{quality, price, delivery}\n" +
+				"@ATTRIBUTE value	NUMERIC\n" +
+				"\n" +
+				"@DATA\n" +
+				"'agent_001','agent_009','1','quality','0.9'\n" +
+				"'agent_001','agent_009','1','price','0.5'\n" +
+				"'agent_001','agent_009','1','delivery','0.1'\n" +
+				"'agent_001','agent_010','1','quality','0.1'\n" +
+				"'agent_001','agent_010','1','price','0.4'\n" +
+				"'agent_001','agent_010','1','delivery','0.8";
 	}
 
 	public String getTrustmodel() {
@@ -56,12 +80,12 @@ public class Project {
 		this.saveIn = saveIn;
 	}
 
-	public void setIP(String ip) {
-		this.ip = ip;
+	public void setHost(String host) {
+		this.host = host;
 	}
 
-	public String getIp() {
-		return ip;
+	public String getHost() {
+		return host;
 	}
 
 	public String getConteiner() {

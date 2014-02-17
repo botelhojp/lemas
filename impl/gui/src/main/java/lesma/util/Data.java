@@ -48,9 +48,9 @@ public class Data {
 				{
 					
 
-					out.writeStartElement(LMASchema.TAG_IP);
+					out.writeStartElement(LMASchema.TAG_HOST);
 					{
-						out.writeCharacters(project.getIp());
+						out.writeCharacters(project.getHost());
 					}
 					out.writeEndElement();
 					
@@ -122,8 +122,8 @@ public class Data {
 			while (streamReader.hasNext()) {
 				streamReader.next();
 				if (streamReader.getEventType() == XMLStreamReader.START_ELEMENT) {
-					if (streamReader.getLocalName().equals(LMASchema.TAG_IP)){
-						project.setIP(streamReader.getElementText());
+					if (streamReader.getLocalName().equals(LMASchema.TAG_HOST)){
+						project.setHost(streamReader.getElementText());
 					}
 					if (streamReader.getLocalName().equals(LMASchema.TAG_CONTAINER)){
 						project.setConteiner(streamReader.getElementText());

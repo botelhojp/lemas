@@ -16,6 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import lesma.model.LesmaReflection;
 import lesma.model.Project;
+import lesma.model.Runner;
 import lesma.model.TrustModelBean;
 import lesma.model.Workspace;
 import lesma.util.Data;
@@ -121,7 +122,7 @@ public class FrameNewProject extends JDialog {
 
         checkMonitor.setText("Monitor");
 
-        jLabel2.setText("IP:");
+        jLabel2.setText("Host:");
 
         jLabel3.setText("Container name:");
 
@@ -239,16 +240,10 @@ public class FrameNewProject extends JDialog {
 
     private void btRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRunActionPerformed
         try {
+            updateProject();
+            Data.projectToFile(project, project.getSaveIn());
             this.setVisible(false);
-            Class c = Class.forName(project.getClazz());
-            Method m = c.getMethod("main", String[].class);
-            String[] params = {
-            		project.getIp(),
-            		project.getConteiner(),
-            		project.getARFF(),
-            		project.getLoading()
-            		};
-            m.invoke(null, (Object)params);
+            Runner.run(project);
         } catch (Exception ex) {
             Message.error(ex.getMessage(), this);
             Logger.getLogger(FrameNewProject.class.getName()).log(Level.SEVERE, null, ex);
@@ -272,7 +267,7 @@ public class FrameNewProject extends JDialog {
     }//GEN-LAST:event_btLoadAIFileActionPerformed
 
     private void txtIpKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIpKeyReleased
-        project.setIP(this.txtIp.getText());
+        project.setHost(this.txtIp.getText());
     }//GEN-LAST:event_txtIpKeyReleased
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
@@ -395,7 +390,7 @@ public class FrameNewProject extends JDialog {
     }
 
     private void updateProject() {
-        project.setIP(txtIp.getText());
+        project.setHost(txtIp.getText());
         project.setARFF(txtArff.getText());
         TrustModelBean tmb = (TrustModelBean) cbTrustModelList.getSelectedItem();
         project.setTrustmodel(tmb.getName());
@@ -408,7 +403,7 @@ public class FrameNewProject extends JDialog {
     public void updateScreen(Project project) {
         load();
         this.project = project;
-        txtIp.setText(project.getIp());        
+        txtIp.setText(project.getHost());        
         txtContainer.setText(this.project.getConteiner());
         checkMonitor.setSelected(project.isMonitor());
         for (int index = 0; index < cbTrustModelList.getItemCount(); index++) {

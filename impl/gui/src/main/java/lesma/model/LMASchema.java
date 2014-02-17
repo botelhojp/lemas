@@ -10,7 +10,7 @@ public class LMASchema {
 	public static final String TAG_RESULTS = "results";
 	public static final String TAG_RESULT = "result";
 	public static final String TAG_TIME = "time";
-	public static final String TAG_IP = "ip";
+	public static final String TAG_HOST = "host";
 	public static final String TAG_CONTAINER = "container";
 	public static final String TAG_MONITOR = "monitor";
 
