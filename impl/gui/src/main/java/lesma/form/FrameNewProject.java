@@ -251,7 +251,7 @@ public class FrameNewProject extends JDialog {
     }//GEN-LAST:event_btRunActionPerformed
 
     private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelActionPerformed
-        this.setVisible(false);
+        this.getParent().setVisible(false);
     }//GEN-LAST:event_btCancelActionPerformed
 
 

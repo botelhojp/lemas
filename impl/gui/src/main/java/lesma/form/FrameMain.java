@@ -4,11 +4,11 @@
  */
 package lesma.form;
 
-import java.awt.BorderLayout;
+import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.io.File;
-import java.lang.reflect.Method;
 import javax.swing.JFileChooser;
+import javax.swing.JInternalFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import lesma.model.Project;
 import lesma.model.Workspace;
@@ -51,6 +51,7 @@ public class FrameMain extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
         lbMessage = new javax.swing.JLabel();
+        window = new javax.swing.JInternalFrame();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmenuAgents = new javax.swing.JMenu();
         mnNewProject = new javax.swing.JMenuItem();
@@ -104,6 +105,21 @@ public class FrameMain extends javax.swing.JFrame {
                 .addComponent(lbMessage))
         );
 
+        window.setTitle("Janela");
+        window.setNormalBounds(new java.awt.Rectangle(0, 0, 500, 500));
+        window.setVisible(true);
+
+        javax.swing.GroupLayout windowLayout = new javax.swing.GroupLayout(window.getContentPane());
+        window.getContentPane().setLayout(windowLayout);
+        windowLayout.setHorizontalGroup(
+            windowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 90, Short.MAX_VALUE)
+        );
+        windowLayout.setVerticalGroup(
+            windowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 70, Short.MAX_VALUE)
+        );
+
         jmenuAgents.setText("Project");
 
         mnNewProject.setText("New");
@@ -151,11 +167,15 @@ public class FrameMain extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(window, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 288, Short.MAX_VALUE)
+                .addComponent(window, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 612, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -164,10 +184,16 @@ public class FrameMain extends javax.swing.JFrame {
 
     private void mnNewProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnNewProjectActionPerformed
         message("New project...");
-        FrameNewProject frame = FrameNewProject.getInstance();        
-        frame.load();
+        FrameNewProject frame = FrameNewProject.getInstance();
+        
+        this.window.setSize(new Dimension(600,600));
+        
+        loadFrame(window, frame);
+        
+        
+        frame.load();        
         frame.clean();
-        frame.setVisible(true);        
+        //frame.setVisible(true);        
     }//GEN-LAST:event_mnNewProjectActionPerformed
 
     private void mnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnExitActionPerformed
@@ -177,6 +203,7 @@ public class FrameMain extends javax.swing.JFrame {
     private void mnOpenProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnOpenProjectActionPerformed
         message("Open project...");
         FrameNewProject frame = FrameNewProject.getInstance();
+        loadFrame(window, frame);
         frame.setTitle("Open project");
         FileNameExtensionFilter filterExt = new FileNameExtensionFilter("Project Lesma file (.lma)", "lma"); 
         JFileChooser fileChooser = new JFileChooser();
@@ -189,7 +216,7 @@ public class FrameMain extends javax.swing.JFrame {
             project.setSaveIn(file.getAbsolutePath());
             frame.updateScreen(project);
         }        
-        frame.setVisible(true);        
+        //frame.setVisible(true);        
     }//GEN-LAST:event_mnOpenProjectActionPerformed
 
     private void btReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReloadActionPerformed
@@ -248,10 +275,29 @@ public class FrameMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnExit;
     private javax.swing.JMenuItem mnNewProject;
     private javax.swing.JMenuItem mnOpenProject;
+    private javax.swing.JInternalFrame window;
     // End of variables declaration//GEN-END:variables
 
     public static void message(String message) {
         instance.lbMessage.setText(message);
+    }
+
+    private void loadFrame(JInternalFrame window, FrameNewProject frame) {
+             
+        javax.swing.GroupLayout windowLayout = new javax.swing.GroupLayout(window.getContentPane());
+        window.getContentPane().setLayout(windowLayout);
+        windowLayout.setHorizontalGroup(
+            windowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, frame.getWidth(), Short.MAX_VALUE)
+        );
+        windowLayout.setVerticalGroup(
+            windowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, frame.getHeight(), Short.MAX_VALUE)
+        );
+        
+        window.getContentPane().removeAll();
+        window.getContentPane().add(frame.getContentPane());        
+        window.setVisible(true);
     }
 
 
