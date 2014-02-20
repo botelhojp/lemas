@@ -6,8 +6,6 @@
 package lesma.form;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,15 +23,15 @@ import lesma.util.Message;
 /**
  *
  */
-public class FrameNewProject extends JDialog {
+public class FrameProject extends JDialog {
 
     private static final long serialVersionUID = 1L;
-    private static FrameNewProject instance;
+    private static FrameProject instance;
     private Project project = null;
 
-    public static FrameNewProject getInstance() {
+    public static FrameProject getInstance() {
         if (instance == null) {
-            instance = new FrameNewProject();
+            instance = new FrameProject();
         }
         return instance;
     }
@@ -50,7 +48,7 @@ public class FrameNewProject extends JDialog {
     /**
      * Creates new form FrameNewProject
      */
-    private FrameNewProject() {
+    private FrameProject() {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         initComponents();
         setLocationRelativeTo(null);
@@ -246,12 +244,12 @@ public class FrameNewProject extends JDialog {
             Runner.run(project);
         } catch (Exception ex) {
             Message.error(ex.getMessage(), this);
-            Logger.getLogger(FrameNewProject.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrameProject.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btRunActionPerformed
 
     private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelActionPerformed
-        this.getParent().setVisible(false);
+        FrameMain.getInstance().getWindow().setVisible(false);
     }//GEN-LAST:event_btCancelActionPerformed
 
 
@@ -345,20 +343,20 @@ public class FrameNewProject extends JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrameNewProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrameNewProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrameNewProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrameNewProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrameNewProject().setVisible(true);
+                new FrameProject().setVisible(true);
             }
         });
     }

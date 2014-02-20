@@ -30,7 +30,7 @@ public class FrameMain extends javax.swing.JFrame {
         setExtendedState(MAXIMIZED_BOTH);  
         initComponents();  
         this.setExtendedState(FrameMain.MAXIMIZED_BOTH);
-        
+        window.setVisible(false);        
     }
     
     public static FrameMain getInstance(){
@@ -114,11 +114,11 @@ public class FrameMain extends javax.swing.JFrame {
         window.getContentPane().setLayout(windowLayout);
         windowLayout.setHorizontalGroup(
             windowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 90, Short.MAX_VALUE)
+            .addGap(0, 231, Short.MAX_VALUE)
         );
         windowLayout.setVerticalGroup(
             windowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 106, Short.MAX_VALUE)
+            .addGap(0, 176, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
@@ -126,16 +126,14 @@ public class FrameMain extends javax.swing.JFrame {
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addGap(93, 93, 93)
                 .addComponent(window, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addGap(187, 187, 187)
                 .addComponent(window, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(241, Short.MAX_VALUE))
+                .addGap(0, 362, Short.MAX_VALUE))
         );
         jDesktopPane1.setLayer(window, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -191,8 +189,8 @@ public class FrameMain extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jDesktopPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -201,7 +199,7 @@ public class FrameMain extends javax.swing.JFrame {
 
     private void mnNewProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnNewProjectActionPerformed
         message("New project...");
-        FrameNewProject frame = FrameNewProject.getInstance();
+        FrameProject frame = FrameProject.getInstance();
         
         this.window.setSize(new Dimension(600,600));
         
@@ -219,8 +217,7 @@ public class FrameMain extends javax.swing.JFrame {
 
     private void mnOpenProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnOpenProjectActionPerformed
         message("Open project...");
-        FrameNewProject frame = FrameNewProject.getInstance();
-        loadFrame(window, frame);
+        FrameProject frame = FrameProject.getInstance();        
         frame.setTitle("Open project");
         FileNameExtensionFilter filterExt = new FileNameExtensionFilter("Project Lesma file (.lma)", "lma"); 
         JFileChooser fileChooser = new JFileChooser();
@@ -233,6 +230,7 @@ public class FrameMain extends javax.swing.JFrame {
             project.setSaveIn(file.getAbsolutePath());
             frame.updateScreen(project);
         }        
+        loadFrame(window, frame);
         //frame.setVisible(true);        
     }//GEN-LAST:event_mnOpenProjectActionPerformed
 
@@ -300,10 +298,9 @@ public class FrameMain extends javax.swing.JFrame {
         instance.lbMessage.setText(message);
     }
 
-    private void loadFrame(JInternalFrame window, FrameNewProject frame) {
-             
+    private void loadFrame(JInternalFrame window, FrameProject frame) {             
         javax.swing.GroupLayout windowLayout = new javax.swing.GroupLayout(window.getContentPane());
-        window.getContentPane().setLayout(windowLayout);
+        window.getContentPane().setLayout(windowLayout);        
         windowLayout.setHorizontalGroup(
             windowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, frame.getWidth(), Short.MAX_VALUE)
@@ -315,7 +312,12 @@ public class FrameMain extends javax.swing.JFrame {
         
         window.getContentPane().removeAll();
         window.getContentPane().add(frame.getContentPane());        
-        window.setVisible(true);
+        window.setTitle(frame.getTitle());
+        window.setVisible(true);        
+    }
+    
+    public JInternalFrame getWindow(){
+        return window;
     }
 
 
