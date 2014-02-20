@@ -58,9 +58,7 @@ public class FrameMain extends javax.swing.JFrame {
         mnNewProject = new javax.swing.JMenuItem();
         mnOpenProject = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
-        btReload = new javax.swing.JMenuItem();
         mnExit = new javax.swing.JMenuItem();
-        jmenuAbout = new javax.swing.JMenu();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -118,7 +116,7 @@ public class FrameMain extends javax.swing.JFrame {
         );
         windowLayout.setVerticalGroup(
             windowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 176, Short.MAX_VALUE)
+            .addGap(0, 184, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
@@ -133,7 +131,7 @@ public class FrameMain extends javax.swing.JFrame {
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addComponent(window, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 362, Short.MAX_VALUE))
+                .addGap(0, 354, Short.MAX_VALUE))
         );
         jDesktopPane1.setLayer(window, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -156,14 +154,6 @@ public class FrameMain extends javax.swing.JFrame {
         jmenuAgents.add(mnOpenProject);
         jmenuAgents.add(jSeparator3);
 
-        btReload.setText("Reload");
-        btReload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btReloadActionPerformed(evt);
-            }
-        });
-        jmenuAgents.add(btReload);
-
         mnExit.setText("Exit");
         mnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,9 +163,6 @@ public class FrameMain extends javax.swing.JFrame {
         jmenuAgents.add(mnExit);
 
         jMenuBar1.add(jmenuAgents);
-
-        jmenuAbout.setText("About");
-        jMenuBar1.add(jmenuAbout);
 
         setJMenuBar(jMenuBar1);
 
@@ -234,11 +221,6 @@ public class FrameMain extends javax.swing.JFrame {
         //frame.setVisible(true);        
     }//GEN-LAST:event_mnOpenProjectActionPerformed
 
-    private void btReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReloadActionPerformed
-        lesma.Lesma.main(null);   
-        System.exit(0);
-    }//GEN-LAST:event_btReloadActionPerformed
-
      private void log(String message) {
      }
     /**
@@ -277,7 +259,6 @@ public class FrameMain extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem btReload;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
@@ -285,7 +266,6 @@ public class FrameMain extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator3;
-    private javax.swing.JMenu jmenuAbout;
     private javax.swing.JMenu jmenuAgents;
     private javax.swing.JLabel lbMessage;
     private javax.swing.JMenuItem mnExit;
