@@ -86,7 +86,7 @@ public class FrameMain extends javax.swing.JFrame {
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Learning Environment for Systems Multi Agent");
+        setTitle("Learning Environment for Multi Agent Systems");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
