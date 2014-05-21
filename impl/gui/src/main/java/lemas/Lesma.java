@@ -1,8 +1,8 @@
-package lesma;
+package lemas;
 
-import lesma.form.FrameMain;
-import lesma.form.SplashScreen;
-import lesma.model.Workspace;
+import lemas.form.FrameMain;
+import lemas.form.SplashScreen;
+import lemas.model.Workspace;
 
 import org.apache.log4j.Logger;
 

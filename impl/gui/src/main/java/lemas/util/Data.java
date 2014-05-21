@@ -1,4 +1,4 @@
-package lesma.util;
+package lemas.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,10 +12,10 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
-import lesma.model.LMASchema;
-import lesma.model.Project;
-import lesma.model.Result;
-import lesma.model.Workspace;
+import lemas.model.LMASchema;
+import lemas.model.Project;
+import lemas.model.Result;
+import lemas.model.Workspace;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 

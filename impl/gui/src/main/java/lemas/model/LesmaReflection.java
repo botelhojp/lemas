@@ -1,4 +1,4 @@
-package lesma.model;
+package lemas.model;
 
 import jade.core.Agent;
 

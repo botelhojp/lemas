@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package lesma.form;
+package lemas.form;
 
 import java.awt.BorderLayout;
 import javax.swing.ImageIcon;
@@ -11,7 +11,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 
-import lesma.Lesma;
+import lemas.Lesma;
 
 
 public class SplashScreen extends JWindow {

@@ -1,4 +1,4 @@
-package lesma.util;
+package lemas.util;
 
 import java.awt.Component;
 import javax.swing.JOptionPane;

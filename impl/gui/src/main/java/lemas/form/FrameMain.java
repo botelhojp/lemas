@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package lesma.form;
+package lemas.form;
 
 import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
@@ -10,9 +10,10 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import lesma.model.Project;
-import lesma.model.Workspace;
-import lesma.util.Data;
+
+import lemas.model.Project;
+import lemas.model.Workspace;
+import lemas.util.Data;
 
 /**
  *

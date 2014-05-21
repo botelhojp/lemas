@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package lesma.form;
+package lemas.form;
 
 import java.io.File;
 import java.util.List;
@@ -12,13 +12,14 @@ import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import lesma.model.LesmaReflection;
-import lesma.model.Project;
-import lesma.model.Runner;
-import lesma.model.TrustModelBean;
-import lesma.model.Workspace;
-import lesma.util.Data;
-import lesma.util.Message;
+
+import lemas.model.LesmaReflection;
+import lemas.model.Project;
+import lemas.model.Runner;
+import lemas.model.TrustModelBean;
+import lemas.model.Workspace;
+import lemas.util.Data;
+import lemas.util.Message;
 
 @SuppressWarnings("all")
 public class FrameProject extends JDialog {

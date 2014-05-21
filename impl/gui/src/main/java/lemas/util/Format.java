@@ -1,4 +1,4 @@
-package lesma.util;
+package lemas.util;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;

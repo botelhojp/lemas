@@ -1,4 +1,4 @@
-package lesma.model;
+package lemas.model;
 
 import java.util.ArrayList;
 import java.util.List;

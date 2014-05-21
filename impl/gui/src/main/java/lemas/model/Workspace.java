@@ -1,4 +1,4 @@
-package lesma.model;
+package lemas.model;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

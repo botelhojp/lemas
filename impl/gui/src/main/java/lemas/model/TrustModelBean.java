@@ -1,4 +1,4 @@
-package lesma.model;
+package lemas.model;
 
 @SuppressWarnings("rawtypes")
 public class TrustModelBean implements Comparable<TrustModelBean> {
