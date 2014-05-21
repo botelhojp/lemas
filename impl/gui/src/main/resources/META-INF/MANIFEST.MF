@@ -3,4 +3,4 @@ Archiver-Version: Plexus Archiver
 Created-By: Apache Maven
 Built-By: Vanderson Botelho da Silva
 Build-Jdk: 1.7.0_09
-Main-Class: lesma.Tesma
+Main-Class: lemas.Tesma
