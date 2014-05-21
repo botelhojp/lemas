@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>lesma</groupId>
-	<artifactId>lesma-build</artifactId>
+	<groupId>lemas</groupId>
+	<artifactId>lemas-build</artifactId>
 	<version>1.0.0-BETA-02-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Lesma - Build Aggregate</name>
-	<description>Lesma - Build Aggregate</description>
+	<name>lemas - Build Aggregate</name>
+	<description>lemas - Build Aggregate</description>
 	<modules>
 		<module>parent/base</module>
 		<module>parent/model</module>
@@ -14,9 +14,9 @@
 		<module>impl/gui</module>
 	</modules>
 	<scm>
-		<connection>scm:git:git@github.com:botelhojp/lesma.git</connection>
-		<url>scm:git:git@github.com:botelhojp/lesma.git</url>
-		<developerConnection>scm:git:git@github.com:botelhojp/lesma.git</developerConnection>
+		<connection>scm:git:git@github.com:botelhojp/lemas.git</connection>
+		<url>scm:git:git@github.com:botelhojp/lemas.git</url>
+		<developerConnection>scm:git:git@github.com:botelhojp/lemas.git</developerConnection>
 	</scm>
 	<distributionManagement>
 		<repository>

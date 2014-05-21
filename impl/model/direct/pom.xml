@@ -1,19 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>lesma.model</groupId>
-	<artifactId>lesma-trustmodel-direct</artifactId>
+	<groupId>lemas.model</groupId>
+	<artifactId>lemas-trustmodel-direct</artifactId>
 	<packaging>jar</packaging>
 
-	<name>Lesma - TrustModel - Direct</name>
+	<name>lemas - TrustModel - Direct</name>
 
 	<properties>
 		<encoding.default>UTF-8</encoding.default>
 	</properties>
 
 	<parent>
-		<groupId>lesma.parent</groupId>
-		<artifactId>lesma-parent-trustmodel</artifactId>
+		<groupId>lemas.parent</groupId>
+		<artifactId>lemas-parent-trustmodel</artifactId>
 		<version>1.0.0-BETA-02-SNAPSHOT</version>
 	</parent>
 
@@ -23,8 +23,8 @@
 			<artifactId>openj-framework</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>lesma</groupId>
-			<artifactId>lesma-annotations</artifactId>
+			<groupId>lemas</groupId>
+			<artifactId>lemas-annotations</artifactId>
 		</dependency>		
 	</dependencies>
 </project>

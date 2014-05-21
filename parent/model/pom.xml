@@ -2,14 +2,14 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>lesma-parent-trustmodel</artifactId>
+	<artifactId>lemas-parent-trustmodel</artifactId>
 	<packaging>pom</packaging>
 
-	<name>Lesma - Parent Trust Model</name>
+	<name>lemas - Parent Trust Model</name>
 
 	<parent>
-		<groupId>lesma.parent</groupId>
-		<artifactId>lesma-parent-base</artifactId>
+		<groupId>lemas.parent</groupId>
+		<artifactId>lemas-parent-base</artifactId>
 		<version>1.0.0-BETA-02-SNAPSHOT</version>
 	</parent>
 	

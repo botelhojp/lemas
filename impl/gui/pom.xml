@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>lesma</groupId>
-	<artifactId>lesma-gui</artifactId>
+	<groupId>lemas</groupId>
+	<artifactId>lemas-gui</artifactId>
 	<packaging>jar</packaging>
 
-	<name>Lesma - Application GUI</name>
+	<name>lemas - Application GUI</name>
 	<url>https://github.com/botelhojp/cronos</url>
 
 	<properties>
@@ -14,8 +14,8 @@
 	</properties>
 
 	<parent>
-		<groupId>lesma.parent</groupId>
-		<artifactId>lesma-parent-base</artifactId>
+		<groupId>lemas.parent</groupId>
+		<artifactId>lemas-parent-base</artifactId>
 		<version>1.0.0-BETA-02-SNAPSHOT</version>
 	</parent>
 
@@ -29,12 +29,12 @@
 			<artifactId>openj-framework</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>lesma.model</groupId>
-			<artifactId>lesma-trustmodel-direct</artifactId>
+			<groupId>lemas.model</groupId>
+			<artifactId>lemas-trustmodel-direct</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>lesma</groupId>
-			<artifactId>lesma-annotations</artifactId>
+			<groupId>lemas</groupId>
+			<artifactId>lemas-annotations</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>stax</groupId>
