@@ -9,9 +9,12 @@ import org.jfree.util.ArrayUtilities;
 
 @SuppressWarnings("all")
 public class Runner {
+	
+	public static Project currentProject;
 
 	public static void run(Project project) {
 		try {
+			currentProject = project;
 			Class c = Class.forName(project.getClazz());
 			Method m = c.getMethod("main", String[].class);
 			

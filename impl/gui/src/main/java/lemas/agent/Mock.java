@@ -4,17 +4,18 @@ import jade.content.lang.Codec;
 import jade.content.lang.sl.SLCodec;
 import jade.content.onto.Ontology;
 import jade.content.onto.basic.Action;
+import jade.core.AID;
 import jade.core.Agent;
 import jade.core.ContainerID;
-import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.JADEAgentManagement.JADEManagementOntology;
 import jade.domain.JADEAgentManagement.KillContainer;
 import jade.lang.acl.ACLMessage;
 import openjade.core.OpenAgent;
 import openjade.core.OpenJadeException;
 
-public class Mock extends Agent{
-	
+public class Mock extends Agent {
+
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -22,27 +23,32 @@ public class Mock extends Agent{
 		super.setup();
 		moveContainer(OpenAgent.MAIN_CONTAINER);
 		System.out.println("setup " + getAID().getLocalName());
-		
+
 		for (int index = 0; index < getArguments().length; index++) {
 			System.out.println(getAID().getLocalName() + " - " + (String) getArguments()[index]);
 		}
-		
-		addBehaviour( new Behaviour() {
-			private static final long serialVersionUID = 1L;
 
-			@Override
-			public boolean done() {
-				return false;
-			}
-			
-			@Override
+		addBehaviour(new CyclicBehaviour(this) {
 			public void action() {
-				//System.out.println(getAID().getLocalName() + " action");
-				
+				ACLMessage msg = receive();
+				if (msg != null)
+
+					if (msg.getPerformative() == ACLMessage.REQUEST) {
+						String[] token = msg.getContent().split(";");	
+						ACLMessage fd = new ACLMessage(ACLMessage.AGREE);
+						fd.setContent(token[1] + ":" + token[2]); 
+						fd.addReceiver(new AID(token[0], false));
+						send(fd);
+					} else if (msg.getPerformative() == ACLMessage.AGREE) {
+						System.out.println(" - " + myAgent.getLocalName() + " <- " + msg.getContent());
+					}
+
+				block();
 			}
 		});
+
 	}
-	
+
 	public synchronized void moveContainer(String to) {
 		try {
 			String from = getContainerController().getContainerName();
