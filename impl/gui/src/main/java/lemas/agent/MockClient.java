@@ -5,7 +5,7 @@ import jade.lang.acl.ACLMessage;
 import openjade.core.OpenAgent;
 import openjade.core.annotation.ReceiveSimpleMessage;
 
-public class Mock extends OpenAgent {
+public class MockClient extends OpenAgent {
 
 	private static final long serialVersionUID = 1L;
 
@@ -41,7 +41,7 @@ public class Mock extends OpenAgent {
 	public void getMessage(ACLMessage msg) {
 		String[] token = msg.getContent().split(";");
 		ACLMessage fd = new ACLMessage(ACLMessage.REQUEST);
-		fd.setConversationId("FEEDBACK");
+		fd.setConversationId(Conversations.SEND_FEEDBACK);
 		fd.setContent(token[1] + ":" + token[2]);
 		fd.addReceiver(new AID(token[0], false));
 		send(fd);

@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import lemas.agent.MockClient;
+import lemas.agent.MockServer;
 import lemas.model.Runner;
 import openjade.core.OpenAgent;
 
@@ -24,7 +26,7 @@ public class LoadeBehaviour extends OneShotBehaviour {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Agent agent;
+	private OpenAgent agent;
 	private Set<String> agents = new HashSet<String>();	
 	private List<String> iteration = new ArrayList<String>();
 
@@ -42,8 +44,8 @@ public class LoadeBehaviour extends OneShotBehaviour {
 				iteration.add(linha);
 				System.out.printf("%s\n", linha);
 				String[] token = linha.split(";");
-				load(token[1]);
-				load(token[2]);
+				load(token[1], MockClient.class.toString());
+				load(token[2], MockServer.class.toString());
 				linha = lerArq.readLine();
 			}
 			lerArq.close();
@@ -66,7 +68,13 @@ public class LoadeBehaviour extends OneShotBehaviour {
 	}
 	
 	private void actions(String it) {
-		String[] token = it.split(";");				
+		String[] token = it.split(";");
+		
+		String content = token[2] + ";" + token[4] + ";" + token[7];
+		
+//		agent.sendMessage(new AID(token[1], ACLMessage.REQUEST, "LOADER_ITERATE", content);
+		
+		
 		ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
 		msg.setConversationId("LOADER_ITERATE");
 		msg.setContent(token[2] + ";" + token[4] + ";" + token[7]);
@@ -75,7 +83,7 @@ public class LoadeBehaviour extends OneShotBehaviour {
 	}
 	
 	
-	private void load(String agentName) {
+	private void load(String agentName, String clazz) {
 		try {
 			if (!agents.contains(agentName)) {
 				jade.core.Runtime runtime = jade.core.Runtime.instance();
@@ -83,7 +91,7 @@ public class LoadeBehaviour extends OneShotBehaviour {
 				ProfileImpl platform2 = new ProfileImpl("127.0.0.1", 1099, OpenAgent.MAIN_CONTAINER);
 				jade.wrapper.AgentContainer ac = runtime.createAgentContainer(platform2);
 				String[] param = { "param01", "param02", "param03" };
-				AgentController a = ac.createNewAgent(agentName, "lemas.agent.Mock", param);
+				AgentController a = ac.createNewAgent(agentName, clazz, param);
 				a.start();
 				agents.add(agentName);
 			}
