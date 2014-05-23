@@ -4,7 +4,6 @@ import lesma.annotations.StartSMA;
 import lesma.model.direct.agent.TaskAgent;
 
 import org.apache.log4j.Logger;
-import org.jfree.ui.about.ProjectInfo;
 
 @StartSMA(
 		trustmodel = "Direct Model - d001 - v1.0", 
