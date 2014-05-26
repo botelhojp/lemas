@@ -26,7 +26,6 @@ public class AgentLoader extends OpenAgent {
 	public void getMessage(ACLMessage msg) {
 		if (wait.contains(msg.getSender())) {
 			wait.remove(msg.getSender());
-			System.out.println("remover " + msg.getSender());
 		} else {
 			throw new OpenJadeException("Agente não autorizado [" + msg.getSender().getLocalName() + "]");
 		}

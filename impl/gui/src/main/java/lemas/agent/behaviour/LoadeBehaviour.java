@@ -3,18 +3,18 @@ package lemas.agent.behaviour;
 import jade.core.AID;
 import jade.core.ProfileImpl;
 import jade.core.behaviours.Behaviour;
+import jade.lang.acl.ACLMessage;
 import jade.wrapper.AgentController;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import lemas.agent.AgentLoader;
+import lemas.agent.ConversationId;
 import lemas.model.Runner;
 import openjade.core.OpenAgent;
 
@@ -24,7 +24,6 @@ public class LoadeBehaviour extends Behaviour {
 
 	private AgentLoader agent;
 	private Set<String> agents = new HashSet<String>();
-	private List<String> iteration = new ArrayList<String>();
 	private BufferedReader lerArq;
 	private boolean done = false;
 
@@ -32,37 +31,39 @@ public class LoadeBehaviour extends Behaviour {
 		agent = _agent;
 		loadArff();
 	}
-	
+
 	@Override
-	public boolean done() {		
-		System.out.println("done = " + done);
+	public boolean done() {
 		return done;
 	}
 
 	@Override
 	public void action() {
-		try {			
-			System.out.println("action");
-			if (agent.nowait()){
+		try {
+			String client = null;
+			String server = null;
+			if (agent.nowait()) {
+				actions(client, server);
 				String linha = lerArq.readLine();
-				if (linha != null ) {
-					iteration.add(linha);
+				if (linha != null) {
 					System.out.printf("%s\n", linha);
 					String[] token = linha.split(";");
-					load(token[1], "lemas.agent.AgentClient");
-					load(token[2], "lemas.agent.AgentServer");
+					client = token[1];
+					server = token[2];
+					loadAgent(client, "lemas.agent.AgentClient");
+					loadAgent(server, "lemas.agent.AgentServer");
 					linha = lerArq.readLine();
-				}else{
-					lerArq.close();		
+				} else {
+					lerArq.close();
 					done = true;
-				}				
-			}			
+				}
+			}
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void loadArff() {		
+	public void loadArff() {
 		try {
 			File file = new File(Runner.currentProject.getLoading());
 			FileReader arq = new FileReader(file);
@@ -72,41 +73,17 @@ public class LoadeBehaviour extends Behaviour {
 		}
 	}
 
-//	private void actions(String it) {
-//		String[] token = it.split(";");
-//
-//		String content = token[2] + ";" + token[4] + ";" + token[7];
-//
-//		// agent.sendMessage(new AID(token[1], ACLMessage.REQUEST,
-//		// "LOADER_ITERATE", content);
-//
-//		ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
-//		msg.setConversationId(ConversationId.TRAIN_ITERATE);
-//		msg.setContent(token[2] + ";" + token[4] + ";" + token[7]);
-//		msg.addReceiver(new AID(token[1], false));
-//		agent.send(msg);
-//	}
-	
-	
-//	public void waiting(AID aidAgent) {
-//		int count  = 0;
-//		boolean done = false;
-//		agent.addWaitAgent(aidAgent);
-//		while(!done || count++ <= 100){
-//			try {				
-//				block(1000);
-//				done = !agent.containsWaitAgent(aidAgent);
-//				System.out.println("waiting[" +  aidAgent.getLocalName() + "]");
-//			} catch (InterruptedException e) {				
-//				e.printStackTrace();
-//			}
-//		}
-//		if (!done){
-//			throw new RuntimeException("Agente nao inicializado [" + aidAgent.getLocalName() +"]");
-//		}
-//	}
+	private void actions(String client, String server) {
+		if (client != null && server != null) {
+			ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
+			msg.addReceiver(new AID(client, false));
+			msg.setConversationId(ConversationId.TRAIN_ITERATE);
+			msg.setContent(server);
+			agent.send(msg);
+		}
+	}
 
-	private void load(String agentName, String clazz) {
+	private void loadAgent(String agentName, String clazz) {
 		try {
 			if (!agents.contains(agentName)) {
 				agent.waiting(new AID(agentName, false));
@@ -118,7 +95,7 @@ public class LoadeBehaviour extends Behaviour {
 				AgentController a = ac.createNewAgent(agentName, clazz, param);
 				a.start();
 				agents.add(agentName);
-			}			
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
