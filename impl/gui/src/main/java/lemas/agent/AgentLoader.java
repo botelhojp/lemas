@@ -11,7 +11,7 @@ import openjade.core.OpenAgent;
 import openjade.core.OpenJadeException;
 import openjade.core.annotation.ReceiveSimpleMessage;
 
-public class LoaderAgent extends OpenAgent {
+public class AgentLoader extends OpenAgent {
 
 	private static final long serialVersionUID = 1L;
 	private Set<AID> wait = new HashSet<AID>();
@@ -19,10 +19,6 @@ public class LoaderAgent extends OpenAgent {
 	@Override
 	protected void setup() {
 		super.setup();
-		moveContainer(OpenAgent.MAIN_CONTAINER);
-		for (int index = 0; index < getArguments().length; index++) {
-			System.out.println((String) getArguments()[index]);
-		}
 		addBehaviour(new LoadeBehaviour(this));
 	}
 
@@ -36,7 +32,7 @@ public class LoaderAgent extends OpenAgent {
 		}
 
 	}
-	
+
 	public void waiting(AID aid) {
 		wait.add(aid);
 	}

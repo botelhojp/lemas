@@ -1,0 +1,24 @@
+package lemas.agent;
+
+import jade.core.AID;
+import jade.lang.acl.ACLMessage;
+import lemas.agent.behaviour.SendMessageBehaviour;
+import openjade.core.OpenAgent;
+
+public class AbstractAgent extends OpenAgent {
+	
+	private static final long serialVersionUID = 1L;
+
+	protected void setup() {
+		super.setup();
+		moveContainer(OpenAgent.MAIN_CONTAINER);
+		System.out.println("setup " + getAID().getLocalName());
+		ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
+		message.setSender(getAID());
+		message.setConversationId(ConversationId.LOADER);
+		message.addReceiver(new AID("lemas_loader", false));
+		addBehaviour(new SendMessageBehaviour(this, message));					
+	}
+	
+
+}

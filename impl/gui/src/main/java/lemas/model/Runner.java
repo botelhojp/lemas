@@ -22,23 +22,10 @@ public class Runner {
 			if (project.isMonitor()){
 				main.add("-gui");
 			}
-			//String[] main = {"-gui", "-local-host", "127.0.0.1"};
-			//m.invoke(null, (Object) main);
-			//String[] agent01 = { "-local-host", "127.0.0.1", "-container", "-container-name", "Agents-Container", "agent_001:lesma.model.direct.agent.TaskAgent(Agents-Container,openjade.trust.DirectModel,TERRIBLE)" };
-			
 			
 			m.invoke(null, (Object) main.toArray(new String[0]));			
-			String[] loader = { "-local-host", "127.0.0.1", "-container", "-container-name", "Agents-Container", "lemas_loader:lemas.agent.LoaderAgent(param01, param02, param03)"};
+			String[] loader = { "-local-host", "127.0.0.1", "-container", "-container-name", "Lemas-Container", "lemas_loader:lemas.agent.AgentLoader()"};
 			m.invoke(null, (Object) loader);
-			
-			
-//			ArrayList<String> host = makeArray(project.getHost(), ",");	
-//			ArrayList<String> conteiner = makeArray(project.getConteiner(), ",");
-//			ArrayList<String> agents = makeAgents(project.getLoading()); 
-//			for (String agent: agents) {
-//				m.invoke(null, (Object) concat(host, conteiner, agent));
-//			}		
-//			
 			
 		} catch (Exception e) {			
 			e.printStackTrace();
