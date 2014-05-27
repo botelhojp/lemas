@@ -1,5 +1,7 @@
 package lemas.agent.behaviour;
 
+import jade.content.AgentAction;
+import jade.content.onto.Ontology;
 import jade.core.AID;
 import jade.core.ProfileImpl;
 import jade.core.behaviours.Behaviour;
@@ -17,6 +19,8 @@ import lemas.agent.AgentLoader;
 import lemas.agent.ConversationId;
 import lemas.model.Runner;
 import openjade.core.OpenAgent;
+import openjade.ontology.OpenJadeOntology;
+import openjade.ontology.RatingAction;
 
 public class LoadeBehaviour extends Behaviour {
 
@@ -79,6 +83,11 @@ public class LoadeBehaviour extends Behaviour {
 			msg.setConversationId(ConversationId.TRAIN_ITERATE);
 			msg.setContent(iteration);
 			agent.send(msg);
+//			AgentAction ra = new RatingAction();
+			
+//			agent.sendMessage(new AID(iteration.split(";")[1], false), ACLMessage.REQUEST, ra, OpenJadeOntology.class);
+//			agent.sendMessage(new AID("d", false), 0, ra, OpenJadeOntology.class) 
+				
 		}
 	}
 
