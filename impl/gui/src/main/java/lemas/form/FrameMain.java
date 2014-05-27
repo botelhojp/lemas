@@ -31,7 +31,7 @@ public class FrameMain extends javax.swing.JFrame {
         setExtendedState(MAXIMIZED_BOTH);  
         initComponents();  
         this.setExtendedState(FrameMain.MAXIMIZED_BOTH);
-        window.setVisible(false);        
+        windowDialog.setVisible(false);        
     }
     
     public static FrameMain getInstance(){
@@ -51,9 +51,12 @@ public class FrameMain extends javax.swing.JFrame {
         jFrame2 = new javax.swing.JFrame();
         jMenu1 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
-        lbMessage = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtLog = new javax.swing.JTextArea();
         jDesktopPane1 = new javax.swing.JDesktopPane();
-        window = new javax.swing.JInternalFrame();
+        jPanel2 = new javax.swing.JPanel();
+        windowDialog = new javax.swing.JInternalFrame();
+        jSeparator1 = new javax.swing.JSeparator();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmenuAgents = new javax.swing.JMenu();
         mnNewProject = new javax.swing.JMenuItem();
@@ -86,55 +89,81 @@ public class FrameMain extends javax.swing.JFrame {
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Learning Environment for Multi Agent Systems");
+        setTitle("Learning Environment for Systems Multi Agent");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        lbMessage.setText("message");
+        txtLog.setColumns(20);
+        txtLog.setFont(new java.awt.Font("Courier 10 Pitch", 0, 12)); // NOI18N
+        txtLog.setRows(5);
+        jScrollPane1.setViewportView(txtLog);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lbMessage))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        window.setTitle("Janela");
-        window.setNormalBounds(new java.awt.Rectangle(0, 0, 500, 500));
-        window.setVisible(true);
+        windowDialog.setTitle("Janela");
+        windowDialog.setNormalBounds(new java.awt.Rectangle(0, 0, 500, 500));
+        windowDialog.setVisible(true);
 
-        javax.swing.GroupLayout windowLayout = new javax.swing.GroupLayout(window.getContentPane());
-        window.getContentPane().setLayout(windowLayout);
-        windowLayout.setHorizontalGroup(
-            windowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout windowDialogLayout = new javax.swing.GroupLayout(windowDialog.getContentPane());
+        windowDialog.getContentPane().setLayout(windowDialogLayout);
+        windowDialogLayout.setHorizontalGroup(
+            windowDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 231, Short.MAX_VALUE)
         );
-        windowLayout.setVerticalGroup(
-            windowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 184, Short.MAX_VALUE)
+        windowDialogLayout.setVerticalGroup(
+            windowDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 328, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(134, 134, 134)
+                .addComponent(windowDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(59, Short.MAX_VALUE)
+                .addComponent(windowDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47))
         );
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addComponent(window, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+                .addContainerGap(54, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(323, 323, 323))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addComponent(window, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 354, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43))
         );
-        jDesktopPane1.setLayer(window, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jSeparator1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jmenuAgents.setText("Project");
 
@@ -177,7 +206,8 @@ public class FrameMain extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jDesktopPane1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -189,9 +219,9 @@ public class FrameMain extends javax.swing.JFrame {
         message("New project...");
         FrameProject frame = FrameProject.getInstance();
         
-        this.window.setSize(new Dimension(600,600));
+        this.windowDialog.setSize(new Dimension(600,600));
         
-        loadFrame(window, frame);
+        loadFrame(windowDialog, frame);
         
         
         frame.load();        
@@ -213,12 +243,12 @@ public class FrameMain extends javax.swing.JFrame {
         fileChooser.setCurrentDirectory(new File(Workspace.FOLDER_PROJECT));
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();                 
-            FrameMain.message("open file: " +  file.getAbsolutePath());                    
+            message("open file: " +  file.getAbsolutePath());                    
             Project project = Data.fileToProject(file);            
             project.setSaveIn(file.getAbsolutePath());
             frame.updateScreen(project);
         }        
-        loadFrame(window, frame);
+        loadFrame(windowDialog, frame);
         //frame.setVisible(true);        
     }//GEN-LAST:event_mnOpenProjectActionPerformed
 
@@ -266,17 +296,21 @@ public class FrameMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JMenu jmenuAgents;
-    private javax.swing.JLabel lbMessage;
     private javax.swing.JMenuItem mnExit;
     private javax.swing.JMenuItem mnNewProject;
     private javax.swing.JMenuItem mnOpenProject;
-    private javax.swing.JInternalFrame window;
+    private javax.swing.JTextArea txtLog;
+    private javax.swing.JInternalFrame windowDialog;
     // End of variables declaration//GEN-END:variables
 
-    public static void message(String message) {
-        instance.lbMessage.setText(message);
+    public void message(String message) {
+        txtLog.append(message + "\n");        
+        txtLog.getCaret().setDot(txtLog.getText().length());
     }
 
     private void loadFrame(JInternalFrame window, FrameProject frame) {             
@@ -298,7 +332,7 @@ public class FrameMain extends javax.swing.JFrame {
     }
     
     public JInternalFrame getWindow(){
-        return window;
+        return windowDialog;
     }
 
 

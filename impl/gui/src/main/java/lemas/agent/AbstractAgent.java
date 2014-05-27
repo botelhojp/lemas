@@ -3,6 +3,7 @@ package lemas.agent;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 import lemas.agent.behaviour.SendMessageBehaviour;
+import lemas.model.LemasLog;
 import openjade.core.OpenAgent;
 
 public class AbstractAgent extends OpenAgent {
@@ -11,7 +12,7 @@ public class AbstractAgent extends OpenAgent {
 
 	protected void setup() {
 		super.setup();
-		System.out.println("created: " + getAID().getLocalName());
+		LemasLog.info("created: " + getAID().getLocalName());
 		ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
 		message.setSender(getAID());
 		message.setConversationId(ConversationId.LOADER);

@@ -249,7 +249,7 @@ public class FrameProject extends JDialog {
         fileChooser.addChoosableFileFilter(filterExt);
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-            FrameMain.message("open file: " + file.getAbsolutePath());
+            FrameMain.getInstance().message("open file: " + file.getAbsolutePath());
             project.setARFF(Data.loadFileToStr(file));            
         }
     }//GEN-LAST:event_btLoadAIFileActionPerformed

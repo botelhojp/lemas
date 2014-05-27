@@ -18,6 +18,7 @@ import openjade.ontology.SendRating;
 
 import lemas.agent.AgentLoader;
 import lemas.agent.ConversationId;
+import lemas.model.LemasLog;
 import lemas.model.Runner;
 import lemas.util.Data;
 
@@ -49,7 +50,7 @@ public class LoadeBehaviour extends Behaviour {
 				String line = lerArq.readLine();
 				if (line != null) {
 					iteration = line;
-					System.out.printf("%s\n", line);
+					LemasLog.info(line);
 					String[] token = line.split(";");
 					createAgent(token[1], "lemas.agent.AgentClient");
 					createAgent(token[2], "lemas.agent.AgentServer");

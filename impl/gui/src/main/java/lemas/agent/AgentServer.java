@@ -2,6 +2,7 @@ package lemas.agent;
 
 import jade.content.ContentElement;
 import jade.lang.acl.ACLMessage;
+import lemas.model.LemasLog;
 import openjade.core.OpenJadeException;
 import openjade.core.annotation.ReceiveMatchMessage;
 import openjade.ontology.Rating;
@@ -16,7 +17,7 @@ public class AgentServer extends AbstractAgent {
 		SendRating sr = (SendRating) ce;
 		Rating rating = (Rating) sr.getRating().get(0);
 		if (rating.getServer().equals(getAID())){
-			System.out.println(" -  I (" + rating.getServer().getLocalName() + ") received (" + rating.getClient().getLocalName() + ") in (" + rating.getIteration() + ") the feedback <- " + rating.getValue() + " comments: " + rating.getTerm());	
+			LemasLog.debug(" -  I (" + rating.getServer().getLocalName() + ") received (" + rating.getClient().getLocalName() + ") in (" + rating.getIteration() + ") the feedback <- " + rating.getValue() + " comments: " + rating.getTerm());	
 		}else{
 			throw new OpenJadeException("Esta avaliacao nao he minha: " + message.toString());
 		}
