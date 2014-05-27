@@ -6,11 +6,16 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
+
+import openjade.core.OpenJadeException;
 
 import lemas.model.LMASchema;
 import lemas.model.Project;
@@ -20,6 +25,9 @@ import lemas.model.Workspace;
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 public class Data {
+	
+	private static SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
+	private static SimpleDateFormat dt2 = new SimpleDateFormat("yyyyMMdd");
 
 	public static String loadFileToStr(File file) {
 		StringBuilder sb = new StringBuilder();
@@ -155,6 +163,46 @@ public class Data {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static Date strToDate(String date) {
+		try {
+			return dt.parse(date);
+		} catch (ParseException e) {
+			return null;
+		}
+	}
+
+	public static String dateToStr(Date date) {
+		return dt.format(date);
+	}
+	
+	
+	public static int strToIteration(String date) {
+		Date d = strToDate(date);
+		return Integer.parseInt(dt2.format(d));
+	}
+
+	public static Double strToDouble(String value) {
+		try {
+			return Double.parseDouble(value.replaceAll(",", "."));
+		} catch (NumberFormatException e) {
+			return 0.0;
+		}
+
+	}
+
+	public static int strToValue(String value) {
+		if (value.equals("pos")){
+			return 1;
+		}
+		if (value.equals("neu")){
+			return 0;
+		}
+		if (value.equals("neg")){
+			return -1;
+		}
+		throw new OpenJadeException("Tipo [" + value + "] invalido");
 	}
 
 }

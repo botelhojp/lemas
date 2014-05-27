@@ -12,9 +12,14 @@ import java.io.FileReader;
 import java.util.HashSet;
 import java.util.Set;
 
+import openjade.ontology.OpenJadeOntology;
+import openjade.ontology.Rating;
+import openjade.ontology.SendRating;
+
 import lemas.agent.AgentLoader;
 import lemas.agent.ConversationId;
 import lemas.model.Runner;
+import lemas.util.Data;
 
 public class LoadeBehaviour extends Behaviour {
 
@@ -25,7 +30,6 @@ public class LoadeBehaviour extends Behaviour {
 	private BufferedReader lerArq;
 	private boolean done = false;
 	private String iteration = null;
-	
 
 	public LoadeBehaviour(AgentLoader _agent) {
 		agent = _agent;
@@ -69,19 +73,23 @@ public class LoadeBehaviour extends Behaviour {
 		}
 	}
 
-	private void sendFeedback(String iteration) {
-		if (iteration != null) {
-			ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
-			msg.addReceiver(new AID(iteration.split(";")[1], false));
-			msg.setConversationId(ConversationId.TRAIN_ITERATE);
-			msg.setContent(iteration);
-			agent.send(msg);
-//			AgentAction ra = new RatingAction();
-			
-//			agent.sendMessage(new AID(iteration.split(";")[1], false), ACLMessage.REQUEST, ra, OpenJadeOntology.class);
-//			agent.sendMessage(new AID("d", false), 0, ra, OpenJadeOntology.class) 
-				
+	private void sendFeedback(String line) {
+		if (line != null) {
+			Rating rating = strToRating(line);
+			SendRating sr = new SendRating();
+			sr.addRating(rating);
+			agent.sendMessage(rating.getClient(), ACLMessage.REQUEST, ConversationId.SEND_FEEDBACK, sr, OpenJadeOntology.getInstance());
 		}
+	}
+
+	private Rating strToRating(String line) {
+		String[] tokens = line.split(";");
+		AID clientAID = new AID(tokens[1], false);
+		AID serverAID = new AID(tokens[2], false);
+		int iteration = Data.strToIteration(tokens[3]);
+		String term = tokens[4];
+		int value = Data.strToValue(tokens[7]);
+		return new Rating(clientAID, serverAID, iteration, term, value);
 	}
 
 	private void createAgent(String agentName, String clazz) {
