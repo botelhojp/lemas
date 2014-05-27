@@ -26,6 +26,8 @@ public class LoadeBehaviour extends Behaviour {
 	private Set<String> agents = new HashSet<String>();
 	private BufferedReader lerArq;
 	private boolean done = false;
+	private String iteration = null;
+	
 
 	public LoadeBehaviour(AgentLoader _agent) {
 		agent = _agent;
@@ -40,19 +42,16 @@ public class LoadeBehaviour extends Behaviour {
 	@Override
 	public void action() {
 		try {
-			String client = null;
-			String server = null;
 			if (agent.nowait()) {
-				actions(client, server);
-				String linha = lerArq.readLine();
-				if (linha != null) {
-					System.out.printf("%s\n", linha);
-					String[] token = linha.split(";");
-					client = token[1];
-					server = token[2];
-					loadAgent(client, "lemas.agent.AgentClient");
-					loadAgent(server, "lemas.agent.AgentServer");
-					linha = lerArq.readLine();
+				sendFeedback(iteration);
+				String line = lerArq.readLine();
+				if (line != null) {
+					iteration = line;
+					System.out.printf("%s\n", line);
+					String[] token = line.split(";");
+					loadAgent(token[1], "lemas.agent.AgentClient");
+					loadAgent(token[2], "lemas.agent.AgentServer");
+					line = lerArq.readLine();
 				} else {
 					lerArq.close();
 					done = true;
@@ -73,12 +72,12 @@ public class LoadeBehaviour extends Behaviour {
 		}
 	}
 
-	private void actions(String client, String server) {
-		if (client != null && server != null) {
+	private void sendFeedback(String iteration) {
+		if (iteration != null) {
 			ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
-			msg.addReceiver(new AID(client, false));
+			msg.addReceiver(new AID(iteration.split(";")[1], false));
 			msg.setConversationId(ConversationId.TRAIN_ITERATE);
-			msg.setContent(server);
+			msg.setContent(iteration);
 			agent.send(msg);
 		}
 	}

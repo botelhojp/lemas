@@ -11,7 +11,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 
-import lemas.Lesma;
+import lemas.Lemas;
 
 
 public class SplashScreen extends JWindow {
@@ -22,7 +22,7 @@ public class SplashScreen extends JWindow {
     private JProgressBar progressBar = new JProgressBar(0, 100);
 
     public SplashScreen() {
-        ImageIcon imageIcon = new ImageIcon(Lesma.class.getResource("/tesmalogo.png"));
+        ImageIcon imageIcon = new ImageIcon(Lemas.class.getResource("/tesmalogo.png"));
         imageLabel.setIcon(imageIcon);
         setLayout(borderLayout);
         add(imageLabel, BorderLayout.CENTER);

@@ -15,11 +15,11 @@ public class AgentClient extends AbstractAgent {
 	 */
 	@ReceiveSimpleMessage(conversationId = ConversationId.TRAIN_ITERATE)
 	public void getMessage(ACLMessage msg) {
-		String[] token = msg.getContent().split(";");
+		String[] tokens = msg.getContent().split(";");
 		ACLMessage fd = new ACLMessage(ACLMessage.REQUEST);
 		fd.setConversationId(ConversationId.SEND_FEEDBACK);
-		fd.setContent(token[1] + ":" + token[2]);
-		fd.addReceiver(new AID(token[0], false));
+		fd.setContent(tokens[4]+";"+tokens[7]);
+		fd.addReceiver(new AID(tokens[2], false));
 		send(fd);
 	}
 }

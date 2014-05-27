@@ -7,9 +7,9 @@ import lemas.model.Workspace;
 import org.apache.log4j.Logger;
 
 
-public class Lesma {
+public class Lemas {
 
-	private static Logger log = Logger.getLogger(Lesma.class);
+	private static Logger log = Logger.getLogger(Lemas.class);
 
 	public static void main(String args[]) {
 		SplashScreen spaScreen = new SplashScreen();
