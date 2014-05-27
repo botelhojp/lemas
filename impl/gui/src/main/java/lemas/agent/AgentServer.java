@@ -9,6 +9,6 @@ public class AgentServer extends AbstractAgent {
 
 	@ReceiveSimpleMessage(conversationId =  ConversationId.SEND_FEEDBACK)
 	public void getAgreeMessage(ACLMessage msg) {
-		System.out.println(" - " + getLocalName() + " <- " + msg.getContent());
+		System.out.println(" - " + msg.getSender().getLocalName() + ":" + getLocalName() + " <- " + msg.getContent());
 	}
 }

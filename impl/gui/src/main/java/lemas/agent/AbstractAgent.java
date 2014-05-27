@@ -11,8 +11,7 @@ public class AbstractAgent extends OpenAgent {
 
 	protected void setup() {
 		super.setup();
-		moveContainer(OpenAgent.MAIN_CONTAINER);
-		System.out.println("setup " + getAID().getLocalName());
+		System.out.println("created: " + getAID().getLocalName());
 		ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
 		message.setSender(getAID());
 		message.setConversationId(ConversationId.LOADER);

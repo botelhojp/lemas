@@ -1,9 +1,6 @@
 package lemas.agent.behaviour;
 
-import jade.content.AgentAction;
-import jade.content.onto.Ontology;
 import jade.core.AID;
-import jade.core.ProfileImpl;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.wrapper.AgentController;
@@ -18,9 +15,6 @@ import java.util.Set;
 import lemas.agent.AgentLoader;
 import lemas.agent.ConversationId;
 import lemas.model.Runner;
-import openjade.core.OpenAgent;
-import openjade.ontology.OpenJadeOntology;
-import openjade.ontology.RatingAction;
 
 public class LoadeBehaviour extends Behaviour {
 
@@ -53,9 +47,8 @@ public class LoadeBehaviour extends Behaviour {
 					iteration = line;
 					System.out.printf("%s\n", line);
 					String[] token = line.split(";");
-					loadAgent(token[1], "lemas.agent.AgentClient");
-					loadAgent(token[2], "lemas.agent.AgentServer");
-					line = lerArq.readLine();
+					createAgent(token[1], "lemas.agent.AgentClient");
+					createAgent(token[2], "lemas.agent.AgentServer");
 				} else {
 					lerArq.close();
 					done = true;
@@ -91,16 +84,12 @@ public class LoadeBehaviour extends Behaviour {
 		}
 	}
 
-	private void loadAgent(String agentName, String clazz) {
+	private void createAgent(String agentName, String clazz) {
 		try {
 			if (!agents.contains(agentName)) {
 				agent.waiting(new AID(agentName, false));
-				jade.core.Runtime runtime = jade.core.Runtime.instance();
-				runtime.setCloseVM(true);
-				ProfileImpl platform2 = new ProfileImpl("127.0.0.1", 1099, OpenAgent.MAIN_CONTAINER);
-				jade.wrapper.AgentContainer ac = runtime.createAgentContainer(platform2);
 				String[] param = {};
-				AgentController a = ac.createNewAgent(agentName, clazz, param);
+				AgentController a = agent.getContainerController().createNewAgent(agentName, clazz, param);
 				a.start();
 				agents.add(agentName);
 			}
