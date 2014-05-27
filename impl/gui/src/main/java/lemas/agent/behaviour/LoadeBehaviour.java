@@ -52,8 +52,8 @@ public class LoadeBehaviour extends Behaviour {
 					iteration = line;
 					LemasLog.info(line);
 					String[] token = line.split(";");
-					createAgent(token[1], "lemas.agent.AgentClient");
-					createAgent(token[2], "lemas.agent.AgentServer");
+					createAgent(token[1], "lemas.agent.LemasAgent");
+					createAgent(token[2], "lemas.agent.LemasAgent");
 				} else {
 					lerArq.close();
 					done = true;
