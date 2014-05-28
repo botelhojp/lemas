@@ -31,10 +31,23 @@ public class LoadeBehaviour extends Behaviour {
 	private BufferedReader lerArq;
 	private boolean done = false;
 	private String iteration = null;
+	private int patterns = 0;
 
 	public LoadeBehaviour(AgentLoader _agent) {
 		agent = _agent;
 		loadArff();
+		readheader();
+	}
+
+	private void readheader() {
+		try {
+			lerArq.readLine();
+			patterns = Integer.parseInt(lerArq.readLine().split(":")[1].trim());
+			lerArq.readLine();
+			LemasLog.info("patterns=" + patterns);
+		} catch (Exception e) {
+			LemasLog.erro(e);
+		}
 	}
 
 	@Override
