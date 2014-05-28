@@ -25,13 +25,31 @@ public class LemasAgent extends OpenAgent {
 		message.addReceiver(new AID("lemas_loader", false));
 		addBehaviour(new SendMessageBehaviour(this, message));					
 	}
-	
+
 	@ReceiveMatchMessage(conversationId = ConversationId.TRAIN_ITERATE, action = SendRating.class)
 	public void receiveTrainIterate(ACLMessage message, ContentElement ce) {
 		SendRating sr = (SendRating) ce;
 		Rating rating = (Rating) sr.getRating().get(0);
 		sendMessage(rating.getServer(), ACLMessage.REQUEST, ConversationId.SEND_FEEDBACK, sr, OpenJadeOntology.getInstance());
 	}
+	
+	
+	@ReceiveMatchMessage(conversationId = ConversationId.TEST_ITERATE, action = SendRating.class)
+	public void receiveTestIterate(ACLMessage message, ContentElement ce) {
+		SendRating sr = (SendRating) ce;
+		Rating rating = (Rating) sr.getRating().get(0);
+		//sendMessage(rating.getServer(), ACLMessage.REQUEST, ConversationId.SEND_FEEDBACK, sr, OpenJadeOntology.getInstance());
+
+		
+		ACLMessage messageResult = new ACLMessage(ACLMessage.REQUEST);
+		messageResult.setSender(getAID());
+		messageResult.setConversationId(ConversationId.TEST);
+		messageResult.addReceiver(new AID("lemas_loader", false));
+		messageResult.setContent("1:" + rating.getValue());		
+		sendMessage(messageResult);
+		
+	}
+
 
 	@ReceiveMatchMessage(conversationId = ConversationId.SEND_FEEDBACK, action = SendRating.class)
 	public void receiveSendFeedba(ACLMessage message, ContentElement ce) {

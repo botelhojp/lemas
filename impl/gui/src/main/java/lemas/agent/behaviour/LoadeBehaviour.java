@@ -32,6 +32,8 @@ public class LoadeBehaviour extends Behaviour {
 	private boolean done = false;
 	private String iteration = null;
 	private int patterns = 0;
+	private double count = 0.0;
+	private double training_phase = 0.33;
 
 	public LoadeBehaviour(AgentLoader _agent) {
 		agent = _agent;
@@ -59,7 +61,11 @@ public class LoadeBehaviour extends Behaviour {
 	public void action() {
 		try {
 			if (agent.nowait()) {
-				sendFeedback(iteration);
+				if (ifTraining()) {
+					sendFeedback(iteration);
+				} else {
+					sendTest(iteration);
+				}
 				String line = lerArq.readLine();
 				if (line != null) {
 					iteration = line;
@@ -67,6 +73,7 @@ public class LoadeBehaviour extends Behaviour {
 					String[] token = line.split(";");
 					createAgent(token[1], "lemas.agent.LemasAgent");
 					createAgent(token[2], "lemas.agent.LemasAgent");
+					count++;
 				} else {
 					lerArq.close();
 					done = true;
@@ -75,6 +82,11 @@ public class LoadeBehaviour extends Behaviour {
 		} catch (Throwable e) {
 			LemasLog.erro(e);
 		}
+	}
+
+	private boolean ifTraining() {
+		return (count / patterns <= training_phase);
+
 	}
 
 	public void loadArff() {
@@ -93,6 +105,15 @@ public class LoadeBehaviour extends Behaviour {
 			SendRating sr = new SendRating();
 			sr.addRating(rating);
 			agent.sendMessage(rating.getClient(), ACLMessage.REQUEST, ConversationId.TRAIN_ITERATE, sr, OpenJadeOntology.getInstance());
+		}
+	}
+
+	private void sendTest(String line) {
+		if (line != null) {
+			Rating rating = strToRating(line);			
+			SendRating sr = new SendRating();
+			sr.addRating(rating);
+			agent.sendMessage(rating.getClient(), ACLMessage.REQUEST, ConversationId.TEST_ITERATE, sr, OpenJadeOntology.getInstance());
 		}
 	}
 

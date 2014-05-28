@@ -15,6 +15,8 @@ public class AgentLoader extends OpenAgent {
 
 	private static final long serialVersionUID = 1L;
 	private Set<AID> wait = new HashSet<AID>();
+	private double countTrue = 0;
+	private double countFalse = 0;
 
 	@Override
 	protected void setup() {
@@ -30,6 +32,24 @@ public class AgentLoader extends OpenAgent {
 			throw new OpenJadeException("Agente não autorizado [" + msg.getSender().getLocalName() + "]");
 		}
 
+	}
+	
+	@ReceiveSimpleMessage(conversationId = ConversationId.TEST)
+	public void getTestMessage(ACLMessage msg) {
+		String[] tokens =  msg.getContent().split(";");
+		String r1 =  tokens[0];
+		String r2 =  tokens[1];
+		if (r1.equals(r2)){
+			countTrue++;
+		}else{
+			countFalse++;
+		}
+		updateScree();
+	}
+
+	private void updateScree() {
+		
+		
 	}
 
 	public void waiting(AID aid) {
