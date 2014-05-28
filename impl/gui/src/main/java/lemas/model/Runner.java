@@ -28,7 +28,7 @@ public class Runner {
 			m.invoke(null, (Object) loader);
 			
 		} catch (Exception e) {			
-			e.printStackTrace();
+			LemasLog.erro(e);
 		}
 
 	}

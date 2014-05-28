@@ -2,6 +2,7 @@ package lemas;
 
 import lemas.form.FrameMain;
 import lemas.form.SplashScreen;
+import lemas.model.LemasLog;
 import lemas.model.Workspace;
 
 import org.apache.log4j.Logger;
@@ -38,7 +39,7 @@ public class Lemas {
 		try {
 			Thread.sleep(i);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			LemasLog.erro(e);
 		}
 	}
 }

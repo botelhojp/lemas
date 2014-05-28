@@ -60,7 +60,7 @@ public class LoadeBehaviour extends Behaviour {
 				}
 			}
 		} catch (Throwable e) {
-			e.printStackTrace();
+			LemasLog.erro(e);
 		}
 	}
 
@@ -79,7 +79,7 @@ public class LoadeBehaviour extends Behaviour {
 			Rating rating = strToRating(line);
 			SendRating sr = new SendRating();
 			sr.addRating(rating);
-			agent.sendMessage(rating.getClient(), ACLMessage.REQUEST, ConversationId.SEND_FEEDBACK, sr, OpenJadeOntology.getInstance());
+			agent.sendMessage(rating.getClient(), ACLMessage.REQUEST, ConversationId.TRAIN_ITERATE, sr, OpenJadeOntology.getInstance());
 		}
 	}
 
@@ -103,7 +103,7 @@ public class LoadeBehaviour extends Behaviour {
 				agents.add(agentName);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LemasLog.erro(e);
 		}
 	}
 

@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,12 +17,12 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
-import openjade.core.OpenJadeException;
-
 import lemas.model.LMASchema;
+import lemas.model.LemasLog;
 import lemas.model.Project;
 import lemas.model.Result;
 import lemas.model.Workspace;
+import openjade.core.OpenJadeException;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
@@ -117,7 +119,7 @@ public class Data {
 			out.close();
 		} catch (Exception e) {
 			Message.error(e.getMessage(), null);
-			e.printStackTrace();
+			LemasLog.erro(e);
 		}
 
 	}
@@ -160,7 +162,7 @@ public class Data {
 			return project;
 		} catch (Exception e) {
 			Message.error(e.getMessage(), null);
-			e.printStackTrace();
+			LemasLog.erro(e);
 		}
 		return null;
 	}
@@ -203,6 +205,12 @@ public class Data {
 			return -1;
 		}
 		throw new OpenJadeException("Tipo [" + value + "] invalido");
+	}
+	
+	public static String exceptionToStr (Throwable ex){
+		StringWriter errors = new StringWriter();
+		ex.printStackTrace(new PrintWriter(errors));
+		return errors.toString();
 	}
 
 }

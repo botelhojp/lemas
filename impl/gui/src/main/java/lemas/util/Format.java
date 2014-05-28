@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import lemas.model.LemasLog;
+
 public class Format {
 	
 	static private DecimalFormat forma0 = new DecimalFormat("###");	
@@ -16,7 +18,7 @@ public class Format {
 		try {
 			return forma0.parse(forma0.format(valor)).doubleValue();
 		} catch (ParseException e) {
-			e.printStackTrace();
+			LemasLog.erro(e);
 			return -1;
 		}
 	}
@@ -35,7 +37,7 @@ public class Format {
 		try {
 			return forma2.parse(forma2.format(valor)).doubleValue();
 		} catch (ParseException e) {
-			e.printStackTrace();
+			LemasLog.erro(e);
 			return -1;
 		}
 	}
@@ -44,7 +46,7 @@ public class Format {
 		try {
 			return forma3.parse(forma3.format(valor)).doubleValue();
 		} catch (ParseException e) {
-			e.printStackTrace();
+			LemasLog.erro(e);
 			return -1;
 		}
 	}
