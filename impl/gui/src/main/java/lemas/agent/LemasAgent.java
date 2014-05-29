@@ -38,14 +38,12 @@ public class LemasAgent extends OpenAgent {
 	public void receiveTestIterate(ACLMessage message, ContentElement ce) {
 		SendRating sr = (SendRating) ce;
 		Rating rating = (Rating) sr.getRating().get(0);
-		//sendMessage(rating.getServer(), ACLMessage.REQUEST, ConversationId.SEND_FEEDBACK, sr, OpenJadeOntology.getInstance());
 
-		
 		ACLMessage messageResult = new ACLMessage(ACLMessage.REQUEST);
 		messageResult.setSender(getAID());
 		messageResult.setConversationId(ConversationId.TEST);
 		messageResult.addReceiver(new AID("lemas_loader", false));
-		messageResult.setContent("1:" + rating.getValue());		
+		messageResult.setContent("1.0:" + rating.getValue());		
 		sendMessage(messageResult);
 		
 	}

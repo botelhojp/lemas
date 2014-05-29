@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import lemas.agent.behaviour.LoadeBehaviour;
+import lemas.model.LemasLog;
 import openjade.core.OpenAgent;
 import openjade.core.OpenJadeException;
 import openjade.core.annotation.ReceiveSimpleMessage;
@@ -36,20 +37,20 @@ public class AgentLoader extends OpenAgent {
 	
 	@ReceiveSimpleMessage(conversationId = ConversationId.TEST)
 	public void getTestMessage(ACLMessage msg) {
-		String[] tokens =  msg.getContent().split(";");
+		String[] tokens =  msg.getContent().split(":");
 		String r1 =  tokens[0];
 		String r2 =  tokens[1];
 		if (r1.equals(r2)){
-			countTrue++;
+			countTrue = countTrue + 1;
 		}else{
-			countFalse++;
+			countFalse = countFalse + 1;
 		}
 		updateScree();
 	}
 
 	private void updateScree() {
-		
-		
+		double total = (countFalse + countTrue);
+		LemasLog.info("total test:" + total + " ok " + countTrue + "  nok " + countFalse + " % " + (countTrue / (countFalse + countTrue)) );
 	}
 
 	public void waiting(AID aid) {
