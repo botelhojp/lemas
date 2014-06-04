@@ -21,5 +21,4 @@ public class CommonsFrame {
 	        window.setTitle(frame.getTitle());
 	        window.setVisible(true);
 	    }
-
 }

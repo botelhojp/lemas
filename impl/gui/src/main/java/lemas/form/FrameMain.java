@@ -37,6 +37,8 @@ public class FrameMain extends javax.swing.JFrame {
         initComponents();  
         this.setExtendedState(FrameMain.MAXIMIZED_BOTH);
         windowDialog.setVisible(false);        
+        windowDialog1.setVisible(false);
+        windowDialog2.setVisible(false);
     }
     
     public static FrameMain getInstance(){
@@ -99,6 +101,7 @@ public class FrameMain extends javax.swing.JFrame {
         panelMain.setBackground(new java.awt.Color(255, 255, 255));
         panelMain.setForeground(new java.awt.Color(255, 255, 255));
 
+        windowDialog.setBackground(new java.awt.Color(255, 255, 255));
         windowDialog.setTitle("Janela");
         windowDialog.setNormalBounds(new java.awt.Rectangle(0, 0, 500, 500));
         windowDialog.setVisible(true);
@@ -107,11 +110,11 @@ public class FrameMain extends javax.swing.JFrame {
         windowDialog.getContentPane().setLayout(windowDialogLayout);
         windowDialogLayout.setHorizontalGroup(
             windowDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 263, Short.MAX_VALUE)
+            .addGap(0, 348, Short.MAX_VALUE)
         );
         windowDialogLayout.setVerticalGroup(
             windowDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 339, Short.MAX_VALUE)
+            .addGap(0, 268, Short.MAX_VALUE)
         );
 
         windowDialog1.setMaximizable(true);
@@ -129,11 +132,11 @@ public class FrameMain extends javax.swing.JFrame {
         windowDialog1.getContentPane().setLayout(windowDialog1Layout);
         windowDialog1Layout.setHorizontalGroup(
             windowDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
         );
         windowDialog1Layout.setVerticalGroup(
             windowDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
         );
 
         windowDialog2.setBackground(new java.awt.Color(255, 255, 255));
@@ -147,11 +150,11 @@ public class FrameMain extends javax.swing.JFrame {
         windowDialog2.getContentPane().setLayout(windowDialog2Layout);
         windowDialog2Layout.setHorizontalGroup(
             windowDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 265, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         windowDialog2Layout.setVerticalGroup(
             windowDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 286, Short.MAX_VALUE)
+            .addGap(0, 250, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
@@ -159,25 +162,22 @@ public class FrameMain extends javax.swing.JFrame {
         panelMainLayout.setHorizontalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMainLayout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(windowDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(windowDialog1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(panelMainLayout.createSequentialGroup()
-                .addGap(518, 518, 518)
-                .addComponent(windowDialog2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(windowDialog2)
+                    .addComponent(windowDialog1)))
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMainLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(windowDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(981, Short.MAX_VALUE))
-            .addGroup(panelMainLayout.createSequentialGroup()
-                .addComponent(windowDialog1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(windowDialog2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(windowDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addComponent(windowDialog2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(windowDialog1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(931, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
@@ -350,6 +350,11 @@ public class FrameMain extends javax.swing.JFrame {
     public JInternalFrame getFrameResult(){
         return windowDialog2;
     }
+
+	public void visibleWindows(boolean value) {
+		windowDialog1.setVisible(value);
+        windowDialog2.setVisible(value);
+	}
 
 
 }

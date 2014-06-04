@@ -49,7 +49,7 @@ public class FrameProject extends JDialog {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
-        setModal(true);
+        setModal(false);
     }    
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -231,6 +231,7 @@ public class FrameProject extends JDialog {
             updateProject();
             Data.projectToFile(project, project.getSaveIn());
             this.setVisible(false);
+            FrameMain.getInstance().visibleWindows(true);
             Runner.run(project);
         } catch (Exception ex) {
             Message.error(ex.getMessage(), this);

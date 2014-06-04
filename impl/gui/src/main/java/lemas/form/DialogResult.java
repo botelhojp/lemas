@@ -21,18 +21,16 @@ public class DialogResult extends JDialog{
 	private XYSeriesCollection xySerie;
 
 	public DialogResult() {
+		setVisible(false);
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setResizable(false);
-        setModal(true);
-		
-		setSize(600, 400);
-		setVisible(true);
+        
+		setSize(300, 200);
 		xySerie = createXYSeriesCollection();
 		JFreeChart chart = ChartFactory.createXYLineChart("Test Chart", "x", "y", xySerie, PlotOrientation.VERTICAL, true, true, false);
 		cp = new ChartPanel(chart);
 		JInternalFrame wd = FrameMain.getInstance().getWindow();
-		wd.setSize(600, 400);
+		wd.setSize(300, 200);
 		wd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		wd.setVisible(true);
 		wd.add(cp);
@@ -40,6 +38,8 @@ public class DialogResult extends JDialog{
 		cp.repaint();
 		wd.setSize(getSize().width + 1, getSize().height + 1);
 		setSize(getSize().width + 1, getSize().height + 1);
+		
+		pack();
 		
 	}
 
