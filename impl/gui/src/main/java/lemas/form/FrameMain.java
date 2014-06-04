@@ -5,8 +5,11 @@
 package lemas.form;
 
 import java.awt.Dimension;
+
 import static java.awt.Frame.MAXIMIZED_BOTH;
+
 import java.io.File;
+
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
@@ -14,6 +17,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import lemas.model.Project;
 import lemas.model.Workspace;
+import lemas.util.CommonsFrame;
 import lemas.util.Data;
 
 /**
@@ -245,7 +249,7 @@ public class FrameMain extends javax.swing.JFrame {
         
         this.windowDialog.setSize(new Dimension(600,600));
         
-        loadFrame(windowDialog, frame);
+        CommonsFrame.loadFrame(windowDialog, frame);
         
         
         frame.load();        
@@ -272,7 +276,7 @@ public class FrameMain extends javax.swing.JFrame {
             project.setSaveIn(file.getAbsolutePath());
             frame.updateScreen(project);
         }        
-        loadFrame(windowDialog, frame);
+        CommonsFrame.loadFrame(windowDialog, frame);
         //frame.setVisible(true);        
     }//GEN-LAST:event_mnOpenProjectActionPerformed
 
@@ -337,23 +341,7 @@ public class FrameMain extends javax.swing.JFrame {
         txtLog.getCaret().setDot(txtLog.getText().length());
     }
 
-    private void loadFrame(JInternalFrame window, FrameProject frame) {             
-        javax.swing.GroupLayout windowLayout = new javax.swing.GroupLayout(window.getContentPane());
-        window.getContentPane().setLayout(windowLayout);        
-        windowLayout.setHorizontalGroup(
-            windowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, frame.getWidth(), Short.MAX_VALUE)
-        );
-        windowLayout.setVerticalGroup(
-            windowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, frame.getHeight(), Short.MAX_VALUE)
-        );
-        
-        window.getContentPane().removeAll();
-        window.getContentPane().add(frame.getContentPane());        
-        window.setTitle(frame.getTitle());
-        window.setVisible(true);        
-    }
+   
     
     public JInternalFrame getWindow(){
         return windowDialog;
