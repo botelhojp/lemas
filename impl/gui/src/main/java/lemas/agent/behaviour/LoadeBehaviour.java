@@ -15,7 +15,7 @@ import java.util.Set;
 import openjade.ontology.OpenJadeOntology;
 import openjade.ontology.Rating;
 import openjade.ontology.SendRating;
-
+import openjade.trust.ITrustModel;
 import lemas.agent.AgentLoader;
 import lemas.agent.ConversationId;
 import lemas.model.LemasLog;
@@ -34,9 +34,11 @@ public class LoadeBehaviour extends Behaviour {
 	private int patterns = 0;
 	private double count = 0.0;
 	private double training_phase = 0.33;
+	private Class<ITrustModel> trustModelClass;
 
-	public LoadeBehaviour(AgentLoader _agent) {
+	public LoadeBehaviour(AgentLoader _agent, Class<ITrustModel> trustModelClass) {
 		agent = _agent;
+		this.trustModelClass = trustModelClass;
 		loadArff();
 		readheader();
 	}
@@ -131,7 +133,7 @@ public class LoadeBehaviour extends Behaviour {
 		try {
 			if (!agents.contains(agentName)) {
 				agent.waiting(new AID(agentName, false));
-				String[] param = {};
+				Object[] param = {trustModelClass};
 				AgentController a = agent.getContainerController().createNewAgent(agentName, clazz, param);
 				a.start();
 				agents.add(agentName);

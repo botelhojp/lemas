@@ -14,6 +14,7 @@ import lemas.util.CommonsFrame;
 import openjade.core.OpenAgent;
 import openjade.core.OpenJadeException;
 import openjade.core.annotation.ReceiveSimpleMessage;
+import openjade.trust.ITrustModel;
 
 public class AgentLoader extends OpenAgent {
 
@@ -27,7 +28,7 @@ public class AgentLoader extends OpenAgent {
 	@Override
 	protected void setup() {
 		super.setup();
-		addBehaviour(new LoadeBehaviour(this));
+		addBehaviour(new LoadeBehaviour(this, getTrustModelClass()));
 	}
 
 	@ReceiveSimpleMessage(conversationId = ConversationId.LOADER)
@@ -54,8 +55,8 @@ public class AgentLoader extends OpenAgent {
 			dialogResult = new DialogResult();
 			CommonsFrame.loadFrame(FrameMain.getInstance().getFrameResult(), dialogResult);
 		} else {
-			
-			if ((countTrue + countFalse) % 100 == 0){
+
+			if ((countTrue + countFalse) % 100 == 0) {
 				dialogResult.addResult(0, ++count, countTrue);
 				dialogResult.addResult(1, count, countFalse);
 			}
@@ -74,6 +75,19 @@ public class AgentLoader extends OpenAgent {
 
 	public boolean nowait() {
 		return wait.isEmpty();
+	}
+
+	@SuppressWarnings("unchecked")
+	private Class<ITrustModel> getTrustModelClass() {
+		try {
+			if (getArguments().length != 1) {
+				throw new RuntimeException("Modelo de Confiancao nao selecionado");
+			}
+			String clazz = getArguments()[0].toString();
+			return (Class<ITrustModel>) Class.forName(clazz);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Modelo de Confiancao nao selecionado", e);
+		}
 	}
 
 }

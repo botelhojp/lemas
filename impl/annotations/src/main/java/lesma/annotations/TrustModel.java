@@ -1,8 +1,6 @@
 package lesma.annotations;
 
 
-import jade.core.Agent;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -12,9 +10,8 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.TYPE })
-public @interface StartSMA {
+public @interface TrustModel {
 
-	String trustmodel();
-	Class<? extends Agent>[] agents();
+	String name();
 
 }

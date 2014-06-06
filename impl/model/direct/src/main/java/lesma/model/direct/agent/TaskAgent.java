@@ -143,8 +143,8 @@ public class TaskAgent extends OpenAgent {
 	public void receiveTaskDone(ACLMessage message, ContentElement ce) {
 		SendTask da = (SendTask) ce;
 
-		Rating completed = newRating(getAID(), message.getSender(), iteration, "completed", da.getTask().getCompleted());
-		Rating points = newRating(getAID(), message.getSender(), iteration, "points", da.getTask().getCompleted());
+		Rating completed = newRating(getAID(), message.getSender(), iteration, da.getTask().getCompleted());
+		Rating points = newRating(getAID(), message.getSender(), iteration, da.getTask().getCompleted());
 
 		trustModel.addRating(completed);
 		trustModel.addRating(points);
@@ -204,8 +204,8 @@ public class TaskAgent extends OpenAgent {
 	@ReceiveMatchMessage(action = SendTask.class, performative = { ACLMessage.REFUSE }, ontology = TaskOntology.class)
 	public void receiveTaskRefuse(ACLMessage message, ContentElement ce) {
 		log.debug("REFUSE");
-		cache.add(newRating(getAID(), message.getSender(), iteration, trustModel.getName(), 0.0F));
-		cache.add(newRating(getAID(), message.getSender(), iteration, "Refuse", 1.0F));
+		cache.add(newRating(getAID(), message.getSender(), iteration, 0.0F));
+		cache.add(newRating(getAID(), message.getSender(), iteration, 1.0F));
 	}
 
 
@@ -234,12 +234,11 @@ public class TaskAgent extends OpenAgent {
 		return tasks;
 	}
 
-	private Rating newRating(AID _client, AID _server, int _iteration, String _term, float _value) {
+	private Rating newRating(AID _client, AID _server, int _iteration, float _value) {
 		Rating rating = new Rating();
 		rating.setClient(_client);
 		rating.setIteration(_iteration);
 		rating.setServer(_server);
-		rating.setTerm(_term);
 		rating.setValue(_value);
 		return rating;
 	}

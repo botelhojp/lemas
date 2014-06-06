@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import lesma.annotations.StartSMA;
+import lesma.annotations.TrustModel;
 
 import org.reflections.Reflections;
 
@@ -21,10 +21,10 @@ public class LesmaReflection {
 			
 			loadAll(reflections, Agent.class);
 			
-			Set<Class<?>> annotatedClasses = reflections.getTypesAnnotatedWith(StartSMA.class);
+			Set<Class<?>> annotatedClasses = reflections.getTypesAnnotatedWith(TrustModel.class);
 			for (Class<?> clazz : annotatedClasses) {
-				StartSMA annotation = clazz.getAnnotation(StartSMA.class);
-				listTrustModel.add(new TrustModelBean(annotation.trustmodel(), clazz));
+				TrustModel annotation = clazz.getAnnotation(TrustModel.class);
+				listTrustModel.add(new TrustModelBean(annotation.name(), clazz));
 			}
 			Collections.sort(listTrustModel);
 		}

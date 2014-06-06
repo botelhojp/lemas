@@ -15,22 +15,12 @@ public class Runner {
 	public static void run(Project project) {
 		try {
 			currentProject = project;
-			Class c = Class.forName(project.getClazz());
-			Method m = c.getMethod("main", String[].class);
-			
-			ArrayList<String> main = makeArray(project.getHost(), ",");			
-			if (project.isMonitor()){
-				main.add("-gui");
-			}
-			
-			m.invoke(null, (Object) main.toArray(new String[0]));			
-			String[] loader = { "-local-host", "127.0.0.1", "-container", "-container-name", "Lemas-Container", "lemas_loader:lemas.agent.AgentLoader()"};
-			m.invoke(null, (Object) loader);
-			
+			openjade.Boot.main(makeArray(project.getHost(), ","));
+			String[] loader = { "-local-host", "127.0.0.1", "-container", "-container-name", "Lemas-Container", "lemas_loader:lemas.agent.AgentLoader(" + project.getClazz() + ")"};
+			openjade.Boot.main(loader);
 		} catch (Exception e) {			
 			LemasLog.erro(e);
 		}
-
 	}
 
 	private static String[] concat(ArrayList<String> hosts, ArrayList<String> conteiners, String agent) {
@@ -74,13 +64,13 @@ public class Runner {
 		return null;
 	}
 
-	private static ArrayList<String> makeArray(String value, String split) {
+	private static String[] makeArray(String value, String split) {
 		ArrayList<String> r = new ArrayList<String>();
 		String[] retur = value.trim().split(split);
 		for (int i = 0; i < retur.length; i++) {
 			r.add(retur[i].trim());
 		}		
-		return r;
+		return r.toArray(new String[0]);
 	}
 
 }

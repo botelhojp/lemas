@@ -1,27 +1,65 @@
 package lesma.model.direct.run;
 
-import lesma.annotations.StartSMA;
-import lesma.model.direct.agent.TaskAgent;
+import jade.core.AID;
 
-import org.apache.log4j.Logger;
+import java.util.List;
 
-@StartSMA(
-		trustmodel = "Direct Model - d002", 
-		agents={TaskAgent.class}
-	)
-public class Direct002 {
+import lesma.annotations.TrustModel;
+import openjade.core.OpenAgent;
+import openjade.ontology.Rating;
+import openjade.trust.ITrustModel;
+import openjade.trust.model.Pair;
 
-	protected static Logger log = Logger.getLogger(Direct002.class);
+@TrustModel(name = "Ramdom - 141")
+public class Direct002 implements ITrustModel {
 
-	public static void main(String[] args) {
-		try {
-			if (args != null && args.length > 0) {
-				openjade.Boot.main(args);
-			} else {
-				openjade.Boot.loadXml();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	private static final long serialVersionUID = 1L;
+
+	@Override
+	public void addRating(Rating rating) {
+		// TODO Auto-generated method stub
+		
 	}
+
+	@Override
+	public void setIteration(int iteration) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Pair> getPairs(String[] terms) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public float getValue(AID server) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setAgent(OpenAgent taskAgent) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Rating> getRatings(AID aid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Rating addRating(AID client, AID server, int iteration, String term, float value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isReliable(AID agent) {
+		return (Math.random() >= 0.5001);
+	}
+	
 }
