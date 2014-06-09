@@ -27,7 +27,7 @@ public class DialogResult extends JDialog{
         
 		setSize(300, 200);
 		xySerie = createXYSeriesCollection();
-		JFreeChart chart = ChartFactory.createXYLineChart("Test Chart", "x", "y", xySerie, PlotOrientation.VERTICAL, true, true, false);
+		JFreeChart chart = ChartFactory.createXYLineChart("Result", "round", "percent", xySerie, PlotOrientation.VERTICAL, true, true, false);
 		cp = new ChartPanel(chart);
 		JInternalFrame wd = FrameMain.getInstance().getWindow();
 		wd.setSize(300, 200);
@@ -46,8 +46,8 @@ public class DialogResult extends JDialog{
 	private XYSeriesCollection createXYSeriesCollection() {
 		XYSeriesCollection series = new XYSeriesCollection();
 		Collection<XYSeries> collection = new ArrayList<XYSeries>();
-		collection.add(new XYSeries("Acerto"));
-		collection.add(new XYSeries("Erro"));
+		collection.add(new XYSeries("hit"));
+//		collection.add(new XYSeries("Erro"));
 		for (XYSeries serie : collection) {
 			series.addSeries(serie);
 		}

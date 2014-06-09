@@ -37,7 +37,7 @@ public class FrameProject extends JDialog {
 
     void load() {
         project = new Project();
-        List<TrustModelBean> list = LesmaReflection.loadTrusModel();
+        List<TrustModelBean> list = LesmaReflection.getTrustModels();
         cbTrustModelList.removeAllItems();
         for (TrustModelBean item : list) {
             cbTrustModelList.addItem(item);

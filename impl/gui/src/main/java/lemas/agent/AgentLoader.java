@@ -24,6 +24,7 @@ public class AgentLoader extends OpenAgent {
 	private double countFalse = 0;
 	private DialogResult dialogResult;
 	private double count = 0;
+	private double round = 0;
 
 	@Override
 	protected void setup() {
@@ -36,9 +37,8 @@ public class AgentLoader extends OpenAgent {
 		if (wait.contains(msg.getSender())) {
 			wait.remove(msg.getSender());
 		} else {
-			throw new OpenJadeException("Agente não autorizado [" + msg.getSender().getLocalName() + "]");
+			throw new OpenJadeException("Agente nao autorizado [" + msg.getSender().getLocalName() + "]");
 		}
-
 	}
 
 	@ReceiveSimpleMessage(conversationId = ConversationId.TEST)
@@ -46,19 +46,29 @@ public class AgentLoader extends OpenAgent {
 		String[] tokens = msg.getContent().split(":");
 		String r1 = tokens[0];
 		String r2 = tokens[1];
-		if (r1.equals(r2)) {
-			countTrue = countTrue + 1;
-		} else {
-			countFalse = countFalse + 1;
+
+		if (!r1.equals("UNCERTAIN")) {
+			if (r2.equals("0.0")) {
+				if (r1.equals("-1.0")) {
+					countTrue = countTrue + 1;
+				} else {
+					countTrue = countTrue - 0.5;
+				}
+			} else {
+				if (r2.equals(r1)) {
+					countTrue = countTrue + 1;
+				} else {
+					countTrue = countTrue - 1;
+				}
+			}
 		}
 		if (dialogResult == null) {
 			dialogResult = new DialogResult();
 			CommonsFrame.loadFrame(FrameMain.getInstance().getFrameResult(), dialogResult);
 		} else {
-
-			if ((countTrue + countFalse) % 100 == 0) {
-				dialogResult.addResult(0, ++count, countTrue);
-				dialogResult.addResult(1, count, countFalse);
+			++count;
+			if ((countTrue + countFalse) % 1 == 0) {
+				dialogResult.addResult(0, round++, countTrue/count);
 			}
 		}
 		updateScree();

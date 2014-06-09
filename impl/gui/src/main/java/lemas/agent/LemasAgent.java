@@ -46,11 +46,20 @@ public class LemasAgent extends OpenAgent {
 		messageResult.setSender(getAID());
 		messageResult.setConversationId(ConversationId.TEST);
 		messageResult.addReceiver(new AID("lemas_loader", false));
-		if (trustModel.isReliable(rating.getServer())){
-			messageResult.setContent("1.0:" + rating.getValue());	
-		}else{
+		
+		switch (trustModel.isReliable(rating.getServer())) {
+		case YES:
+			messageResult.setContent("1.0:" + rating.getValue());
+			break;
+		case NO:
 			messageResult.setContent("-1.0:" + rating.getValue());
-		}		
+			break;
+		case UNCERTAIN:
+			messageResult.setContent("UNCERTAIN:" + rating.getValue());
+			break;
+		default:
+			throw new OpenJadeException("Invalid type");
+		}
 		sendMessage(messageResult);
 		trustModel.addRating(rating);
 	}
