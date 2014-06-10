@@ -67,7 +67,7 @@ public class AgentLoader extends OpenAgent {
 			CommonsFrame.loadFrame(FrameMain.getInstance().getFrameResult(), dialogResult);
 		} else {
 			++count;
-			if ((countTrue + countFalse) % 1 == 0) {
+			if (count % 50 == 0) {
 				dialogResult.addResult(0, round++, countTrue/count);
 			}
 		}
