@@ -340,8 +340,10 @@ public class FrameMain extends javax.swing.JFrame {
         txtLog.append(message + "\n");        
         txtLog.getCaret().setDot(txtLog.getText().length());
     }
-
-   
+    
+	public void clean() {
+		 txtLog.setText("");		
+	}
     
     public JInternalFrame getWindow(){
         return windowDialog;
@@ -355,6 +357,8 @@ public class FrameMain extends javax.swing.JFrame {
 		windowDialog1.setVisible(value);
         windowDialog2.setVisible(value);
 	}
+
+
 
 
 }

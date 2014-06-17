@@ -17,6 +17,9 @@ public class LemasAgent extends OpenAgent {
 	
 	private static final long serialVersionUID = 1L;
 	
+	public static final String SERVICE = "lemas_service"; 
+	
+		
 	@SuppressWarnings("unchecked")
 	protected void setup() {
 		super.setup();
@@ -26,7 +29,9 @@ public class LemasAgent extends OpenAgent {
 		message.setSender(getAID());
 		message.setConversationId(ConversationId.LOADER);
 		message.addReceiver(new AID("lemas_loader", false));
-		addBehaviour(new SendMessageBehaviour(this, message));					
+		addBehaviour(new SendMessageBehaviour(this, message));
+		addService(SERVICE);
+		registerService();
 	}
 
 	@ReceiveMatchMessage(conversationId = ConversationId.TRAIN_ITERATE, action = SendRating.class)
@@ -80,4 +85,21 @@ public class LemasAgent extends OpenAgent {
 			throw new OpenJadeException("Esta avaliacao nao he minha: " + message.toString());
 		}
 	}
+	
+	@Override
+	public void searchWitnesses(AID server) {
+		LemasLog.debug("searchWitnesses: " + server.getLocalName());
+		sendMessage(SERVICE, ACLMessage.REQUEST, "searchWitnesses", server.getLocalName());
+	}
+	
+	
+	/**
+	 * 
+	 * @param message
+	 * @param ce
+	 */
+//	@ReceiveMatchMessage(conversationId = ConversationId.SEARCH_WITNESSES, performative=ACLMessage.REQUEST)
+//	public void receiveSearchWitnesses() {
+//		
+//	}
 }

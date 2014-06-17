@@ -9,10 +9,12 @@ import java.io.File;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import lemas.model.LemasLog;
 import lemas.model.LesmaReflection;
 import lemas.model.Project;
 import lemas.model.Runner;
@@ -233,6 +235,7 @@ public class FrameProject extends JDialog {
             this.setVisible(false);
             FrameMain.getInstance().visibleWindows(true);
             Runner.run(project);
+            LemasLog.clean();
         } catch (Exception ex) {
             Message.error(ex.getMessage(), this);
             Logger.getLogger(FrameProject.class.getName()).log(Level.SEVERE, null, ex);

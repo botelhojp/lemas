@@ -24,4 +24,8 @@ public class LemasLog {
 		FrameMain.getInstance().message(msg);
 	}
 
+	public static void clean() {
+		FrameMain.getInstance().clean();		
+	}
+
 }
