@@ -1,5 +1,8 @@
 package lemas.agent;
 
+import java.util.Enumeration;
+import java.util.Iterator;
+
 import jade.content.ContentElement;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
@@ -8,20 +11,22 @@ import lemas.model.LemasLog;
 import openjade.core.OpenAgent;
 import openjade.core.OpenJadeException;
 import openjade.core.annotation.ReceiveMatchMessage;
+import openjade.core.annotation.ReceiveSignerMessage;
+import openjade.core.annotation.ReceiveSimpleMessage;
 import openjade.ontology.OpenJadeOntology;
 import openjade.ontology.Rating;
 import openjade.ontology.SendRating;
+import openjade.ontology.WitnessRequest;
 import openjade.trust.ITrustModel;
 
 public class LemasAgent extends OpenAgent {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public static final String SERVICE = "lemas_service"; 
-	
 		
 	@SuppressWarnings("unchecked")
 	protected void setup() {
+//		setCodec(new SLCodec());
 		super.setup();
 		loadTrustModel((Class<ITrustModel>) getArguments()[0]);
 		LemasLog.info("created: " + getAID().getLocalName());
@@ -30,8 +35,6 @@ public class LemasAgent extends OpenAgent {
 		message.setConversationId(ConversationId.LOADER);
 		message.addReceiver(new AID("lemas_loader", false));
 		addBehaviour(new SendMessageBehaviour(this, message));
-		addService(SERVICE);
-		registerService();
 	}
 
 	@ReceiveMatchMessage(conversationId = ConversationId.TRAIN_ITERATE, action = SendRating.class)
@@ -89,17 +92,29 @@ public class LemasAgent extends OpenAgent {
 	@Override
 	public void searchWitnesses(AID server) {
 		LemasLog.debug("searchWitnesses: " + server.getLocalName());
-		sendMessage(SERVICE, ACLMessage.REQUEST, "searchWitnesses", server.getLocalName());
+		WitnessRequest wr = new WitnessRequest();
+		wr.setAid(server);
+		Enumeration<AID> e = trustModel.getAllServer();
+		while (e.hasMoreElements()) {
+			AID aid = (AID) e.nextElement();
+			sendMessage(aid, ACLMessage.REQUEST, ConversationId.SEARCH_WITNESSES, wr, openJadeOntology);
+		}
+	}	
+	
+	@ReceiveMatchMessage(conversationId=ConversationId.SEARCH_WITNESSES, action=WitnessRequest.class)
+	public void responseWitnessRequest(ACLMessage message, ContentElement ce) {
+		WitnessRequest wr = (WitnessRequest) ce;
+		if(trustModel.know(wr.getAid())){
+			sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.SEARCH_WITNESSES, "");
+		}		
 	}
 	
 	
-	/**
-	 * 
-	 * @param message
-	 * @param ce
-	 */
-//	@ReceiveMatchMessage(conversationId = ConversationId.SEARCH_WITNESSES, performative=ACLMessage.REQUEST)
-//	public void receiveSearchWitnesses() {
-//		
-//	}
+	@ReceiveSimpleMessage(conversationId=ConversationId.SEARCH_WITNESSES, performative=ACLMessage.INFORM)
+	public void response(ACLMessage message) {
+		LemasLog.debug("(xx)"+message.getSender().toString());
+		trustModel.addWitness(message.getSender());
+	}
+	
+	
 }

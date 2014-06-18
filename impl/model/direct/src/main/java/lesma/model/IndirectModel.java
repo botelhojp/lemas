@@ -15,13 +15,10 @@ public class IndirectModel extends AbstractModel {
 
 	@Override
 	public void addRating(Rating rating) {
-		super.addRating(rating);
-		searchWitnesses(rating.getServer());
+		super.addRating(rating);		
+		myAgent.searchWitnesses(rating.getServer());
 	}
 
-	private void searchWitnesses(AID server) {
-		super.myAgent.searchWitnesses(server);
-	}
 
 	@Override
 	public Reliable isReliable(AID agent) {
@@ -39,6 +36,10 @@ public class IndirectModel extends AbstractModel {
 				return Reliable.NO;
 			}
 		}
+	}
+	
+	public void addWitness(AID sender) {
+		super.addWitness(sender);
 	}
 
 }

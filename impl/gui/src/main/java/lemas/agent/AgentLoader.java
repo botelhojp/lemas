@@ -28,6 +28,7 @@ public class AgentLoader extends OpenAgent {
 
 	@Override
 	protected void setup() {
+//		setCodec(new SLCodec());
 		super.setup();
 		addBehaviour(new LoadeBehaviour(this, getTrustModelClass()));
 	}

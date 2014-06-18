@@ -16,6 +16,7 @@ import openjade.ontology.OpenJadeOntology;
 import openjade.ontology.Rating;
 import openjade.ontology.SendRating;
 import openjade.trust.ITrustModel;
+import openjade.util.OpenJadeUtil;
 import lemas.agent.AgentLoader;
 import lemas.agent.ConversationId;
 import lemas.model.LemasLog;
@@ -126,9 +127,10 @@ public class LoadeBehaviour extends Behaviour {
 		int iteration = Data.strToIteration(tokens[3]);
 		String term = tokens[4];
 		int value = Data.strToValue(tokens[7]);
-		return new Rating(clientAID, serverAID, iteration, term, value);
+		return OpenJadeUtil.makeRating(clientAID, serverAID, iteration, term, value);
 	}
 
+	
 	private void createAgent(String agentName, String clazz) {
 		try {
 			if (!agents.contains(agentName)) {
@@ -142,5 +144,4 @@ public class LoadeBehaviour extends Behaviour {
 			LemasLog.erro(e);
 		}
 	}
-
 }

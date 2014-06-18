@@ -3,8 +3,11 @@ package lesma.model;
 import jade.core.AID;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 
 import openjade.core.OpenAgent;
 import openjade.ontology.Rating;
@@ -17,7 +20,8 @@ public class AbstractModel implements ITrustModel {
 	protected int currentIteration;
 	protected OpenAgent myAgent;
 	protected Hashtable<AID, List<Rating>> ratings = new Hashtable<AID, List<Rating>>();
-
+	protected Set<AID> witness = new HashSet<AID>();
+	
 	private static final long serialVersionUID = 1L;
 
 	public void addRating(Rating rating) {
@@ -56,6 +60,21 @@ public class AbstractModel implements ITrustModel {
 
 	public Reliable isReliable(AID agent) {
 		return Reliable.UNCERTAIN;
+	}
+
+	@Override
+	public Enumeration<AID> getAllServer() {
+		return ratings.keys();
+	}
+
+	@Override
+	public boolean know(AID aid) {
+		return ratings.containsKey(aid);
+	}
+
+	@Override
+	public void addWitness(AID sender) {
+		witness.add(sender);
 	}
 
 }
