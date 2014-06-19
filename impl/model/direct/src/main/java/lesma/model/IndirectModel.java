@@ -12,6 +12,10 @@ import openjade.trust.Reliable;
 public class IndirectModel extends AbstractModel {
 
 	private static final long serialVersionUID = 1L;
+	
+	public IndirectModel(){
+		properties.put("neighbors", "3");
+	}
 
 	@Override
 	public void addRating(Rating rating) {

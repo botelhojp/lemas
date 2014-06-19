@@ -40,7 +40,6 @@ public class Data {
 	public static void projectToFile(Project project, String filePath) {
 			Gson gson = new Gson();
 			String json = gson.toJson(project);
-			json.replace(",", ",\n\r");
 			try {
 				FileWriter writer = new FileWriter(filePath);
 				writer.write(json);

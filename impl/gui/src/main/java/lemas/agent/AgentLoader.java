@@ -91,7 +91,7 @@ public class AgentLoader extends OpenAgent {
 	@SuppressWarnings("unchecked")
 	private Class<ITrustModel> getTrustModelClass() {
 		try {
-			if (getArguments().length != 1) {
+			if (getArguments().length != 2) {
 				throw new RuntimeException("Modelo de Confiancao nao selecionado");
 			}
 			String clazz = getArguments()[0].toString();

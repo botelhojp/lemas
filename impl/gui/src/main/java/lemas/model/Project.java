@@ -2,6 +2,7 @@ package lemas.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class Project {
 
@@ -12,10 +13,12 @@ public class Project {
 	private String host;
 	private String conteiner;
 	private boolean monitor;
+	private Properties properties;
 
 	private List<Result> results;
 
 	public Project() {
+		properties = new Properties();
 		results = new ArrayList<Result>();
 		host = "-gui, -local-host, 127.0.0.1";
 		conteiner = "-container, -container-name, Agents-Container";
@@ -82,6 +85,14 @@ public class Project {
 
 	public void setLoading(String loading) {
 		this.loading = loading;
+	}
+
+	public Properties getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Properties properties) {
+		this.properties = properties;
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import openjade.core.OpenAgent;
@@ -21,8 +22,13 @@ public class AbstractModel implements ITrustModel {
 	protected OpenAgent myAgent;
 	protected Hashtable<AID, List<Rating>> ratings = new Hashtable<AID, List<Rating>>();
 	protected Set<AID> witness = new HashSet<AID>();
+	protected Properties properties;
 	
 	private static final long serialVersionUID = 1L;
+	
+	public AbstractModel(){
+		properties = new Properties();
+	}
 
 	public void addRating(Rating rating) {
 		if (ratings.contains(rating.getServer())){
@@ -32,6 +38,11 @@ public class AbstractModel implements ITrustModel {
 			rt.add(rating);
 			ratings.put(rating.getServer(), rt);
 		}
+	}
+	
+	@Override
+	public Properties getProperties() {
+		return properties;
 	}
 
 	public void currentIteration(int iteration) {
@@ -61,7 +72,7 @@ public class AbstractModel implements ITrustModel {
 	public Reliable isReliable(AID agent) {
 		return Reliable.UNCERTAIN;
 	}
-
+	
 	@Override
 	public Enumeration<AID> getAllServer() {
 		return ratings.keys();
@@ -75,6 +86,28 @@ public class AbstractModel implements ITrustModel {
 	@Override
 	public void addWitness(AID sender) {
 		witness.add(sender);
+	}
+	
+	/** Properties */
+
+	protected double getDouble(String key) {
+		return Double.parseDouble(properties.getProperty(key));
+	}
+	
+	protected long getLong(String key) {
+		return Long.parseLong(properties.getProperty(key));
+	}
+	
+	protected long getInt(String key) {
+		return Integer.parseInt(properties.getProperty(key));
+	}
+
+	protected String getValue(String key) {
+		return properties.getProperty(key).toString();
+	}
+
+	public void setProperties(Properties properties) {
+		this.properties = properties;
 	}
 
 }

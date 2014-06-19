@@ -8,6 +8,7 @@ import java.util.Enumeration;
 
 import lemas.agent.behaviour.SendMessageBehaviour;
 import lemas.model.LemasLog;
+import lemas.model.Runner;
 import openjade.core.OpenAgent;
 import openjade.core.OpenJadeException;
 import openjade.core.annotation.ReceiveMatchMessage;
@@ -28,6 +29,7 @@ public class LemasAgent extends OpenAgent {
 //		setCodec(new SLCodec());
 		super.setup();
 		loadTrustModel((Class<ITrustModel>) getArguments()[0]);
+		trustModel.setProperties(Runner.currentProject.getProperties());
 		LemasLog.info("created: " + getAID().getLocalName());
 		ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
 		message.setSender(getAID());

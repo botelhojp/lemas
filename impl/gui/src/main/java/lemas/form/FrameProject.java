@@ -6,14 +6,19 @@
 package lemas.form;
 
 import java.io.File;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
+import openjade.trust.ITrustModel;
+import openjade.trust.TrustModelFactory;
 import lemas.model.LemasLog;
 import lemas.model.LesmaReflection;
 import lemas.model.Project;
@@ -26,34 +31,38 @@ import lemas.util.Message;
 @SuppressWarnings("all")
 public class FrameProject extends JDialog {
 
-    private static final long serialVersionUID = 1L;
-    private static FrameProject instance;
-    private Project project = null;
+	private static final long serialVersionUID = 1L;
+	private static FrameProject instance;
+	private Project project = null;
 
-    public static FrameProject getInstance() {
-        if (instance == null) {
-            instance = new FrameProject();
-        }
-        return instance;
-    }
+	public static FrameProject getInstance() {
+		if (instance == null) {
+			instance = new FrameProject();
+		}
+		return instance;
+	}
 
-    void load() {
-        project = new Project();
-        List<TrustModelBean> list = LesmaReflection.getTrustModels();
-        cbTrustModelList.removeAllItems();
-        for (TrustModelBean item : list) {
-            cbTrustModelList.addItem(item);
-        }
-    }
+	void load() {
+		project = new Project();
+		List<TrustModelBean> list = LesmaReflection.getTrustModels();
+		cbTrustModelList.removeAllItems();
+		for (TrustModelBean item : list) {
+			cbTrustModelList.addItem(item);
+		}
+	}
 
-    private FrameProject() {
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        initComponents();
-        setLocationRelativeTo(null);
-        setResizable(false);
-        setModal(false);
-    }    
+	private FrameProject() {
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		initComponents();
+		setLocationRelativeTo(null);
+		setResizable(false);
+		setModal(false);
+		String[] col = new String[] { "Properties", "Value" };
+		DefaultTableModel dtm = new DefaultTableModel(col, 0);
+		jTableProperties.setModel(dtm);
+	}
 
+	// <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -70,7 +79,7 @@ public class FrameProject extends JDialog {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         panelARRF = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableProperties = new javax.swing.JTable();
         panelLoad = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtLoad = new javax.swing.JTextArea();
@@ -80,6 +89,11 @@ public class FrameProject extends JDialog {
         setModalExclusionType(java.awt.Dialog.ModalExclusionType.TOOLKIT_EXCLUDE);
 
         cbTrustModelList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbTrustModelList.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbTrustModelListItemStateChanged(evt);
+            }
+        });
         cbTrustModelList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbTrustModelListActionPerformed(evt);
@@ -124,7 +138,7 @@ public class FrameProject extends JDialog {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableProperties.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -135,7 +149,7 @@ public class FrameProject extends JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane3.setViewportView(jTableProperties);
 
         javax.swing.GroupLayout panelARRFLayout = new javax.swing.GroupLayout(panelARRF);
         panelARRF.setLayout(panelARRFLayout);
@@ -224,90 +238,99 @@ public class FrameProject extends JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbTrustModelListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTrustModelListActionPerformed
-
-    }//GEN-LAST:event_cbTrustModelListActionPerformed
-
-    private void btRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRunActionPerformed
-        try {
-            updateProject();
-            Data.projectToFile(project, project.getSaveIn());
-            this.setVisible(false);
-            FrameMain.getInstance().visibleWindows(true);
-            Runner.run(project);
-            LemasLog.clean();
-        } catch (Exception ex) {
-            Message.error(ex.getMessage(), this);
-            Logger.getLogger(FrameProject.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btRunActionPerformed
-
-    private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelActionPerformed
-        FrameMain.getInstance().getWindow().setVisible(false);
-    }//GEN-LAST:event_btCancelActionPerformed
+    private void cbTrustModelListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbTrustModelListItemStateChanged
+    	if ( evt.getStateChange() == 1 ){
+    		changeItemTrustModel((TrustModelBean) evt.getItem());    			
+    	}
+    }//GEN-LAST:event_cbTrustModelListItemStateChanged
 
 
-    private void txtIpKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIpKeyReleased
-        
-    }//GEN-LAST:event_txtIpKeyReleased
+	private void cbTrustModelListActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cbTrustModelListActionPerformed
+	}// GEN-LAST:event_cbTrustModelListActionPerformed
 
-    private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        String ext = ".lma";
-        updateProject();
-        if (project.getSaveIn() == null) {
-            FileNameExtensionFilter filterExt = new FileNameExtensionFilter("Project Lesma file (.lma)", "lma");
-            JFileChooser chooser = new JFileChooser();
-            chooser.addChoosableFileFilter(filterExt);
-            chooser.setCurrentDirectory(new File(Workspace.FOLDER_PROJECT));
-            int retrival = chooser.showSaveDialog(this);
-            if (retrival == JFileChooser.APPROVE_OPTION) {
-                try {
-                    if (chooser.getSelectedFile().getName().endsWith(ext)) {
-                        Data.projectToFile(project, chooser.getSelectedFile() + "");
-                    } else {
-                        Data.projectToFile(project, chooser.getSelectedFile() + ext);
-                    }
-                } catch (Exception ex) {
-                    Message.error(ex.getMessage(), this);
-                }
-            }
-        } else {
-            Data.projectToFile(project, project.getSaveIn());
-            Message.info("project saved", this);
-        }
-    }//GEN-LAST:event_btSaveActionPerformed
-   
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+	private void btRunActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btRunActionPerformed
+		try {
+			updateProject();
+			Data.projectToFile(project, project.getSaveIn());
+			//this.setVisible(false);
+			FrameMain.getInstance().visibleWindows(true);
+			Runner.run(project);
+			LemasLog.clean();
+		} catch (Exception ex) {
+			Message.error(ex.getMessage(), this);
+			Logger.getLogger(FrameProject.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}// GEN-LAST:event_btRunActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrameProject().setVisible(true);
-            }
-        });
-    }
+	private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btCancelActionPerformed
+		FrameMain.getInstance().getWindow().setVisible(false);
+	}// GEN-LAST:event_btCancelActionPerformed
+
+	private void txtIpKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtIpKeyReleased
+
+	}// GEN-LAST:event_txtIpKeyReleased
+
+	private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btSaveActionPerformed
+		String ext = ".lma";
+		updateProject();
+		if (project.getSaveIn() == null) {
+			FileNameExtensionFilter filterExt = new FileNameExtensionFilter("Project Lesma file (.lma)", "lma");
+			JFileChooser chooser = new JFileChooser();
+			chooser.addChoosableFileFilter(filterExt);
+			chooser.setCurrentDirectory(new File(Workspace.FOLDER_PROJECT));
+			int retrival = chooser.showSaveDialog(this);
+			if (retrival == JFileChooser.APPROVE_OPTION) {
+				try {
+					if (chooser.getSelectedFile().getName().endsWith(ext)) {
+						Data.projectToFile(project, chooser.getSelectedFile() + "");
+					} else {
+						Data.projectToFile(project, chooser.getSelectedFile() + ext);
+					}
+				} catch (Exception ex) {
+					Message.error(ex.getMessage(), this);
+				}
+			}
+		} else {
+			Data.projectToFile(project, project.getSaveIn());
+			Message.info("project saved", this);
+		}
+	}// GEN-LAST:event_btSaveActionPerformed
+
+	public static void main(String args[]) {
+		/* Set the Nimbus look and feel */
+		// <editor-fold defaultstate="collapsed"
+		// desc=" Look and feel setting code (optional) ">
+		/*
+		 * If Nimbus (introduced in Java SE 6) is not available, stay with the
+		 * default look and feel. For details see
+		 * http://download.oracle.com/javase
+		 * /tutorial/uiswing/lookandfeel/plaf.html
+		 */
+		try {
+			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					javax.swing.UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (ClassNotFoundException ex) {
+			java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (InstantiationException ex) {
+			java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (IllegalAccessException ex) {
+			java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+			java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		}
+		// </editor-fold>
+
+		/* Create and display the form */
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				new FrameProject().setVisible(true);
+			}
+		});
+	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancel;
@@ -321,7 +344,7 @@ public class FrameProject extends JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableProperties;
     private javax.swing.JPanel panelARRF;
     private javax.swing.JPanel panelLoad;
     private javax.swing.JTextField txtContainer;
@@ -329,34 +352,69 @@ public class FrameProject extends JDialog {
     private javax.swing.JTextArea txtLoad;
     // End of variables declaration//GEN-END:variables
 
-    void clean() {
-        project = new Project();
-        updateScreen(project);
-    }
+	void clean() {
+		project = new Project();
+		updateScreen(project);
+	}
 
-    private void updateProject() {
-        project.setHost(txtIp.getText());
-        TrustModelBean tmb = (TrustModelBean) cbTrustModelList.getSelectedItem();
-        project.setTrustmodel(tmb.getName());
-        project.setClazz(tmb.getClazz().getName());
-        project.setConteiner(txtContainer.getText());
-        project.setMonitor(checkMonitor.isSelected());
-        project.setLoading(txtLoad.getText());
-    }
+	private void updateProject() {
+		project.setHost(txtIp.getText());
+		TrustModelBean tmb = (TrustModelBean) cbTrustModelList.getSelectedItem();
+		project.setTrustmodel(tmb.getName());
+		project.setClazz(tmb.getClazz().getName());
+		project.setConteiner(txtContainer.getText());
+		project.setMonitor(checkMonitor.isSelected());
+		project.setLoading(txtLoad.getText());
+		project.getProperties().clear();
+		DefaultTableModel t = (DefaultTableModel) jTableProperties.getModel();
+		for (int row = 0; row < t.getRowCount(); row++) {
+			String key = (String) t.getValueAt(row, 0);
+			String value = (String) t.getValueAt(row, 1);
+			;
+			project.getProperties().put(key, value);
+		}
+	}
 
-    public void updateScreen(Project project) {
-        load();
-        this.project = project;
-        txtIp.setText(project.getHost());        
-        txtContainer.setText(this.project.getConteiner());
-        checkMonitor.setSelected(project.isMonitor());
-        for (int index = 0; index < cbTrustModelList.getItemCount(); index++) {
-            TrustModelBean item = (TrustModelBean) cbTrustModelList.getItemAt(index);
-            if (project.getTrustmodel() != null && project.getTrustmodel().equals(item.getName())) {
-                this.cbTrustModelList.setSelectedItem(item);
-            }
-        }        
-        txtLoad.setText(project.getLoading());
-        txtLoad.setCaretPosition(0);
-    }
+	public void updateScreen(Project project) {
+		load();
+		this.project = project;
+		txtIp.setText(project.getHost());
+		txtContainer.setText(this.project.getConteiner());
+		checkMonitor.setSelected(project.isMonitor());
+		Properties pTM = new Properties();
+		for (int index = 0; index < cbTrustModelList.getItemCount(); index++) {
+			TrustModelBean item = (TrustModelBean) cbTrustModelList.getItemAt(index);
+			if (project.getTrustmodel() != null && project.getTrustmodel().equals(item.getName())) {
+				this.cbTrustModelList.setSelectedItem(item);
+				ITrustModel tm = (ITrustModel) TrustModelFactory.create(item.getClazz().getName());
+				pTM = tm.getProperties();
+				break;
+			}
+		}
+		if (pTM != null) {
+			pTM.putAll(project.getProperties());
+			project.setProperties(pTM);
+		}
+		updateTable(project.getProperties());
+		txtLoad.setText(project.getLoading());
+		txtLoad.setCaretPosition(0);
+	}
+
+	private void changeItemTrustModel(TrustModelBean tmb) {
+		ITrustModel tm = (ITrustModel) TrustModelFactory.create(tmb.getClazz().getName());
+		updateTable(tm.getProperties());
+	}
+
+	private void updateTable(Properties properties) {
+		DefaultTableModel t = (DefaultTableModel) jTableProperties.getModel();
+		while (t.getRowCount() > 0) {
+			t.removeRow(0);
+		}
+		Enumeration<Object> keys = properties.keys();
+		while (keys.hasMoreElements()) {
+			String key = (String) keys.nextElement();
+			String[] registro = { key, (String) properties.get(key) };
+			t.insertRow(t.getRowCount(), registro);
+		}
+	}
 }
