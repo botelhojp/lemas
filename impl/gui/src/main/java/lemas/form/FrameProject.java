@@ -59,7 +59,6 @@ public class FrameProject extends JDialog {
 
         cbTrustModelList = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
-        btLoadAIFile = new javax.swing.JButton();
         btRun = new javax.swing.JButton();
         btCancel = new javax.swing.JButton();
         checkMonitor = new javax.swing.JCheckBox();
@@ -70,8 +69,8 @@ public class FrameProject extends JDialog {
         btSave = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         panelARRF = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtArff = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         panelLoad = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtLoad = new javax.swing.JTextArea();
@@ -89,13 +88,6 @@ public class FrameProject extends JDialog {
 
         jLabel1.setText("Trust Model:");
 
-        btLoadAIFile.setText("Load File (.arff)");
-        btLoadAIFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btLoadAIFileActionPerformed(evt);
-            }
-        });
-
         btRun.setText("Run");
         btRun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,7 +95,7 @@ public class FrameProject extends JDialog {
             }
         });
 
-        btCancel.setText("Cancel");
+        btCancel.setText("Close");
         btCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btCancelActionPerformed(evt);
@@ -125,29 +117,38 @@ public class FrameProject extends JDialog {
 
         txtContainer.setText("Agents-Container");
 
-        btSave.setText("Save");
+        btSave.setText("Save Project");
         btSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btSaveActionPerformed(evt);
             }
         });
 
-        txtArff.setColumns(20);
-        txtArff.setRows(5);
-        jScrollPane1.setViewportView(txtArff);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
 
         javax.swing.GroupLayout panelARRFLayout = new javax.swing.GroupLayout(panelARRF);
         panelARRF.setLayout(panelARRFLayout);
         panelARRFLayout.setHorizontalGroup(
             panelARRFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
         );
         panelARRFLayout.setVerticalGroup(
             panelARRFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("ARRF", panelARRF);
+        jTabbedPane1.addTab("Properties", panelARRF);
 
         txtLoad.setColumns(20);
         txtLoad.setRows(5);
@@ -161,64 +162,63 @@ public class FrameProject extends JDialog {
         );
         panelLoadLayout.setVerticalGroup(
             panelLoadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Load", panelLoad);
+        jTabbedPane1.addTab("File", panelLoad);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addComponent(jLabel1)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtContainer)
-                    .addComponent(checkMonitor)
-                    .addComponent(cbTrustModelList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtIp)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtIp, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btLoadAIFile, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtContainer)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btSave, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btRun, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btCancel, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(checkMonitor))
+                    .addComponent(cbTrustModelList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(95, 95, 95))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(btSave, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btRun, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtIp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(checkMonitor)
-                .addGap(5, 5, 5)
+                    .addComponent(txtContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkMonitor))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(cbTrustModelList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btLoadAIFile)
-                        .addComponent(btRun)
-                        .addComponent(btCancel))
-                    .addComponent(btSave))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btSave)
+                    .addComponent(btCancel)
+                    .addComponent(btRun))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
@@ -246,17 +246,6 @@ public class FrameProject extends JDialog {
         FrameMain.getInstance().getWindow().setVisible(false);
     }//GEN-LAST:event_btCancelActionPerformed
 
-
-    private void btLoadAIFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoadAIFileActionPerformed
-        FileNameExtensionFilter filterExt = new FileNameExtensionFilter("Attribute-Relation File Format (.arff)", "arff");
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.addChoosableFileFilter(filterExt);
-        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            FrameMain.getInstance().message("open file: " + file.getAbsolutePath());
-            project.setARFF(Data.loadFileToStr(file));            
-        }
-    }//GEN-LAST:event_btLoadAIFileActionPerformed
 
     private void txtIpKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIpKeyReleased
         
@@ -322,7 +311,6 @@ public class FrameProject extends JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancel;
-    private javax.swing.JButton btLoadAIFile;
     private javax.swing.JButton btRun;
     private javax.swing.JButton btSave;
     private javax.swing.JComboBox cbTrustModelList;
@@ -330,12 +318,12 @@ public class FrameProject extends JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JPanel panelARRF;
     private javax.swing.JPanel panelLoad;
-    private javax.swing.JTextArea txtArff;
     private javax.swing.JTextField txtContainer;
     private javax.swing.JTextField txtIp;
     private javax.swing.JTextArea txtLoad;
@@ -348,7 +336,6 @@ public class FrameProject extends JDialog {
 
     private void updateProject() {
         project.setHost(txtIp.getText());
-        project.setARFF(txtArff.getText());
         TrustModelBean tmb = (TrustModelBean) cbTrustModelList.getSelectedItem();
         project.setTrustmodel(tmb.getName());
         project.setClazz(tmb.getClazz().getName());
@@ -369,8 +356,6 @@ public class FrameProject extends JDialog {
                 this.cbTrustModelList.setSelectedItem(item);
             }
         }        
-        txtArff.setText(project.getARFF());
-        txtArff.setCaretPosition(0);
         txtLoad.setText(project.getLoading());
         txtLoad.setCaretPosition(0);
     }

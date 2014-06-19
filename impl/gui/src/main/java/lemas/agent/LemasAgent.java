@@ -1,17 +1,16 @@
 package lemas.agent;
 
-import java.util.Enumeration;
-import java.util.Iterator;
-
 import jade.content.ContentElement;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
+
+import java.util.Enumeration;
+
 import lemas.agent.behaviour.SendMessageBehaviour;
 import lemas.model.LemasLog;
 import openjade.core.OpenAgent;
 import openjade.core.OpenJadeException;
 import openjade.core.annotation.ReceiveMatchMessage;
-import openjade.core.annotation.ReceiveSignerMessage;
 import openjade.core.annotation.ReceiveSimpleMessage;
 import openjade.ontology.OpenJadeOntology;
 import openjade.ontology.Rating;
