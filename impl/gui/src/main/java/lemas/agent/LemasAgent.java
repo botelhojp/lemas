@@ -4,7 +4,7 @@ import jade.content.ContentElement;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 
-import java.util.Enumeration;
+import java.util.List;
 
 import lemas.agent.behaviour.SendMessageBehaviour;
 import lemas.model.LemasLog;
@@ -12,12 +12,12 @@ import lemas.model.Runner;
 import openjade.core.OpenAgent;
 import openjade.core.OpenJadeException;
 import openjade.core.annotation.ReceiveMatchMessage;
-import openjade.core.annotation.ReceiveSimpleMessage;
 import openjade.ontology.OpenJadeOntology;
 import openjade.ontology.Rating;
+import openjade.ontology.RequestRating;
 import openjade.ontology.SendRating;
-import openjade.ontology.WitnessRequest;
 import openjade.trust.ITrustModel;
+import openjade.util.OpenJadeUtil;
 
 public class LemasAgent extends OpenAgent {
 	
@@ -90,32 +90,35 @@ public class LemasAgent extends OpenAgent {
 		}
 	}
 	
-	@Override
-	public void searchWitnesses(AID server) {
-		LemasLog.debug("searchWitnesses: " + server.getLocalName());
-		WitnessRequest wr = new WitnessRequest();
-		wr.setAid(server);
-		Enumeration<AID> e = trustModel.getAllServer();
-		while (e.hasMoreElements()) {
-			AID aid = (AID) e.nextElement();
-			sendMessage(aid, ACLMessage.REQUEST, ConversationId.SEARCH_WITNESSES, wr, openJadeOntology);
-		}
-	}	
 	
-	@ReceiveMatchMessage(conversationId=ConversationId.SEARCH_WITNESSES, action=WitnessRequest.class)
+	/**
+	 * Atende o pedido para enviar suas avaliacoes para um determinado agente
+	 * @param message
+	 * @param ce
+	 */
+	@ReceiveMatchMessage(performative=ACLMessage.REQUEST , action=RequestRating.class)
 	public void responseWitnessRequest(ACLMessage message, ContentElement ce) {
-		WitnessRequest wr = (WitnessRequest) ce;
-		if(trustModel.know(wr.getAid())){
-			sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.SEARCH_WITNESSES, "");
-		}		
+		RequestRating rr = (RequestRating) ce;
+		List list = trustModel.getRatings(rr.getAid());
+		SendRating sr = new SendRating();
+		sr.setRating(OpenJadeUtil.convertList(list));
+		if (sr.getRating() != null){
+			sendMessage(message.getSender(), ACLMessage.INFORM, sr);
+		}
 	}
-	
-	
-	@ReceiveSimpleMessage(conversationId=ConversationId.SEARCH_WITNESSES, performative=ACLMessage.INFORM)
-	public void response(ACLMessage message) {
-		LemasLog.debug("(xx)"+message.getSender().toString());
-		trustModel.addWitness(message.getSender());
+
+	/**
+	 * Recebe avaliacoes vindo de testemunhas
+	 * @param message
+	 * @param ce
+	 */
+	@ReceiveMatchMessage(performative=ACLMessage.INFORM , action=SendRating.class)
+	public void getRatings(ACLMessage message, ContentElement ce) {
+		SendRating sr = (SendRating) ce;
+		jade.util.leap.List ratings = sr.getRating();
+		for (int i = 0; i < ratings.size(); i++) {
+			trustModel.addRating((Rating) ratings.get(i));
+		}
 	}
-	
 	
 }

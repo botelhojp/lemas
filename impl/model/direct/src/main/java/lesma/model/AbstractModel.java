@@ -4,11 +4,9 @@ import jade.core.AID;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 
 import openjade.core.OpenAgent;
 import openjade.ontology.Rating;
@@ -21,7 +19,7 @@ public class AbstractModel implements ITrustModel {
 	protected int currentIteration;
 	protected OpenAgent myAgent;
 	protected Hashtable<AID, List<Rating>> ratings = new Hashtable<AID, List<Rating>>();
-	protected Set<AID> witness = new HashSet<AID>();
+	protected List<AID> witnesses = new ArrayList<AID>();
 	protected Properties properties;
 	
 	private static final long serialVersionUID = 1L;
@@ -40,7 +38,6 @@ public class AbstractModel implements ITrustModel {
 		}
 	}
 	
-	@Override
 	public Properties getProperties() {
 		return properties;
 	}
@@ -73,19 +70,18 @@ public class AbstractModel implements ITrustModel {
 		return Reliable.UNCERTAIN;
 	}
 	
-	@Override
 	public Enumeration<AID> getAllServer() {
 		return ratings.keys();
 	}
 
-	@Override
 	public boolean know(AID aid) {
 		return ratings.containsKey(aid);
 	}
 
-	@Override
-	public void addWitness(AID sender) {
-		witness.add(sender);
+	public void addWitness(AID witness) {
+		if (!witnesses.contains(witness) && !myAgent.equals(witness)){
+			witnesses.add(witness);
+		}
 	}
 	
 	/** Properties */
@@ -108,6 +104,10 @@ public class AbstractModel implements ITrustModel {
 
 	public void setProperties(Properties properties) {
 		this.properties = properties;
+	}
+
+	public List<AID> getWitnesses() {
+		return this.witnesses;
 	}
 
 }

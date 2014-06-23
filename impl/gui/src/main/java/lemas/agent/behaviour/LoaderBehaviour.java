@@ -12,18 +12,19 @@ import java.io.FileReader;
 import java.util.HashSet;
 import java.util.Set;
 
-import openjade.ontology.OpenJadeOntology;
-import openjade.ontology.Rating;
-import openjade.ontology.SendRating;
-import openjade.trust.ITrustModel;
-import openjade.util.OpenJadeUtil;
 import lemas.agent.AgentLoader;
 import lemas.agent.ConversationId;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
 import lemas.util.Data;
+import openjade.ontology.OpenJadeOntology;
+import openjade.ontology.Rating;
+import openjade.ontology.SendRating;
+import openjade.trust.ITrustModel;
+import openjade.trust.WitnessUtil;
+import openjade.util.OpenJadeUtil;
 
-public class LoadeBehaviour extends Behaviour {
+public class LoaderBehaviour extends Behaviour {
 
 	private static final long serialVersionUID = 1L;
 
@@ -37,7 +38,7 @@ public class LoadeBehaviour extends Behaviour {
 	private double training_phase = 0.33;
 	private Class<ITrustModel> trustModelClass;
 
-	public LoadeBehaviour(AgentLoader _agent, Class<ITrustModel> trustModelClass) {
+	public LoaderBehaviour(AgentLoader _agent, Class<ITrustModel> trustModelClass) {
 		agent = _agent;
 		this.trustModelClass = trustModelClass;
 		loadArff();
@@ -89,7 +90,6 @@ public class LoadeBehaviour extends Behaviour {
 
 	private boolean ifTraining() {
 		return (count / patterns <= training_phase);
-
 	}
 
 	public void loadArff() {
@@ -104,7 +104,7 @@ public class LoadeBehaviour extends Behaviour {
 
 	private void sendFeedback(String line) {
 		if (line != null) {
-			Rating rating = strToRating(line);
+			Rating rating = makeRating(line);
 			SendRating sr = new SendRating();
 			sr.addRating(rating);
 			agent.sendMessage(rating.getClient(), ACLMessage.REQUEST, ConversationId.TRAIN_ITERATE, sr, OpenJadeOntology.getInstance());
@@ -113,29 +113,29 @@ public class LoadeBehaviour extends Behaviour {
 
 	private void sendTest(String line) {
 		if (line != null) {
-			Rating rating = strToRating(line);			
+			Rating rating = makeRating(line);
 			SendRating sr = new SendRating();
 			sr.addRating(rating);
 			agent.sendMessage(rating.getClient(), ACLMessage.REQUEST, ConversationId.TEST_ITERATE, sr, OpenJadeOntology.getInstance());
 		}
 	}
 
-	private Rating strToRating(String line) {
+	private Rating makeRating(String line) {
 		String[] tokens = line.split(";");
 		AID clientAID = new AID(tokens[1], false);
 		AID serverAID = new AID(tokens[2], false);
 		int iteration = Data.strToIteration(tokens[3]);
 		String term = tokens[4];
 		int value = Data.strToValue(tokens[7]);
+		WitnessUtil.addWitness(clientAID);
 		return OpenJadeUtil.makeRating(clientAID, serverAID, iteration, term, value);
 	}
 
-	
 	private void createAgent(String agentName, String clazz) {
 		try {
 			if (!agents.contains(agentName)) {
 				agent.waiting(new AID(agentName, false));
-				Object[] param = {trustModelClass};
+				Object[] param = { trustModelClass };
 				AgentController a = agent.getContainerController().createNewAgent(agentName, clazz, param);
 				a.start();
 				agents.add(agentName);

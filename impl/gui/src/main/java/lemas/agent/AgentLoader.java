@@ -6,7 +6,7 @@ import jade.lang.acl.ACLMessage;
 import java.util.HashSet;
 import java.util.Set;
 
-import lemas.agent.behaviour.LoadeBehaviour;
+import lemas.agent.behaviour.LoaderBehaviour;
 import lemas.form.DialogResult;
 import lemas.form.FrameMain;
 import lemas.model.LemasLog;
@@ -25,12 +25,12 @@ public class AgentLoader extends OpenAgent {
 	private DialogResult dialogResult;
 	private double count = 0;
 	private double round = 0;
-
+	
 	@Override
 	protected void setup() {
 //		setCodec(new SLCodec());
 		super.setup();
-		addBehaviour(new LoadeBehaviour(this, getTrustModelClass()));
+		addBehaviour(new LoaderBehaviour(this, getTrustModelClass()));
 	}
 
 	@ReceiveSimpleMessage(conversationId = ConversationId.LOADER)
