@@ -26,8 +26,9 @@ public class AbstractModel implements ITrustModel {
 	
 	public AbstractModel(){
 		properties = new Properties();
+		properties.put("UNCERTAIN_RANGE", "0.2");
 	}
-
+	
 	public void addRating(Rating rating) {
 		if (ratings.contains(rating.getServer())){
 			ratings.get(rating.getServer()).add(rating);
@@ -35,6 +36,26 @@ public class AbstractModel implements ITrustModel {
 			List<Rating> rt = new ArrayList<Rating>();
 			rt.add(rating);
 			ratings.put(rating.getServer(), rt);
+		}
+	}
+	
+	public Reliable isReliable(AID agent) {
+		double range = getDouble("UNCERTAIN_RANGE");
+		List<Rating> list = ratings.get(agent);
+		if (list == null) {
+			return Reliable.UNCERTAIN;
+		} else {
+			float sum = 0;
+			for (Rating r : list) {
+				sum += r.getValue();
+			}
+			if (sum >= range) {
+				return Reliable.YES;
+			} 
+			if (sum <= -range) {
+				return Reliable.NO;
+			} 
+			return Reliable.UNCERTAIN;
 		}
 	}
 	
@@ -66,10 +87,6 @@ public class AbstractModel implements ITrustModel {
 		return null;
 	}
 
-	public Reliable isReliable(AID agent) {
-		return Reliable.UNCERTAIN;
-	}
-	
 	public Enumeration<AID> getAllServer() {
 		return ratings.keys();
 	}

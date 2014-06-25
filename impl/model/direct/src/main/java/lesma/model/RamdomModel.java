@@ -8,18 +8,17 @@ import openjade.trust.Reliable;
 public class RamdomModel extends AbstractModel {
 	
 	public RamdomModel() {
-		properties.put("yes", "0.7001");
-		properties.put("no", "0.3001");
+		properties.clear();
+		properties.put("RELIABLE", "0.8");
 	}
 
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	public Reliable isReliable(AID agent) {
 		double r = Math.random();
-		if (r >= getDouble("yes"))
+		if (r <= getDouble("RELIABLE"))
 			return Reliable.YES;
-		if (r >= getDouble("no"))
-			return Reliable.NO;
-		return Reliable.UNCERTAIN;
+		return Reliable.NO;
 	}
 }
