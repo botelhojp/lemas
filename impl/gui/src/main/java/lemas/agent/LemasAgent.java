@@ -21,6 +21,7 @@ import openjade.ontology.WitnessResponse;
 import openjade.trust.ITrustModel;
 import openjade.util.OpenJadeUtil;
 
+@SuppressWarnings("rawtypes")
 public class LemasAgent extends OpenAgent {
 
 	private static final long serialVersionUID = 1L;
