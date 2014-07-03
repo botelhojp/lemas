@@ -8,4 +8,5 @@ public class ConversationId {
 	public static final String SEND_FEEDBACK = "SEND_FEEDBACK";
 	public static final String REQUEST_WITNESS = "REQUEST_WITNESS";
 	public static final String SEND_RATING = "SEND_RATING";
+	public static final String DO_DELETE = "DO_DELETE";
 }

@@ -13,6 +13,7 @@ import lemas.model.Runner;
 import openjade.core.OpenAgent;
 import openjade.core.OpenJadeException;
 import openjade.core.annotation.ReceiveMatchMessage;
+import openjade.core.annotation.ReceiveSimpleMessage;
 import openjade.ontology.Rating;
 import openjade.ontology.RequestRating;
 import openjade.ontology.SendRating;
@@ -52,6 +53,11 @@ public class LemasAgent extends OpenAgent {
 		sendMessage(rating.getServer(), ACLMessage.REQUEST, ConversationId.SEND_FEEDBACK, sr);
 		trustModel.addRating(rating);
 	}
+	
+	@ReceiveSimpleMessage(performative=ACLMessage.REQUEST,  conversationId = ConversationId.DO_DELETE)
+	public void dead(ACLMessage message) {
+		this.doDelete();
+	}	
 
 	/**
 	 * Cliente enviando sua opiniao ao agente loader

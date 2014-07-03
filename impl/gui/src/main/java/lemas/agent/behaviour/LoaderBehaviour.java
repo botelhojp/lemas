@@ -9,7 +9,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import lemas.agent.AgentLoader;
@@ -29,13 +31,14 @@ public class LoaderBehaviour extends Behaviour {
 	private static final long serialVersionUID = 1L;
 
 	private AgentLoader agent;
-	private Set<String> agents = new HashSet<String>();
+	private Set<AID> agents = new HashSet<AID>();
+	private List<AID> agentCache = new ArrayList<AID>();
 	private BufferedReader lerArq;
 	private boolean done = false;
 	private String iteration = null;
 	private int patterns = 0;
 	private double count = 0.0;
-	private double training_phase = 0.33;
+	private double training_phase = 0.003;
 	private Class<ITrustModel> trustModelClass;
 
 	public LoaderBehaviour(AgentLoader _agent, Class<ITrustModel> trustModelClass) {
@@ -75,8 +78,8 @@ public class LoaderBehaviour extends Behaviour {
 					iteration = line;
 					LemasLog.info(line);
 					String[] token = line.split(";");
-					createAgent(token[1], "lemas.agent.LemasAgent");
-					createAgent(token[2], "lemas.agent.LemasAgent");
+					createAgent( new AID( token[1], false), "lemas.agent.LemasAgent");
+					createAgent( new AID( token[2], false), "lemas.agent.LemasAgent");					
 					count++;
 				} else {
 					lerArq.close();
@@ -87,6 +90,8 @@ public class LoaderBehaviour extends Behaviour {
 			LemasLog.erro(e);
 		}
 	}
+
+	
 
 	private boolean ifTraining() {
 		return (count / patterns <= training_phase);
@@ -131,17 +136,25 @@ public class LoaderBehaviour extends Behaviour {
 		return OpenJadeUtil.makeRating(clientAID, serverAID, iteration, term, value);
 	}
 
-	private void createAgent(String agentName, String clazz) {
+	private void createAgent(AID aid, String clazz) {
 		try {
-			if (!agents.contains(agentName)) {
-				agent.waiting(new AID(agentName, false));
+			if (!agents.contains(aid)) {				
+				agent.waiting(aid);
 				Object[] param = { trustModelClass };
-				AgentController a = agent.getContainerController().createNewAgent(agentName, clazz, param);
+				AgentController a = agent.getContainerController().createNewAgent(aid.getLocalName(), clazz, param);
 				a.start();
-				agents.add(agentName);
+				agents.add(aid);
+				agentCache.add(aid);
+				if (agentCache.size() >= 1000){
+					AID deleteAid = agentCache.remove(0);
+					agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");	
+					agents.remove(deleteAid);
+				}
 			}
 		} catch (Exception e) {
 			LemasLog.erro(e);
 		}
 	}
+	
+	
 }
