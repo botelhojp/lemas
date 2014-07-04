@@ -10,9 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import lemas.agent.AgentLoader;
 import lemas.agent.ConversationId;
@@ -31,7 +29,6 @@ public class LoaderBehaviour extends Behaviour {
 	private static final long serialVersionUID = 1L;
 
 	private AgentLoader agent;
-	private Set<AID> agents = new HashSet<AID>();
 	private List<AID> agentCache = new ArrayList<AID>();
 	private BufferedReader lerArq;
 	private boolean done = false;
@@ -138,17 +135,15 @@ public class LoaderBehaviour extends Behaviour {
 
 	private void createAgent(AID aid, String clazz) {
 		try {
-			if (!agents.contains(aid)) {				
+			if (!agentCache.contains(aid)) {				
 				agent.waiting(aid);
 				Object[] param = { trustModelClass };
 				AgentController a = agent.getContainerController().createNewAgent(aid.getLocalName(), clazz, param);
 				a.start();
-				agents.add(aid);
 				agentCache.add(aid);
 				if (agentCache.size() >= 1000){
 					AID deleteAid = agentCache.remove(0);
 					agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");	
-					agents.remove(deleteAid);
 				}
 			}
 		} catch (Exception e) {

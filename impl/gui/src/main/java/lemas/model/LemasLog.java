@@ -6,7 +6,6 @@ import lemas.util.Data;
 public class LemasLog {
 
 	public static void info(String msg) {
-		System.out.println(msg);
 		FrameMain.getInstance().message(msg);
 	}
 

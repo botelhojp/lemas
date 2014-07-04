@@ -2,9 +2,14 @@ package lesma.model;
 
 import jade.core.AID;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
 
@@ -15,33 +20,35 @@ import openjade.trust.Reliable;
 import openjade.trust.model.Pair;
 
 public class AbstractModel implements ITrustModel {
-	
+
+	protected TrustModelData data;
+
 	protected int currentIteration;
 	protected OpenAgent myAgent;
-	protected Hashtable<AID, List<Rating>> ratings = new Hashtable<AID, List<Rating>>();
-	protected List<AID> witnesses = new ArrayList<AID>();
 	protected Properties properties;
-	
+	protected File tmpFile;
+
 	private static final long serialVersionUID = 1L;
-	
-	public AbstractModel(){
+
+	public AbstractModel() {
+		data = new TrustModelData();
 		properties = new Properties();
 		properties.put("UNCERTAIN_RANGE", "0.2");
 	}
-	
+
 	public void addRating(Rating rating) {
-		if (ratings.contains(rating.getServer())){
-			ratings.get(rating.getServer()).add(rating);
-		}else{
+		if (data.getRatings().contains(rating.getServer())) {
+			data.getRatings().get(rating.getServer()).add(rating);
+		} else {
 			List<Rating> rt = new ArrayList<Rating>();
 			rt.add(rating);
-			ratings.put(rating.getServer(), rt);
+			data.getRatings().put(rating.getServer(), rt);
 		}
 	}
-	
+
 	public Reliable isReliable(AID agent) {
 		double range = getDouble("UNCERTAIN_RANGE");
-		List<Rating> list = ratings.get(agent);
+		List<Rating> list = data.getRatings().get(agent);
 		if (list == null) {
 			return Reliable.UNCERTAIN;
 		} else {
@@ -51,14 +58,14 @@ public class AbstractModel implements ITrustModel {
 			}
 			if (sum >= range) {
 				return Reliable.YES;
-			} 
+			}
 			if (sum <= -range) {
 				return Reliable.NO;
-			} 
+			}
 			return Reliable.UNCERTAIN;
 		}
 	}
-	
+
 	public Properties getProperties() {
 		return properties;
 	}
@@ -77,6 +84,7 @@ public class AbstractModel implements ITrustModel {
 
 	public void setAgent(OpenAgent agent) {
 		this.myAgent = agent;
+		tmpFile = new File(System.getProperty("java.io.tmpdir") + myAgent.getLocalName());
 	}
 
 	public List<Rating> getRatings(AID aid) {
@@ -88,29 +96,29 @@ public class AbstractModel implements ITrustModel {
 	}
 
 	public Enumeration<AID> getAllServer() {
-		return ratings.keys();
+		return data.getRatings().keys();
 	}
 
 	public boolean know(AID aid) {
-		return ratings.containsKey(aid);
+		return data.getRatings().containsKey(aid);
 	}
 
 	public void addWitness(AID witness) {
-		if (!witnesses.contains(witness) && !myAgent.equals(witness)){
-			witnesses.add(witness);
+		if (!data.getWitnesses().contains(witness) && !myAgent.equals(witness)) {
+			data.getWitnesses().add(witness);
 		}
 	}
-	
+
 	/** Properties */
 
 	protected double getDouble(String key) {
 		return Double.parseDouble(properties.getProperty(key));
 	}
-	
+
 	protected long getLong(String key) {
 		return Long.parseLong(properties.getProperty(key));
 	}
-	
+
 	protected long getInt(String key) {
 		return Integer.parseInt(properties.getProperty(key));
 	}
@@ -124,7 +132,39 @@ public class AbstractModel implements ITrustModel {
 	}
 
 	public List<AID> getWitnesses() {
-		return this.witnesses;
+		return this.data.getWitnesses();
+	}
+
+	
+	public void serialize() {
+		try {
+			if (tmpFile.exists()) {
+				tmpFile.delete();
+			}
+			FileOutputStream arquivoGrav = new FileOutputStream(tmpFile);
+			ObjectOutputStream objGravar = new ObjectOutputStream(arquivoGrav);
+			objGravar.writeObject(data);
+			objGravar.flush();
+			objGravar.close();
+			arquivoGrav.flush();
+			arquivoGrav.close();
+		} catch (IOException e) {
+			throw new RuntimeException("Erro serialize trustmodel", e);
+		}
+	}
+
+	public void loadSerialize() {
+		try {
+			if (tmpFile.exists()) {
+				FileInputStream arquivoLeitura = new FileInputStream(tmpFile);
+				ObjectInputStream objLeitura = new ObjectInputStream(arquivoLeitura);
+				this.data = (TrustModelData) objLeitura.readObject();
+				objLeitura.close();
+				arquivoLeitura.close();
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("Erro serialize trustmodel", e);
+		}
 	}
 
 }
