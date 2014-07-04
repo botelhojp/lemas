@@ -4,6 +4,7 @@ import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.wrapper.AgentController;
+import jade.wrapper.StaleProxyException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -146,6 +147,8 @@ public class LoaderBehaviour extends Behaviour {
 					agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");	
 				}
 			}
+		} catch (StaleProxyException e){
+			LemasLog.erro(e);
 		} catch (Exception e) {
 			LemasLog.erro(e);
 		}
