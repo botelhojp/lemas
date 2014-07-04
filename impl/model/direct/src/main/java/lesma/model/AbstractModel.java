@@ -84,7 +84,7 @@ public class AbstractModel implements ITrustModel {
 
 	public void setAgent(OpenAgent agent) {
 		this.myAgent = agent;
-		tmpFile = new File(System.getProperty("java.io.tmpdir") + myAgent.getLocalName());
+		tmpFile = new File(System.getProperty("java.io.tmpdir") + File.separatorChar + myAgent.getLocalName());
 	}
 
 	public List<Rating> getRatings(AID aid) {

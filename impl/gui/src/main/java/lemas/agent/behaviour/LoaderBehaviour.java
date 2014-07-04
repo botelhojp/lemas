@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,8 @@ import openjade.util.OpenJadeUtil;
 public class LoaderBehaviour extends Behaviour {
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final long CACHE_SIZE = 1500;
 
 	private AgentLoader agent;
 	private List<AID> agentCache = new ArrayList<AID>();
@@ -65,6 +68,11 @@ public class LoaderBehaviour extends Behaviour {
 	@Override
 	public void action() {
 		try {
+			if (agentCache.size() > CACHE_SIZE) {
+				AID deleteAid = agentCache.get(0);
+				agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");
+				return;
+			}
 			if (agent.nowait()) {
 				if (ifTraining()) {
 					sendFeedback(iteration);
@@ -76,20 +84,18 @@ public class LoaderBehaviour extends Behaviour {
 					iteration = line;
 					LemasLog.info(line);
 					String[] token = line.split(";");
-					createAgent( new AID( token[1], false), "lemas.agent.LemasAgent");
-					createAgent( new AID( token[2], false), "lemas.agent.LemasAgent");					
+					createAgent(new AID(token[1], false), "lemas.agent.LemasAgent");
+					createAgent(new AID(token[2], false), "lemas.agent.LemasAgent");
 					count++;
 				} else {
 					lerArq.close();
 					done = true;
 				}
 			}
-		} catch (Throwable e) {
+		} catch (IOException e) {
 			LemasLog.erro(e);
 		}
 	}
-
-	
 
 	private boolean ifTraining() {
 		return (count / patterns <= training_phase);
@@ -136,23 +142,22 @@ public class LoaderBehaviour extends Behaviour {
 
 	private void createAgent(AID aid, String clazz) {
 		try {
-			if (!agentCache.contains(aid)) {				
+			if (!agentCache.contains(aid)) {
 				agent.waiting(aid);
 				Object[] param = { trustModelClass };
 				AgentController a = agent.getContainerController().createNewAgent(aid.getLocalName(), clazz, param);
 				a.start();
 				agentCache.add(aid);
-				if (agentCache.size() >= 1000){
-					AID deleteAid = agentCache.remove(0);
-					agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");	
-				}
 			}
-		} catch (StaleProxyException e){
+		} catch (StaleProxyException e) {
 			LemasLog.erro(e);
 		} catch (Exception e) {
 			LemasLog.erro(e);
 		}
 	}
-	
-	
+
+	public void removerCache(AID sender) {
+		agentCache.remove(sender);
+	}
+
 }

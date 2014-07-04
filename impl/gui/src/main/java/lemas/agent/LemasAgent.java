@@ -58,6 +58,7 @@ public class LemasAgent extends OpenAgent {
 	@ReceiveSimpleMessage(performative=ACLMessage.REQUEST,  conversationId = ConversationId.DO_DELETE)
 	public void dead(ACLMessage message) {
 		trustModel.serialize();
+		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.DO_DELETE, "");
 		this.doDelete();
 	}	
 

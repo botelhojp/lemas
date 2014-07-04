@@ -25,13 +25,21 @@ public class AgentLoader extends OpenAgent {
 	private DialogResult dialogResult;
 	private double count = 0;
 	private double round = 0;
+	private LoaderBehaviour loader;
 	
 	@Override
 	protected void setup() {
 //		setCodec(new SLCodec());
 		super.setup();
-		addBehaviour(new LoaderBehaviour(this, getTrustModelClass()));
+		loader = new LoaderBehaviour(this, getTrustModelClass());
+		addBehaviour(loader);
 	}
+	
+	@ReceiveSimpleMessage(conversationId = ConversationId.DO_DELETE)
+	public void dead(ACLMessage message) {
+		loader.removerCache(message.getSender());
+	}	
+
 
 	@ReceiveSimpleMessage(conversationId = ConversationId.LOADER)
 	public void getMessage(ACLMessage msg) {
@@ -100,5 +108,4 @@ public class AgentLoader extends OpenAgent {
 			throw new RuntimeException("Modelo de Confiancao nao selecionado", e);
 		}
 	}
-
 }
