@@ -13,6 +13,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 
+import moa.classifiers.trees.HoeffdingTree;
 import openjade.core.OpenAgent;
 import openjade.ontology.Rating;
 import openjade.trust.ITrustModel;
@@ -40,9 +41,12 @@ public class AbstractModel implements ITrustModel {
 		if (data.getRatings().contains(rating.getServer())) {
 			data.getRatings().get(rating.getServer()).add(rating);
 		} else {
+			data.getLearners().put(rating.getServer(), new HoeffdingTree());
+
 			List<Rating> rt = new ArrayList<Rating>();
 			rt.add(rating);
 			data.getRatings().put(rating.getServer(), rt);
+
 		}
 	}
 
@@ -135,7 +139,6 @@ public class AbstractModel implements ITrustModel {
 		return this.data.getWitnesses();
 	}
 
-	
 	public void serialize() {
 		try {
 			if (tmpFile.exists()) {

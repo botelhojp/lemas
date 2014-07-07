@@ -4,16 +4,19 @@ import jade.core.AID;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 
+import moa.classifiers.Classifier;
 import openjade.ontology.Rating;
 
 public class TrustModelData implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	protected Hashtable<AID, List<Rating>> ratings = new Hashtable<AID, List<Rating>>();
-	protected List<AID> witnesses = new ArrayList<AID>();
+	protected HashMap<AID, Classifier> learners = new HashMap<AID, Classifier>() ;
+	protected List<AID> witnesses = new ArrayList<AID>();	
 
 	public Hashtable<AID, List<Rating>> getRatings() {
 		return ratings;
@@ -30,5 +33,15 @@ public class TrustModelData implements Serializable {
 	public void setWitnesses(List<AID> witnesses) {
 		this.witnesses = witnesses;
 	}
+
+	public HashMap<AID, Classifier> getLearners() {
+		return learners;
+	}
+
+	public void setLearners(HashMap<AID, Classifier> learners) {
+		this.learners = learners;
+	}
+	
+	
 
 }
