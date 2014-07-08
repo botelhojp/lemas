@@ -13,12 +13,14 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 
+import lesma.model.instances.LemasInstance;
 import moa.classifiers.trees.HoeffdingTree;
 import openjade.core.OpenAgent;
 import openjade.ontology.Rating;
 import openjade.trust.ITrustModel;
 import openjade.trust.Reliable;
 import openjade.trust.model.Pair;
+import weka.core.Instance;
 
 public class AbstractModel implements ITrustModel {
 
@@ -38,22 +40,20 @@ public class AbstractModel implements ITrustModel {
 	}
 
 	public void addRating(Rating rating) {
-		if (rating == null){
-			System.out.println("");
+		if (rating == null) {
+			return;
 		}
-		if (data.getRatings().contains(rating.getServer())) {
-			
-//			data.getLearners().get(rating.getServer()).trainOnInstance(arg0);
-			
-			data.getRatings().get(rating.getServer()).add(rating);
-		} else {
-			data.getLearners().put(rating.getServer(), new HoeffdingTree());
-			List<Rating> rt = new ArrayList<Rating>();
-			rt.add(rating);
-			data.getRatings().put(rating.getServer(), rt);
+		Instance in = LemasInstance.createByRating(rating.getAttributes());
+		if (!data.getLearners().containsKey(rating.getServer())) {
+			HoeffdingTree l = new HoeffdingTree();
+			l.prepareForUse();
+			data.getLearners().put(rating.getServer(), l);
 		}
+
+		data.getLearners().get(rating.getServer()).trainOnInstance(in);
 	}
 
+	@Deprecated
 	public Reliable isReliable(AID agent) {
 		double range = getDouble("UNCERTAIN_RANGE");
 		List<Rating> list = data.getRatings().get(agent);
@@ -61,9 +61,9 @@ public class AbstractModel implements ITrustModel {
 			return Reliable.UNCERTAIN;
 		} else {
 			float sum = 0;
-			for (Rating r : list) {
-				sum += r.getValue();
-			}
+			// for (Rating r : list) {
+			// sum += r.getValue();
+			// }
 			if (sum >= range) {
 				return Reliable.YES;
 			}

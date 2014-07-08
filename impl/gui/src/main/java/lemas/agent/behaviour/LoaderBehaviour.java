@@ -13,8 +13,8 @@ import lemas.agent.AgentLoader;
 import lemas.agent.ConversationId;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
-import lemas.util.Data;
 import moa.streams.ArffFileStream;
+import openjade.core.DataProvider;
 import openjade.ontology.OpenJadeOntology;
 import openjade.ontology.Rating;
 import openjade.ontology.SendRating;
@@ -57,30 +57,30 @@ public class LoaderBehaviour extends Behaviour {
 			agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");
 			return;
 		}
-		
+
 		if (agent.nowait()) {
 			if (ifTraining()) {
 				sendFeedback(instance);
 			} else {
 				sendTest(instance);
 			}
-			Instance trainInst  = stream.nextInstance();
-			if (trainInst != null) {
-				instance = trainInst;
-				LemasLog.info(trainInst.toString());
-				createAgent(new AID(trainInst.toString(0), false), "lemas.agent.LemasAgent");
-				createAgent(new AID(trainInst.toString(1), false), "lemas.agent.LemasAgent");
-				count++;
-			} else {
+			if (!stream.hasMoreInstances()) {
 				done = true;
+				return;
 			}
+			Instance trainInst = stream.nextInstance();
+			DataProvider.getInstance().put("DATASET", trainInst.dataset());
+			instance = trainInst;
+			LemasLog.info(trainInst.toString());
+			createAgent(new AID(trainInst.toString(0), false), "lemas.agent.LemasAgent");
+			createAgent(new AID(trainInst.toString(1), false), "lemas.agent.LemasAgent");
+			count++;
 		}
 	}
 
 	private boolean ifTraining() {
 		return (count / patterns <= training_phase);
 	}
-
 
 	public void loadArff() {
 		try {
@@ -112,11 +112,9 @@ public class LoaderBehaviour extends Behaviour {
 	private Rating makeRating(Instance line) {
 		AID clientAID = new AID(line.toString(0), false);
 		AID serverAID = new AID(line.toString(1), false);
-		int iteration = Data.strToIteration(line.toString(2));
-		String term = line.toString(3);
-		int value = Data.strToValue(line.toString(6));
+		String value = line.toString(line.classAttribute());
 		WitnessUtil.addWitness(clientAID);
-		return OpenJadeUtil.makeRating(clientAID, serverAID, iteration, term, value);
+		return OpenJadeUtil.makeRating(clientAID, serverAID, line.toString(), value);
 	}
 
 	private void createAgent(AID aid, String clazz) {

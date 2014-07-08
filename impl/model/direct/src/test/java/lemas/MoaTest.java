@@ -1,4 +1,4 @@
-package lesma.model.instances;
+package lemas;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -6,19 +6,23 @@ import java.util.List;
 
 import weka.core.Attribute;
 import weka.core.DenseInstance;
+import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
 
-public class Util {
+@SuppressWarnings({ "unchecked", "deprecation", "rawtypes" })
+public class MoaTest {
 
 	private static Instance makeInstance() {
 		try {
 
-			Attribute client = new Attribute("client", Attribute.NUMERIC);
-			Attribute server = new Attribute("server", Attribute.NUMERIC);
+			Attribute client = new Attribute("client");
+			Attribute server = new Attribute("server");
 			Attribute date = new Attribute("date", "dd/MM/yyyy");
-			Attribute comments = new Attribute("comments");
-			Attribute item = new Attribute("item");
+			
+			
+			Attribute comments = new Attribute("comments", (FastVector) null);
+			Attribute item = new Attribute("item", (FastVector) null);
 			Attribute price = new Attribute("price", Attribute.NUMERIC);
 
 			List<String> feedback_values = new ArrayList<String>(3);
@@ -27,7 +31,7 @@ public class Util {
 			feedback_values.add("neu");
 			Attribute feedback = new Attribute("feedback", feedback_values);
 
-			ArrayList<Attribute> attributes = new ArrayList<Attribute>(3);
+			ArrayList<Attribute> attributes = new ArrayList<Attribute>(7);
 			attributes.add(client);
 			attributes.add(server);
 			attributes.add(date);
@@ -42,15 +46,15 @@ public class Util {
 			Instance inst = new DenseInstance(7);
 			inst.setDataset(race);
 
-			inst.setValue(race.attribute(0), 53041511);
-			inst.setValue(race.attribute(1), 45323847);
+			inst.setValue(race.attribute("client"), 53041511);
+			inst.setValue(race.attribute("server"), 45323847);
 
-			inst.setValue(race.attribute(2), race.attribute(2).parseDate("01/01/2013"));
+			inst.setValue(race.attribute("date"), race.attribute("date").parseDate("01/01/2013"));
 
-			inst.setValue(race.attribute(3), "boa");
-			inst.setValue(race.attribute(4), "vamos lá");
-			inst.setValue(race.attribute(5), 10.0);
-			inst.setValue(race.attribute(6), "pos");
+			inst.setValue(race.attribute("comments"), "boa");
+			inst.setValue(race.attribute("item"), "xbox");
+			inst.setValue(race.attribute("price"), 10.0);
+			inst.setValue(race.attribute("feedback"), "pos");
 
 			return inst;
 		} catch (ParseException e) {

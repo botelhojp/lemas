@@ -13,7 +13,6 @@ import java.util.Date;
 
 import lemas.model.LemasLog;
 import lemas.model.Project;
-import openjade.core.OpenJadeException;
 
 import com.google.gson.Gson;
 
@@ -90,19 +89,6 @@ public class Data {
 
 	}
 
-	public static int strToValue(String value) {
-		if (value.equals("pos")){
-			return 1;
-		}
-		if (value.equals("neu")){
-			return 0;
-		}
-		if (value.equals("neg")){
-			return -1;
-		}
-		throw new OpenJadeException("Tipo [" + value + "] invalido");
-	}
-	
 	public static String exceptionToStr (Throwable ex){
 		StringWriter errors = new StringWriter();
 		ex.printStackTrace(new PrintWriter(errors));

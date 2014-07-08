@@ -106,9 +106,7 @@ public class LemasAgent extends OpenAgent {
 		SendRating sr = (SendRating) ce;
 		trustModel.addWitness(message.getSender());
 		Rating rating = (Rating) sr.getRating().get(0);
-		if (rating.getServer().equals(getAID())) {
-			LemasLog.debug(" -  I (" + rating.getServer().getLocalName() + ") received (" + rating.getClient().getLocalName() + ") in (" + rating.getIteration() + ") the feedback <- " + rating.getValue() + " comments: " + rating.getTerm());
-		} else {
+		if (!rating.getServer().equals(getAID())) {			
 			throw new OpenJadeException("Esta avaliacao nao he minha: " + message.toString());
 		}
 	}
