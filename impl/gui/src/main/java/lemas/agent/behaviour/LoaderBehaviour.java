@@ -27,12 +27,12 @@ public class LoaderBehaviour extends Behaviour {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final long CACHE_SIZE = 1500;
+	private static final long CACHE_SIZE = 300000;
 
 	private AgentLoader agent;
 	private List<AID> agentCache = new ArrayList<AID>();
 	private boolean done = false;
-	private Instance iteration = null;
+	private Instance instance = null;
 	private int patterns = 0;
 	private double count = 0.0;
 	private double training_phase = 0.003;
@@ -57,15 +57,16 @@ public class LoaderBehaviour extends Behaviour {
 			agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");
 			return;
 		}
+		
 		if (agent.nowait()) {
 			if (ifTraining()) {
-				sendFeedback(iteration);
+				sendFeedback(instance);
 			} else {
-				sendTest(iteration);
+				sendTest(instance);
 			}
 			Instance trainInst  = stream.nextInstance();
 			if (trainInst != null) {
-				iteration = trainInst;
+				instance = trainInst;
 				LemasLog.info(trainInst.toString());
 				createAgent(new AID(trainInst.toString(0), false), "lemas.agent.LemasAgent");
 				createAgent(new AID(trainInst.toString(1), false), "lemas.agent.LemasAgent");

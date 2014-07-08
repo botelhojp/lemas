@@ -38,15 +38,19 @@ public class AbstractModel implements ITrustModel {
 	}
 
 	public void addRating(Rating rating) {
+		if (rating == null){
+			System.out.println("");
+		}
 		if (data.getRatings().contains(rating.getServer())) {
+			
+//			data.getLearners().get(rating.getServer()).trainOnInstance(arg0);
+			
 			data.getRatings().get(rating.getServer()).add(rating);
 		} else {
 			data.getLearners().put(rating.getServer(), new HoeffdingTree());
-
 			List<Rating> rt = new ArrayList<Rating>();
 			rt.add(rating);
 			data.getRatings().put(rating.getServer(), rt);
-
 		}
 	}
 
