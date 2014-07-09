@@ -1,22 +1,22 @@
-package lesma.model.instances;
+package lesma.model.data;
 
 import openjade.core.DataProvider;
+import openjade.ontology.RatingAttribute;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.Instance;
 import weka.core.Instances;
 
-public class LemasInstance {
+public class Data {
 
 	private static Instances dt;
 
-	public static Instance createByRating(String attibutes) {
+	public static Instance createByRating(jade.util.leap.List attributes) {
 		Instances dt = getDataSet();
 		Instance inst = new DenseInstance(dt.numAttributes());
 		inst.setDataset(dt);
-		String[] tokens = attibutes.split(",");
-		for (int i = 0; i < tokens.length; i++) {
-			setValue(inst, dt.attribute(i), tokens[i]);
+		for (int i = 0; i < attributes.size(); i++) {
+			setValue(inst, dt.attribute(i), ((RatingAttribute) attributes.get(i)).getValue());
 		}
 		return inst;
 	}

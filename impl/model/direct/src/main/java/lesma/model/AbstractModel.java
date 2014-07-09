@@ -8,12 +8,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 
-import lesma.model.instances.LemasInstance;
+import lesma.model.data.Data;
+import moa.classifiers.Classifier;
 import moa.classifiers.trees.HoeffdingTree;
 import openjade.core.OpenAgent;
 import openjade.ontology.Rating;
@@ -39,18 +39,27 @@ public class AbstractModel implements ITrustModel {
 		properties.put("UNCERTAIN_RANGE", "0.2");
 	}
 
+	public Boolean test(Rating rating) {
+		Classifier classifier = data.getClassifier().get(rating.getServer());
+		if (classifier != null) {
+			Instance in = Data.createByRating(rating.getAttributes());
+			return classifier.correctlyClassifies(in);
+		}
+		return false;
+	}
+
 	public void addRating(Rating rating) {
 		if (rating == null) {
 			return;
 		}
-		Instance in = LemasInstance.createByRating(rating.getAttributes());
-		if (!data.getLearners().containsKey(rating.getServer())) {
+		Instance in = Data.createByRating(rating.getAttributes());
+		if (!data.getClassifier().containsKey(rating.getServer())) {
 			HoeffdingTree l = new HoeffdingTree();
 			l.prepareForUse();
-			data.getLearners().put(rating.getServer(), l);
+			data.getClassifier().put(rating.getServer(), l);
 		}
 
-		data.getLearners().get(rating.getServer()).trainOnInstance(in);
+		data.getClassifier().get(rating.getServer()).trainOnInstance(in);
 	}
 
 	@Deprecated
@@ -168,6 +177,7 @@ public class AbstractModel implements ITrustModel {
 				this.data = (TrustModelData) objLeitura.readObject();
 				objLeitura.close();
 				arquivoLeitura.close();
+				tmpFile.delete();
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("Erro serialize trustmodel", e);

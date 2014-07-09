@@ -14,6 +14,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import lemas.model.LemasLog;
 
 import lemas.model.Project;
 import lemas.model.Workspace;
@@ -70,6 +71,8 @@ public class FrameMain extends javax.swing.JFrame {
         mnOpenProject = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         mnExit = new javax.swing.JMenuItem();
+        jMenuConfig = new javax.swing.JMenu();
+        jMenuClean = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -114,7 +117,7 @@ public class FrameMain extends javax.swing.JFrame {
         );
         windowDialogLayout.setVerticalGroup(
             windowDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 268, Short.MAX_VALUE)
+            .addGap(0, 288, Short.MAX_VALUE)
         );
 
         windowDialog1.setMaximizable(true);
@@ -136,7 +139,7 @@ public class FrameMain extends javax.swing.JFrame {
         );
         windowDialog1Layout.setVerticalGroup(
             windowDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
         );
 
         windowDialog2.setBackground(new java.awt.Color(255, 255, 255));
@@ -154,7 +157,7 @@ public class FrameMain extends javax.swing.JFrame {
         );
         windowDialog2Layout.setVerticalGroup(
             windowDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 250, Short.MAX_VALUE)
+            .addGap(0, 270, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
@@ -224,6 +227,18 @@ public class FrameMain extends javax.swing.JFrame {
 
         jMenuBar1.add(jmenuAgents);
 
+        jMenuConfig.setText("Settings");
+
+        jMenuClean.setText("Clean Temp Files");
+        jMenuClean.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCleanActionPerformed(evt);
+            }
+        });
+        jMenuConfig.add(jMenuClean);
+
+        jMenuBar1.add(jMenuConfig);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -280,6 +295,12 @@ public class FrameMain extends javax.swing.JFrame {
         //frame.setVisible(true);        
     }//GEN-LAST:event_mnOpenProjectActionPerformed
 
+    private void jMenuCleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCleanActionPerformed
+       
+    	LemasLog.info("clean temp files");
+       
+    }//GEN-LAST:event_jMenuCleanActionPerformed
+
      private void log(String message) {
      }
     /**
@@ -323,6 +344,8 @@ public class FrameMain extends javax.swing.JFrame {
     private javax.swing.JFrame jFrame2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuClean;
+    private javax.swing.JMenu jMenuConfig;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JMenu jmenuAgents;

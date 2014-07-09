@@ -13,6 +13,7 @@ import lemas.agent.AgentLoader;
 import lemas.agent.ConversationId;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
+import lemas.util.Data;
 import moa.streams.ArffFileStream;
 import openjade.core.DataProvider;
 import openjade.ontology.OpenJadeOntology;
@@ -27,13 +28,15 @@ public class LoaderBehaviour extends Behaviour {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final long CACHE_SIZE = 300000;
+	private static final long CACHE_SIZE = 500;
 
 	private AgentLoader agent;
 	private List<AID> agentCache = new ArrayList<AID>();
 	private boolean done = false;
 	private Instance instance = null;
 	private int patterns = 0;
+	private int round = 0;
+	private String currentDate = "";
 	private double count = 0.0;
 	private double training_phase = 0.003;
 	private Class<ITrustModel> trustModelClass;
@@ -46,35 +49,29 @@ public class LoaderBehaviour extends Behaviour {
 	}
 
 	@Override
-	public boolean done() {
-		return done;
-	}
-
-	@Override
 	public void action() {
 		if (agentCache.size() > CACHE_SIZE) {
 			AID deleteAid = agentCache.get(0);
 			agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");
 			return;
 		}
-
 		if (agent.nowait()) {
 			if (ifTraining()) {
 				sendFeedback(instance);
 			} else {
 				sendTest(instance);
 			}
-			if (!stream.hasMoreInstances()) {
+			
+			if (stream.hasMoreInstances()) {
+				instance = stream.nextInstance();
+				instance = (Instance) instance.copy();
+				DataProvider.getInstance().put("DATASET", instance.dataset());
+				createAgent(new AID(instance.toString(0), false), "lemas.agent.LemasAgent");
+				createAgent(new AID(instance.toString(1), false), "lemas.agent.LemasAgent");
+				count++;
+			} else {
 				done = true;
-				return;
 			}
-			Instance trainInst = stream.nextInstance();
-			DataProvider.getInstance().put("DATASET", trainInst.dataset());
-			instance = trainInst;
-			LemasLog.info(trainInst.toString());
-			createAgent(new AID(trainInst.toString(0), false), "lemas.agent.LemasAgent");
-			createAgent(new AID(trainInst.toString(1), false), "lemas.agent.LemasAgent");
-			count++;
 		}
 	}
 
@@ -109,12 +106,20 @@ public class LoaderBehaviour extends Behaviour {
 		}
 	}
 
-	private Rating makeRating(Instance line) {
-		AID clientAID = new AID(line.toString(0), false);
-		AID serverAID = new AID(line.toString(1), false);
-		String value = line.toString(line.classAttribute());
+	private Rating makeRating(Instance instance) {
+		AID clientAID = new AID(instance.toString(0), false);
+		AID serverAID = new AID(instance.toString(1), false);
+		setRound(instance.toString(2));
+		String value = instance.toString(instance.numAttributes() - 1);
 		WitnessUtil.addWitness(clientAID);
-		return OpenJadeUtil.makeRating(clientAID, serverAID, line.toString(), value);
+		return OpenJadeUtil.makeRating(clientAID, serverAID, round, Data.instanceToRatingAttribute(instance), value);
+	}
+
+	private void setRound(String date) {
+		if (!currentDate.equals(date)){
+			round++;
+		}
+		currentDate = date;		
 	}
 
 	private void createAgent(AID aid, String clazz) {
@@ -135,6 +140,11 @@ public class LoaderBehaviour extends Behaviour {
 
 	public void removerCache(AID sender) {
 		agentCache.remove(sender);
+	}
+
+	@Override
+	public boolean done() {
+		return done;
 	}
 
 }

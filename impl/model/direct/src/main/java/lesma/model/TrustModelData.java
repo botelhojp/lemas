@@ -15,11 +15,11 @@ public class TrustModelData implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	protected Hashtable<AID, List<Rating>> ratings = new Hashtable<AID, List<Rating>>();
-	protected HashMap<AID, Classifier> learners;
-	protected List<AID> witnesses = new ArrayList<AID>();	
-	
-	public TrustModelData(){
-		learners = new HashMap<AID, Classifier>() ;
+	protected HashMap<AID, Classifier> classifier;
+	protected List<AID> witnesses = new ArrayList<AID>();
+
+	public TrustModelData() {
+		classifier = new HashMap<AID, Classifier>();
 	}
 
 	public Hashtable<AID, List<Rating>> getRatings() {
@@ -38,17 +38,12 @@ public class TrustModelData implements Serializable {
 		this.witnesses = witnesses;
 	}
 
-	public HashMap<AID, Classifier> getLearners() {
-		if (learners == null){
-			learners = new HashMap<AID, Classifier>();
-		}
-		return learners;
+	public HashMap<AID, Classifier> getClassifier() {
+		return classifier;
 	}
 
-	public void setLearners(HashMap<AID, Classifier> learners) {
-		this.learners = learners;
+	public void setClassifier(HashMap<AID, Classifier> classifier) {
+		this.classifier = classifier;
 	}
-	
-	
 
 }

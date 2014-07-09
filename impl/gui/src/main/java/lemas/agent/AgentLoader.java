@@ -52,24 +52,9 @@ public class AgentLoader extends OpenAgent {
 
 	@ReceiveSimpleMessage(conversationId = ConversationId.TEST)
 	public void getTestMessage(ACLMessage msg) {
-		String[] tokens = msg.getContent().split(":");
-		String r1 = tokens[0];
-		String r2 = tokens[1];
-
-		if (!r1.equals("UNCERTAIN")) {
-			if (r2.equals("0.0")) {
-				if (r1.equals("-1.0")) {
-					countTrue = countTrue + 1;
-				} else {
-					countTrue = countTrue - 0.5;
-				}
-			} else {
-				if (r2.equals(r1)) {
-					countTrue = countTrue + 1;
-				} else {
-					countTrue = countTrue - 1;
-				}
-			}
+		Boolean test = Boolean.parseBoolean(msg.getContent());
+		if (test){
+			countTrue++;
 		}
 		if (dialogResult == null) {
 			dialogResult = new DialogResult();

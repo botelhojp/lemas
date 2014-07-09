@@ -7,13 +7,13 @@ import jade.util.leap.Iterator;
 
 import java.util.List;
 
-import lemas.agent.behaviour.SendMessageBehaviour;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
 import openjade.core.OpenAgent;
 import openjade.core.OpenJadeException;
 import openjade.core.annotation.ReceiveMatchMessage;
 import openjade.core.annotation.ReceiveSimpleMessage;
+import openjade.core.behaviours.SendMessageBehaviour;
 import openjade.ontology.Rating;
 import openjade.ontology.RequestRating;
 import openjade.ontology.SendRating;
@@ -77,20 +77,7 @@ public class LemasAgent extends OpenAgent {
 		messageResult.setSender(getAID());
 		messageResult.setConversationId(ConversationId.TEST);
 		messageResult.addReceiver(new AID("lemas_loader", false));
-
-		switch (trustModel.isReliable(rating.getServer())) {
-		case YES:
-			messageResult.setContent("1.0:" + rating.getValue());
-			break;
-		case NO:
-			messageResult.setContent("-1.0:" + rating.getValue());
-			break;
-		case UNCERTAIN:
-			messageResult.setContent("UNCERTAIN:" + rating.getValue());
-			break;
-		default:
-			throw new OpenJadeException("Invalid type");
-		}
+		messageResult.setContent(trustModel.test(rating).toString());
 		sendMessage(messageResult);
 		trustModel.addRating(rating);
 	}

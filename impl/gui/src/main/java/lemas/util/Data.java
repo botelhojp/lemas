@@ -11,6 +11,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import openjade.ontology.RatingAttribute;
+import weka.core.Instance;
 import lemas.model.LemasLog;
 import lemas.model.Project;
 
@@ -94,5 +96,17 @@ public class Data {
 		ex.printStackTrace(new PrintWriter(errors));
 		return errors.toString();
 	}
+	
+	public static jade.util.leap.List instanceToRatingAttribute(Instance instance){
+		jade.util.leap.List list = new jade.util.leap.ArrayList();
+		for (int i = 0; i < instance.numAttributes(); i++) {
+			RatingAttribute ra = new RatingAttribute();
+			ra.setName(instance.attribute(i).name());
+			ra.setValue(instance.toString(i));
+			list.add(ra);
+		}
+		return list;
+	}
+
 
 }

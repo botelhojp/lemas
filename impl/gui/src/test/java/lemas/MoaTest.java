@@ -15,8 +15,6 @@ public class MoaTest {
 
 		ArffFileStream stream = new ArffFileStream("C:\\Users\\vanderson\\feedback.arff", 7);
 
-		System.out.println(makeInstance(stream.getHeader()));
-
 		Classifier learner = new HoeffdingTree();
 
 		stream.prepareForUse();
@@ -41,7 +39,7 @@ public class MoaTest {
 		System.out.println(numberSamples + " instancesp rocessed with " + accuracy + "% accuracy");
 	}
 
-	private static Instance makeInstance(InstancesHeader instancesHeader) {
+	public static Instance makeInstance(InstancesHeader instancesHeader) {
 		try {
 			Instance inst = new DenseInstance(instancesHeader.numAttributes());
 			inst.setDataset(instancesHeader);
