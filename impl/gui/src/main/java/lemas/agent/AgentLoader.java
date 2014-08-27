@@ -35,12 +35,20 @@ public class AgentLoader extends OpenAgent {
 		addBehaviour(loader);
 	}
 	
+	/**
+	 * Recebe confirmacao de destruicao do agente
+	 * @param message
+	 */
 	@ReceiveSimpleMessage(conversationId = ConversationId.DO_DELETE)
 	public void dead(ACLMessage message) {
 		loader.removerCache(message.getSender());
 	}	
 
 
+	/**
+	 * Recebe confirmacao de que o agente foi iniciado
+	 * @param msg
+	 */
 	@ReceiveSimpleMessage(conversationId = ConversationId.LOADER)
 	public void getMessage(ACLMessage msg) {
 		if (wait.contains(msg.getSender())) {
@@ -50,6 +58,10 @@ public class AgentLoader extends OpenAgent {
 		}
 	}
 
+	/**
+	 * 
+	 * @param msg
+	 */
 	@ReceiveSimpleMessage(conversationId = ConversationId.TEST)
 	public void getTestMessage(ACLMessage msg) {
 		Boolean test = Boolean.parseBoolean(msg.getContent());

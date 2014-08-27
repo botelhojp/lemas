@@ -28,10 +28,8 @@ public class LemasAgent extends OpenAgent {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * ============================================================= TODOS OS
-	 * MODELOS =============================================================
+	 * Inicialização
 	 */
-
 	@SuppressWarnings("unchecked")
 	protected void setup() {
 		// setCodec(new SLCodec());
@@ -47,6 +45,18 @@ public class LemasAgent extends OpenAgent {
 		addBehaviour(new SendMessageBehaviour(this, message));
 	}
 
+	/**
+	 * Se destroi quando solicitado pelo agente loader
+	 * 
+	 * @param message
+	 */
+	@ReceiveSimpleMessage(performative = ACLMessage.REQUEST, conversationId = ConversationId.DO_DELETE)
+	public void dead(ACLMessage message) {
+		trustModel.serialize();
+		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.DO_DELETE, "");
+		this.doDelete();
+	}
+
 	@ReceiveMatchMessage(conversationId = ConversationId.TRAIN_ITERATE, action = SendRating.class)
 	public void receiveTrainIterate(ACLMessage message, ContentElement ce) {
 		SendRating sr = (SendRating) ce;
@@ -54,13 +64,6 @@ public class LemasAgent extends OpenAgent {
 		sendMessage(rating.getServer(), ACLMessage.REQUEST, ConversationId.SEND_FEEDBACK, sr);
 		trustModel.addRating(rating);
 	}
-	
-	@ReceiveSimpleMessage(performative=ACLMessage.REQUEST,  conversationId = ConversationId.DO_DELETE)
-	public void dead(ACLMessage message) {
-		trustModel.serialize();
-		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.DO_DELETE, "");
-		this.doDelete();
-	}	
 
 	/**
 	 * Cliente enviando sua opiniao ao agente loader
@@ -83,7 +86,8 @@ public class LemasAgent extends OpenAgent {
 	}
 
 	/**
-	 * Servidor recebendo um feedback e quarda referencia da testemunha
+	 * Servidor recebendo um feedback e quarda referencia da testemunha e
+	 * avaliacao se do modelo dossie
 	 * 
 	 * @param message
 	 * @param ce
@@ -91,16 +95,16 @@ public class LemasAgent extends OpenAgent {
 	@ReceiveMatchMessage(conversationId = ConversationId.SEND_FEEDBACK, action = SendRating.class)
 	public void receiveFeedback(ACLMessage message, ContentElement ce) {
 		SendRating sr = (SendRating) ce;
-		trustModel.addWitness(message.getSender());
 		Rating rating = (Rating) sr.getRating().get(0);
-		if (!rating.getServer().equals(getAID())) {			
+		trustModel.addWitness(message.getSender());
+		trustModel.addRating(rating);
+		if (!rating.getServer().equals(getAID())) {
 			throw new OpenJadeException("Esta avaliacao nao he minha: " + message.toString());
 		}
 	}
 
 	/**
-	 * ============================================================= INDIRETO
-	 * =============================================================
+	 * === MODELO INDIRETO ===
 	 */
 
 	/**
@@ -121,7 +125,7 @@ public class LemasAgent extends OpenAgent {
 	}
 
 	/**
-	 * Recebe avaliacoes vindo de testemunhas
+	 * Recebe avaliacoes vindas de testemunhas
 	 * 
 	 * @param message
 	 * @param ce
@@ -136,10 +140,8 @@ public class LemasAgent extends OpenAgent {
 	}
 
 	/**
-	 * ============================================================= REGRET
-	 * =============================================================
+	 * === MODELO REGRET ===
 	 */
-
 	@Override
 	public void findWitnesses(AID server) {
 		System.out.println(getAID());

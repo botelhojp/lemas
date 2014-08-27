@@ -26,6 +26,7 @@ public class IndirectModel extends AbstractModel {
 
 	@Override
 	public void addRating(Rating rating) {
+		
 		super.addRating(rating);
 		updateWitnesses();
 		findReputation(rating.getServer());

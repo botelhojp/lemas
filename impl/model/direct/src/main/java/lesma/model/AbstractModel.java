@@ -52,14 +52,15 @@ public class AbstractModel implements ITrustModel {
 		if (rating == null) {
 			return;
 		}
-		Instance in = Data.createByRating(rating.getAttributes());
-		if (!data.getClassifier().containsKey(rating.getServer())) {
-			HoeffdingTree l = new HoeffdingTree();
-			l.prepareForUse();
-			data.getClassifier().put(rating.getServer(), l);
+		if (!rating.getServer().equals(myAgent.getAID())) {
+			Instance in = Data.createByRating(rating.getAttributes());
+			if (!data.getClassifier().containsKey(rating.getServer())) {
+				HoeffdingTree l = new HoeffdingTree();
+				l.prepareForUse();
+				data.getClassifier().put(rating.getServer(), l);
+			}
+			data.getClassifier().get(rating.getServer()).trainOnInstance(in);
 		}
-
-		data.getClassifier().get(rating.getServer()).trainOnInstance(in);
 	}
 
 	@Deprecated
