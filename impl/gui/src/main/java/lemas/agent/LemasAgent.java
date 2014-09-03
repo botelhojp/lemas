@@ -57,16 +57,8 @@ public class LemasAgent extends OpenAgent {
 		this.doDelete();
 	}
 
-	@ReceiveMatchMessage(conversationId = ConversationId.TRAIN_ITERATE, action = SendRating.class)
-	public void receiveTrainIterate(ACLMessage message, ContentElement ce) {
-		SendRating sr = (SendRating) ce;
-		Rating rating = (Rating) sr.getRating().get(0);
-		sendMessage(rating.getServer(), ACLMessage.REQUEST, ConversationId.SEND_FEEDBACK, sr);
-		trustModel.addRating(rating);
-	}
-
 	/**
-	 * Cliente enviando sua opiniao ao agente loader
+	 * Cliente envia feedback ao servidor e ao loader
 	 * 
 	 * @param message
 	 * @param ce
@@ -75,6 +67,8 @@ public class LemasAgent extends OpenAgent {
 	public void receiveTestIterate(ACLMessage message, ContentElement ce) {
 		SendRating sr = (SendRating) ce;
 		Rating rating = (Rating) sr.getRating().get(0);
+		sendMessage(rating.getServer(), ACLMessage.REQUEST, ConversationId.SEND_FEEDBACK, sr);
+		trustModel.addRating(rating);
 
 		ACLMessage messageResult = new ACLMessage(ACLMessage.REQUEST);
 		messageResult.setSender(getAID());

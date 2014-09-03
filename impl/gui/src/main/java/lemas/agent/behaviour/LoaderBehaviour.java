@@ -34,11 +34,8 @@ public class LoaderBehaviour extends Behaviour {
 	private List<AID> agentCache = new ArrayList<AID>();
 	private boolean done = false;
 	private Instance instance = null;
-	private int patterns = 0;
 	private int round = 0;
 	private String currentDate = "";
-	private double count = 0.0;
-	private double training_phase = 0.003;
 	private Class<ITrustModel> trustModelClass;
 	private ArffFileStream stream;
 
@@ -56,27 +53,17 @@ public class LoaderBehaviour extends Behaviour {
 			return;
 		}
 		if (agent.nowait()) {
-			if (ifTraining()) {
-				sendFeedback(instance);
-			} else {
-				sendTest(instance);
-			}
-			
+			sendTest(instance);
 			if (stream.hasMoreInstances()) {
 				instance = stream.nextInstance();
 				instance = (Instance) instance.copy();
 				DataProvider.getInstance().put("DATASET", instance.dataset());
 				createAgent(new AID(instance.toString(0), false), "lemas.agent.LemasAgent");
 				createAgent(new AID(instance.toString(1), false), "lemas.agent.LemasAgent");
-				count++;
 			} else {
 				done = true;
 			}
 		}
-	}
-
-	private boolean ifTraining() {
-		return (count / patterns <= training_phase);
 	}
 
 	public void loadArff() {
@@ -85,15 +72,6 @@ public class LoaderBehaviour extends Behaviour {
 			stream.prepareForUse();
 		} catch (Exception e1) {
 			e1.printStackTrace();
-		}
-	}
-
-	private void sendFeedback(Instance instance) {
-		if (instance != null) {
-			Rating rating = makeRating(instance);
-			SendRating sr = new SendRating();
-			sr.addRating(rating);
-			agent.sendMessage(rating.getClient(), ACLMessage.REQUEST, ConversationId.TRAIN_ITERATE, sr, OpenJadeOntology.getInstance());
 		}
 	}
 

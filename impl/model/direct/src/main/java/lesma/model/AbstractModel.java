@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Properties;
 
 import lesma.model.data.Data;
-import moa.classifiers.Classifier;
-import moa.classifiers.trees.HoeffdingTree;
 import openjade.core.OpenAgent;
 import openjade.ontology.Rating;
 import openjade.trust.ITrustModel;
@@ -40,26 +38,15 @@ public class AbstractModel implements ITrustModel {
 	}
 
 	public Boolean test(Rating rating) {
-		Classifier classifier = data.getClassifier().get(rating.getServer());
-		if (classifier != null) {
-			Instance in = Data.createByRating(rating.getAttributes());
-			return classifier.correctlyClassifies(in);
-		}
-		return false;
+		Instance in = Data.createByRating(rating.getAttributes());
+		return data.getClassifier().correctlyClassifies(in);
 	}
 
 	public void addRating(Rating rating) {
-		if (rating == null) {
-			return;
-		}
-		if (!rating.getServer().equals(myAgent.getAID())) {
+		if (rating != null && !rating.getServer().equals(myAgent.getAID())) {
 			Instance in = Data.createByRating(rating.getAttributes());
-			if (!data.getClassifier().containsKey(rating.getServer())) {
-				HoeffdingTree l = new HoeffdingTree();
-				l.prepareForUse();
-				data.getClassifier().put(rating.getServer(), l);
-			}
-			data.getClassifier().get(rating.getServer()).trainOnInstance(in);
+			data.getClassifier().trainOnInstance(in);
+			data.addRating(rating.getServer(), rating);
 		}
 	}
 
@@ -71,9 +58,6 @@ public class AbstractModel implements ITrustModel {
 			return Reliable.UNCERTAIN;
 		} else {
 			float sum = 0;
-			// for (Rating r : list) {
-			// sum += r.getValue();
-			// }
 			if (sum >= range) {
 				return Reliable.YES;
 			}
