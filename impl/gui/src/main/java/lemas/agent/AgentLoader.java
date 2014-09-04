@@ -26,27 +26,28 @@ public class AgentLoader extends OpenAgent {
 	private double count = 0;
 	private double round = 0;
 	private LoaderBehaviour loader;
-	
+
 	@Override
 	protected void setup() {
-//		setCodec(new SLCodec());
+		// setCodec(new SLCodec());
 		super.setup();
 		loader = new LoaderBehaviour(this, getTrustModelClass());
 		addBehaviour(loader);
 	}
-	
+
 	/**
 	 * Recebe confirmacao de destruicao do agente
+	 * 
 	 * @param message
 	 */
 	@ReceiveSimpleMessage(conversationId = ConversationId.DO_DELETE)
 	public void dead(ACLMessage message) {
 		loader.removerCache(message.getSender());
-	}	
-
+	}
 
 	/**
 	 * Recebe confirmacao de que o agente foi iniciado
+	 * 
 	 * @param msg
 	 */
 	@ReceiveSimpleMessage(conversationId = ConversationId.LOADER)
@@ -64,19 +65,16 @@ public class AgentLoader extends OpenAgent {
 	 */
 	@ReceiveSimpleMessage(conversationId = ConversationId.TEST)
 	public void getTestMessage(ACLMessage msg) {
+		++count;
 		Boolean test = Boolean.parseBoolean(msg.getContent());
-		if (test){
+		if (test) {
 			countTrue++;
 		}
 		if (dialogResult == null) {
 			dialogResult = new DialogResult();
 			CommonsFrame.loadFrame(FrameMain.getInstance().getFrameResult(), dialogResult);
-		} else {
-			++count;
-			if (count % 50 == 0) {
-				dialogResult.addResult(0, round++, countTrue/count);
-			}
 		}
+		dialogResult.addResult(0, round++, countTrue / count);
 		updateScree();
 	}
 

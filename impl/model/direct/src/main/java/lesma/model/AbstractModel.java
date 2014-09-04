@@ -8,11 +8,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 
 import lesma.model.data.Data;
+import moa.classifiers.trees.HoeffdingTree;
+import moa.streams.generators.RandomRBFGenerator;
 import openjade.core.OpenAgent;
 import openjade.ontology.Rating;
 import openjade.trust.ITrustModel;
@@ -34,12 +37,13 @@ public class AbstractModel implements ITrustModel {
 	public AbstractModel() {
 		data = new TrustModelData();
 		properties = new Properties();
-		properties.put("UNCERTAIN_RANGE", "0.2");
 	}
 
 	public Boolean test(Rating rating) {
 		Instance in = Data.createByRating(rating.getAttributes());
-		return data.getClassifier().correctlyClassifies(in);
+		boolean cc = data.getClassifier().correctlyClassifies(in);
+		data.getClassifier().trainOnInstance(in);
+		return cc;
 	}
 
 	public void addRating(Rating rating) {

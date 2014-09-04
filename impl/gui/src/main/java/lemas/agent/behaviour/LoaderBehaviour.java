@@ -54,21 +54,26 @@ public class LoaderBehaviour extends Behaviour {
 		}
 		if (agent.nowait()) {
 			sendTest(instance);
-			if (stream.hasMoreInstances()) {
-				instance = stream.nextInstance();
-				instance = (Instance) instance.copy();
-				DataProvider.getInstance().put("DATASET", instance.dataset());
-				createAgent(new AID(instance.toString(0), false), "lemas.agent.LemasAgent");
-				createAgent(new AID(instance.toString(1), false), "lemas.agent.LemasAgent");
-			} else {
-				done = true;
+			try {
+				if (stream.hasMoreInstances()) {
+					instance = stream.nextInstance();
+					System.out.println(instance);
+					instance = (Instance) instance.copy();
+					DataProvider.getInstance().put("DATASET", instance.dataset());
+					createAgent(new AID(instance.toString(0), false), "lemas.agent.LemasAgent");
+					createAgent(new AID(instance.toString(1), false), "lemas.agent.LemasAgent");
+				} else {
+					done = true;
+				}
+			} catch (NumberFormatException e) {
+				System.out.println(e.getMessage());
 			}
 		}
 	}
 
 	public void loadArff() {
 		try {
-			stream = new ArffFileStream(Runner.currentProject.getLoading(), 7);
+			stream = new ArffFileStream(Runner.currentProject.getLoading(), 6);
 			stream.prepareForUse();
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -94,10 +99,10 @@ public class LoaderBehaviour extends Behaviour {
 	}
 
 	private void setRound(String date) {
-		if (!currentDate.equals(date)){
+		if (!currentDate.equals(date)) {
 			round++;
 		}
-		currentDate = date;		
+		currentDate = date;
 	}
 
 	private void createAgent(AID aid, String clazz) {
