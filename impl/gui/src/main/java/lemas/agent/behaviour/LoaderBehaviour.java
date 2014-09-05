@@ -6,6 +6,9 @@ import jade.lang.acl.ACLMessage;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +17,6 @@ import lemas.agent.ConversationId;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
 import lemas.util.Data;
-import moa.streams.ArffFileStream;
 import openjade.core.DataProvider;
 import openjade.ontology.OpenJadeOntology;
 import openjade.ontology.Rating;
@@ -23,6 +25,8 @@ import openjade.trust.ITrustModel;
 import openjade.trust.WitnessUtil;
 import openjade.util.OpenJadeUtil;
 import weka.core.Instance;
+import weka.core.Instances;
+import weka.core.converters.ArffLoader.ArffReader;
 
 public class LoaderBehaviour extends Behaviour {
 
@@ -37,7 +41,9 @@ public class LoaderBehaviour extends Behaviour {
 	private int round = 0;
 	private String currentDate = "";
 	private Class<ITrustModel> trustModelClass;
-	private ArffFileStream stream;
+
+	private ArffReader arff;
+	private BufferedReader reader;
 
 	public LoaderBehaviour(AgentLoader _agent, Class<ITrustModel> trustModelClass) {
 		agent = _agent;
@@ -55,8 +61,10 @@ public class LoaderBehaviour extends Behaviour {
 		if (agent.nowait()) {
 			sendTest(instance);
 			try {
-				if (stream.hasMoreInstances()) {
-					instance = stream.nextInstance();
+				Instances data = arff.getStructure();
+				data.setClassIndex(data.numAttributes() - 1);
+				instance = arff.readInstance(data);
+				if (instance != null) {
 					System.out.println(instance);
 					instance = (Instance) instance.copy();
 					DataProvider.getInstance().put("DATASET", instance.dataset());
@@ -67,14 +75,16 @@ public class LoaderBehaviour extends Behaviour {
 				}
 			} catch (NumberFormatException e) {
 				System.out.println(e.getMessage());
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
 
 	public void loadArff() {
 		try {
-			stream = new ArffFileStream(Runner.currentProject.getLoading(), 6);
-			stream.prepareForUse();
+			reader = new BufferedReader(new FileReader(Runner.currentProject.getLoading()));
+			arff = new ArffReader(reader, 10);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
