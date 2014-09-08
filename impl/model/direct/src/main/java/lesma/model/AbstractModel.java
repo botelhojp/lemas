@@ -8,18 +8,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 
 import lesma.model.data.Data;
-import moa.classifiers.trees.HoeffdingTree;
-import moa.streams.generators.RandomRBFGenerator;
 import openjade.core.OpenAgent;
 import openjade.ontology.Rating;
 import openjade.trust.ITrustModel;
-import openjade.trust.Reliable;
 import openjade.trust.model.Pair;
 import weka.core.Instance;
 
@@ -54,24 +50,6 @@ public class AbstractModel implements ITrustModel {
 		}
 	}
 
-	@Deprecated
-	public Reliable isReliable(AID agent) {
-		double range = getDouble("UNCERTAIN_RANGE");
-		List<Rating> list = data.getRatings().get(agent);
-		if (list == null) {
-			return Reliable.UNCERTAIN;
-		} else {
-			float sum = 0;
-			if (sum >= range) {
-				return Reliable.YES;
-			}
-			if (sum <= -range) {
-				return Reliable.NO;
-			}
-			return Reliable.UNCERTAIN;
-		}
-	}
-
 	public Properties getProperties() {
 		return properties;
 	}
@@ -90,7 +68,7 @@ public class AbstractModel implements ITrustModel {
 
 	public void setAgent(OpenAgent agent) {
 		this.myAgent = agent;
-		tmpFile = new File(System.getProperty("java.io.tmpdir") + File.separatorChar + myAgent.getLocalName());
+		tmpFile = new File(System.getProperty("java.io.tmpdir") + File.separatorChar + myAgent.getLocalName()+ Constants.AGENT_FILE_EXTENSION);
 	}
 
 	public List<Rating> getRatings(AID aid) {

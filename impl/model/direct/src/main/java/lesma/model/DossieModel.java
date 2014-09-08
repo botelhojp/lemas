@@ -32,4 +32,9 @@ public class DossieModel extends AbstractModel {
 			return null;
 		}
 	}
+	
+	public Boolean test(Rating rating) {
+		
+		return (Math.random() <= 0.2);
+	}
 }

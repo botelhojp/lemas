@@ -1,9 +1,11 @@
 package lemas;
 
+import java.io.File;
+
 import lemas.form.FrameMain;
 import lemas.form.SplashScreen;
-import lemas.model.LemasLog;
 import lemas.model.Workspace;
+import lesma.model.Constants;
 
 import org.apache.log4j.Logger;
 
@@ -24,8 +26,8 @@ public class Lemas {
 			spaScreen.showScreen();
 			spaScreen.setProgress("workspace", 0);
 			Workspace.getIntance().initialize();
-			spaScreen.setProgress("agents", 30);
-			delay(500);
+			spaScreen.setProgress("limpeza de arquivos antigos", 30);
+			cleanFiles();
 			spaScreen.setProgress("openjade", 70);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -35,11 +37,21 @@ public class Lemas {
 		}
 	}
 
-	private static void delay(int i) {
+	public static void cleanFiles() {
+		File folderTmp = new File(System.getProperty("java.io.tmpdir"));
+		File[] listOfFiles = folderTmp.listFiles();
+		for (File file : listOfFiles) {
+			if (file.getName().endsWith(Constants.AGENT_FILE_EXTENSION)){
+				file.delete();
+			}
+		}
+	}
+	
+	public static void sleep(long millis){
 		try {
-			Thread.sleep(i);
+			Thread.sleep(millis);
 		} catch (InterruptedException e) {
-			LemasLog.erro(e);
+			e.printStackTrace();
 		}
 	}
 }

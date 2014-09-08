@@ -6,6 +6,7 @@ import jade.lang.acl.ACLMessage;
 import java.util.HashSet;
 import java.util.Set;
 
+import lemas.Lemas;
 import lemas.agent.behaviour.LoaderBehaviour;
 import lemas.form.DialogResult;
 import lemas.form.FrameMain;
@@ -111,8 +112,6 @@ public class AgentLoader extends OpenAgent {
 			if (getArguments().length != 2) {
 				throw new RuntimeException("Modelo de Confiancao nao selecionado");
 			}
-//			String clazz = getArguments()[0].toString();
-//			return (Class<ITrustModel>) Class.forName(clazz);
 			return (Class<ITrustModel>) Class.forName(FrameProject.getInstance().getCurrentProject().getClazz());
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Modelo de Confiancao nao selecionado", e);
@@ -121,5 +120,6 @@ public class AgentLoader extends OpenAgent {
 
 	public void stop() {
 		loader.stop();
+		Lemas.cleanFiles();
 	}
 }

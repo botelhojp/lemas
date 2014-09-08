@@ -12,8 +12,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import lemas.Lemas;
 import lemas.agent.AgentLoader;
 import lemas.agent.ConversationId;
+import lemas.agent.LemasAgent;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
 import lemas.util.Data;
@@ -142,10 +144,12 @@ public class LoaderBehaviour extends Behaviour {
 	}
 
 	public void stop() {
-		for(AID aid : agentCache){
-			agent.sendMessage(aid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");
+		agent.sendMessage(LemasAgent.SERVICE, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");
+		if (myAgent != null) {
+			myAgent.removeBehaviour(this);
 		}
-		myAgent.removeBehaviour(this);
+		Lemas.sleep(2000);
+		Lemas.cleanFiles();
 	}
 
 }

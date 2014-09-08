@@ -12,7 +12,6 @@ public class Project {
 	private String loading;
 	private String host;
 	private String conteiner;
-	private boolean monitor;
 	private Properties properties;
 
 	private List<Result> results;
@@ -22,7 +21,6 @@ public class Project {
 		results = new ArrayList<Result>();
 		host = "-gui, -local-host, 127.0.0.1";
 		conteiner = "-container, -container-name, Agents-Container";
-		monitor = true;
 		loading="1 :: seller:lesma.model.direct.agent.TaskAgent(Agents-Container,openjade.trust.DirectModel,TERRIBLE)\n" +
 				"1 :: buyer:lesma.model.direct.agent.TaskAgent(Agents-Container,openjade.trust.DirectModel,TERRIBLE)";
 	}
@@ -69,14 +67,6 @@ public class Project {
 
 	public void setConteiner(String conteiner) {
 		this.conteiner = conteiner;
-	}
-
-	public boolean isMonitor() {
-		return monitor;
-	}
-
-	public void setMonitor(boolean monitor) {
-		this.monitor = monitor;
 	}
 
 	public String getLoading() {

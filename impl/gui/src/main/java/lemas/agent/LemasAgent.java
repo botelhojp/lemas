@@ -26,6 +26,7 @@ import openjade.util.OpenJadeUtil;
 public class LemasAgent extends OpenAgent {
 
 	private static final long serialVersionUID = 1L;
+	public static final String SERVICE = "LEMAS";
 
 	/**
 	 * Inicialização
@@ -43,6 +44,7 @@ public class LemasAgent extends OpenAgent {
 		message.setConversationId(ConversationId.LOADER);
 		message.addReceiver(new AID("lemas_loader", false));
 		addBehaviour(new SendMessageBehaviour(this, message));
+		registerService(SERVICE);
 	}
 
 	/**
@@ -52,6 +54,7 @@ public class LemasAgent extends OpenAgent {
 	 */
 	@ReceiveSimpleMessage(performative = ACLMessage.REQUEST, conversationId = ConversationId.DO_DELETE)
 	public void dead(ACLMessage message) {
+		super.deregister(SERVICE);
 		trustModel.serialize();
 		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.DO_DELETE, "");
 		this.doDelete();
