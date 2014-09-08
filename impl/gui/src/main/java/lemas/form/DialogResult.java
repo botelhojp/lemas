@@ -24,7 +24,7 @@ public class DialogResult extends JDialog {
 
 		setSize(300, 200);
 		xySerie = new XYSeriesCollection();
-		JFreeChart chart = ChartFactory.createXYLineChart("Result", "round", "percent", xySerie, PlotOrientation.VERTICAL, true, true, false);
+		JFreeChart chart = ChartFactory.createXYLineChart("Result", "round", "hits", xySerie, PlotOrientation.VERTICAL, true, true, false);
 		cp = new ChartPanel(chart);
 		JInternalFrame wd = FrameMain.getInstance().getWindow();
 		wd.setSize(300, 200);

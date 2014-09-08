@@ -5,8 +5,10 @@ import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 import jade.util.leap.Iterator;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import lemas.agent.behaviour.TesterBehavior;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
 import openjade.core.OpenAgent;
@@ -27,6 +29,7 @@ public class LemasAgent extends OpenAgent {
 
 	private static final long serialVersionUID = 1L;
 	public static final String SERVICE = "LEMAS";
+	private List<Rating> test = new ArrayList<Rating>();
 
 	/**
 	 * Inicialização
@@ -44,6 +47,7 @@ public class LemasAgent extends OpenAgent {
 		message.setConversationId(ConversationId.LOADER);
 		message.addReceiver(new AID("lemas_loader", false));
 		addBehaviour(new SendMessageBehaviour(this, message));
+		addBehaviour(new TesterBehavior(this));
 		registerService(SERVICE);
 	}
 
@@ -72,14 +76,7 @@ public class LemasAgent extends OpenAgent {
 		Rating rating = (Rating) sr.getRating().get(0);
 		sendMessage(rating.getServer(), ACLMessage.REQUEST, ConversationId.SEND_FEEDBACK, sr);
 		trustModel.addRating(rating);
-
-		ACLMessage messageResult = new ACLMessage(ACLMessage.REQUEST);
-		messageResult.setSender(getAID());
-		messageResult.setConversationId(ConversationId.TEST);
-		messageResult.addReceiver(new AID("lemas_loader", false));
-		messageResult.setContent(trustModel.test(rating).toString());
-		sendMessage(messageResult);
-		trustModel.addRating(rating);
+		test.add(rating);
 	}
 
 	/**
@@ -170,6 +167,10 @@ public class LemasAgent extends OpenAgent {
 			AID aid = (AID) it.next();
 			trustModel.addWitness(aid);
 		}
+	}
+
+	public List<Rating> getTest() {
+		return test;
 	}
 
 }

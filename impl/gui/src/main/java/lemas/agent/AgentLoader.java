@@ -1,11 +1,6 @@
 package lemas.agent;
 
-import jade.core.AID;
 import jade.lang.acl.ACLMessage;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import lemas.Lemas;
 import lemas.agent.behaviour.LoaderBehaviour;
 import lemas.form.DialogResult;
@@ -14,7 +9,6 @@ import lemas.form.FrameProject;
 import lemas.model.LemasLog;
 import lemas.util.CommonsFrame;
 import openjade.core.OpenAgent;
-import openjade.core.OpenJadeException;
 import openjade.core.annotation.ReceiveSimpleMessage;
 import openjade.trust.ITrustModel;
 
@@ -22,7 +16,7 @@ public class AgentLoader extends OpenAgent {
 
 	private static AgentLoader instance;
 	private static final long serialVersionUID = 1L;
-	private Set<AID> wait = new HashSet<AID>();
+	private int wait = 0;;
 	private double countTrue = 0;
 	private double countFalse = 0;
 	private static int executions = -1;
@@ -38,7 +32,7 @@ public class AgentLoader extends OpenAgent {
 	@Override
 	public void setup() {
 		super.setup();
-		wait = new HashSet<AID>();
+		wait = 0;
 		countTrue = 0;
 		countFalse = 0;
 		count = 0;
@@ -67,11 +61,11 @@ public class AgentLoader extends OpenAgent {
 	 */
 	@ReceiveSimpleMessage(conversationId = ConversationId.LOADER)
 	public void getMessage(ACLMessage msg) {
-		if (wait.contains(msg.getSender())) {
-			wait.remove(msg.getSender());
-		} else {
-			throw new OpenJadeException("Agente nao autorizado [" + msg.getSender().getLocalName() + "]");
-		}
+//		if (wait.contains(msg.getSender())) {
+//			wait.remove(msg.getSender());
+//		} else {
+//			throw new OpenJadeException("Agente nao autorizado [" + msg.getSender().getLocalName() + "]");
+//		}
 	}
 
 	/**
@@ -90,7 +84,9 @@ public class AgentLoader extends OpenAgent {
 			CommonsFrame.loadFrame(FrameMain.getInstance().getFrameResult(), dialogResult);
 		}
 		dialogResult.addResult(executions, round++, countTrue / count);
+		LemasLog.info("total = " + count + " acertos = " + countTrue);
 		updateScree();
+		wait--;
 	}
 
 	private void updateScree() {
@@ -98,12 +94,12 @@ public class AgentLoader extends OpenAgent {
 		LemasLog.info("total test:" + total + " ok " + countTrue + "  nok " + countFalse + " % " + (countTrue / (countFalse + countTrue)));
 	}
 
-	public void waiting(AID aid) {
-		wait.add(aid);
+	public void waiting() {
+		wait++;
 	}
 
 	public boolean nowait() {
-		return wait.isEmpty();
+		return (wait==0);
 	}
 
 	@SuppressWarnings("unchecked")

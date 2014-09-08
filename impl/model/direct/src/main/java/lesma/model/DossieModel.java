@@ -20,8 +20,8 @@ public class DossieModel extends AbstractModel {
 		if (rating.getServer().equals(myAgent.getAID())) {
 			dossie.add(rating);
 		} else {
-			super.addRating(rating);
-			myAgent.findReputation(rating.getServer(), rating.getServer());
+//			super.addRating(rating);
+//			myAgent.findReputation(rating.getServer(), rating.getServer());
 		}
 	}
 	
@@ -33,8 +33,7 @@ public class DossieModel extends AbstractModel {
 		}
 	}
 	
-	public Boolean test(Rating rating) {
-		
+	public Boolean test(Rating rating) {		
 		return (Math.random() <= 0.2);
 	}
 }

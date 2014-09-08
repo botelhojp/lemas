@@ -61,17 +61,20 @@ public class LoaderBehaviour extends Behaviour {
 			return;
 		}
 		if (agent.nowait()) {
-			sendTest(instance);
+//			sendTest(instance);
 			try {
 				Instances data = arff.getStructure();
 				data.setClassIndex(data.numAttributes() - 1);
 				instance = arff.readInstance(data);
 				if (instance != null) {
 					System.out.println(instance);
-					instance = (Instance) instance.copy();
 					DataProvider.getInstance().put("DATASET", instance.dataset());
-					createAgent(new AID(instance.toString(0), false), "lemas.agent.LemasAgent");
-					createAgent(new AID(instance.toString(1), false), "lemas.agent.LemasAgent");
+					AID client =  new AID(instance.toString(0), false);
+					AID server =  new AID(instance.toString(1), false);
+					agent.waiting();
+					createAgent(server, "lemas.agent.LemasAgent");
+					createAgent(client, "lemas.agent.LemasAgent");
+					sendTest(client, instance);
 				} else {
 					done = true;
 					stop();
@@ -93,12 +96,12 @@ public class LoaderBehaviour extends Behaviour {
 		}
 	}
 
-	private void sendTest(Instance line) {
+	private void sendTest(AID client, Instance line) {
 		if (line != null) {
 			Rating rating = makeRating(line);
 			SendRating sr = new SendRating();
 			sr.addRating(rating);
-			agent.sendMessage(rating.getClient(), ACLMessage.REQUEST, ConversationId.TEST_ITERATE, sr, OpenJadeOntology.getInstance());
+			agent.sendMessage(client, ACLMessage.REQUEST, ConversationId.TEST_ITERATE, sr, OpenJadeOntology.getInstance());
 		}
 	}
 
@@ -121,7 +124,6 @@ public class LoaderBehaviour extends Behaviour {
 	private void createAgent(AID aid, String clazz) {
 		try {
 			if (!agentCache.contains(aid)) {
-				agent.waiting(aid);
 				Object[] param = { trustModelClass };
 				AgentController a = agent.getContainerController().createNewAgent(aid.getLocalName(), clazz, param);
 				a.start();
