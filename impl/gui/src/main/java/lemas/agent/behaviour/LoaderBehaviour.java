@@ -72,11 +72,12 @@ public class LoaderBehaviour extends Behaviour {
 					createAgent(new AID(instance.toString(1), false), "lemas.agent.LemasAgent");
 				} else {
 					done = true;
+					stop();
 				}
 			} catch (NumberFormatException e) {
 				System.out.println(e.getMessage());
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 			}
 		}
 	}
@@ -138,6 +139,13 @@ public class LoaderBehaviour extends Behaviour {
 	@Override
 	public boolean done() {
 		return done;
+	}
+
+	public void stop() {
+		for(AID aid : agentCache){
+			agent.sendMessage(aid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");
+		}
+		myAgent.removeBehaviour(this);
 	}
 
 }

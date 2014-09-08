@@ -9,7 +9,7 @@ import lesma.annotations.TrustModel;
 
 import org.reflections.Reflections;
 
-public class LesmaReflection {
+public class LemasReflection {
 
 	private static List<TrustModelBean> trustModels = new ArrayList<TrustModelBean>();
 

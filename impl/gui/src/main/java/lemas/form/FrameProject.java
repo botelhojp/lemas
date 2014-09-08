@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import openjade.trust.ITrustModel;
 import openjade.trust.TrustModelFactory;
 import lemas.model.LemasLog;
-import lemas.model.LesmaReflection;
+import lemas.model.LemasReflection;
 import lemas.model.Project;
 import lemas.model.Runner;
 import lemas.model.TrustModelBean;
@@ -44,7 +44,7 @@ public class FrameProject extends JDialog {
 
 	void load() {
 		project = new Project();
-		List<TrustModelBean> list = LesmaReflection.getTrustModels();
+		List<TrustModelBean> list = LemasReflection.getTrustModels();
 		cbTrustModelList.removeAllItems();
 		for (TrustModelBean item : list) {
 			cbTrustModelList.addItem(item);
@@ -417,4 +417,9 @@ public class FrameProject extends JDialog {
 			t.insertRow(t.getRowCount(), registro);
 		}
 	}
+	
+	public Project getCurrentProject(){
+		return project;
+	}
+	
 }

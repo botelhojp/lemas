@@ -9,6 +9,7 @@ import java.util.Set;
 import lemas.agent.behaviour.LoaderBehaviour;
 import lemas.form.DialogResult;
 import lemas.form.FrameMain;
+import lemas.form.FrameProject;
 import lemas.model.LemasLog;
 import lemas.util.CommonsFrame;
 import openjade.core.OpenAgent;
@@ -18,21 +19,34 @@ import openjade.trust.ITrustModel;
 
 public class AgentLoader extends OpenAgent {
 
+	private static AgentLoader instance;
 	private static final long serialVersionUID = 1L;
 	private Set<AID> wait = new HashSet<AID>();
 	private double countTrue = 0;
 	private double countFalse = 0;
+	private static int executions = -1;
 	private DialogResult dialogResult;
 	private double count = 0;
 	private double round = 0;
 	private LoaderBehaviour loader;
+	
+	public static AgentLoader getInstance(){
+		return instance;
+	}
 
 	@Override
-	protected void setup() {
-		// setCodec(new SLCodec());
+	public void setup() {
 		super.setup();
+		wait = new HashSet<AID>();
+		countTrue = 0;
+		countFalse = 0;
+		count = 0;
+		round = 0;
+		executions++;
+		
 		loader = new LoaderBehaviour(this, getTrustModelClass());
 		addBehaviour(loader);
+		instance = this;
 	}
 
 	/**
@@ -74,7 +88,7 @@ public class AgentLoader extends OpenAgent {
 			dialogResult = new DialogResult();
 			CommonsFrame.loadFrame(FrameMain.getInstance().getFrameResult(), dialogResult);
 		}
-		dialogResult.addResult(0, round++, countTrue / count);
+		dialogResult.addResult(executions, round++, countTrue / count);
 		updateScree();
 	}
 
@@ -97,10 +111,15 @@ public class AgentLoader extends OpenAgent {
 			if (getArguments().length != 2) {
 				throw new RuntimeException("Modelo de Confiancao nao selecionado");
 			}
-			String clazz = getArguments()[0].toString();
-			return (Class<ITrustModel>) Class.forName(clazz);
+//			String clazz = getArguments()[0].toString();
+//			return (Class<ITrustModel>) Class.forName(clazz);
+			return (Class<ITrustModel>) Class.forName(FrameProject.getInstance().getCurrentProject().getClazz());
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Modelo de Confiancao nao selecionado", e);
 		}
+	}
+
+	public void stop() {
+		loader.stop();
 	}
 }
