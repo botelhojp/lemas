@@ -55,20 +55,6 @@ public class AgentLoader extends OpenAgent {
 	}
 
 	/**
-	 * Recebe confirmacao de que o agente foi iniciado
-	 * 
-	 * @param msg
-	 */
-	@ReceiveSimpleMessage(conversationId = ConversationId.LOADER)
-	public void getMessage(ACLMessage msg) {
-//		if (wait.contains(msg.getSender())) {
-//			wait.remove(msg.getSender());
-//		} else {
-//			throw new OpenJadeException("Agente nao autorizado [" + msg.getSender().getLocalName() + "]");
-//		}
-	}
-
-	/**
 	 * 
 	 * @param msg
 	 */

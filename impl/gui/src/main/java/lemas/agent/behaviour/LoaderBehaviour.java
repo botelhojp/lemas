@@ -61,7 +61,6 @@ public class LoaderBehaviour extends Behaviour {
 			return;
 		}
 		if (agent.nowait()) {
-//			sendTest(instance);
 			try {
 				Instances data = arff.getStructure();
 				data.setClassIndex(data.numAttributes() - 1);

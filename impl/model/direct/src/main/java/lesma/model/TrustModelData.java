@@ -15,6 +15,7 @@ public class TrustModelData implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	protected Hashtable<AID, List<Rating>> ratings = new Hashtable<AID, List<Rating>>();
+	protected List<Rating> allRatings = new ArrayList<Rating>();
 	protected Classifier classifier;
 	protected List<AID> witnesses = new ArrayList<AID>();
 
@@ -47,5 +48,21 @@ public class TrustModelData implements Serializable {
 			list.add(rating);
 			ratings.put(server, list);
 		}		
+		allRatings.add(rating);
+	}
+	
+	public List<Rating> getRating(AID aid){
+		return ratings.get(aid);
+	}
+	
+	public List<Rating> getAllRating(){
+		return this.allRatings;
+	}
+	
+	public void resetClassifier(){
+		ratings.clear();
+		allRatings.clear();
+		classifier = new HoeffdingTree();
+		classifier.prepareForUse();
 	}
 }

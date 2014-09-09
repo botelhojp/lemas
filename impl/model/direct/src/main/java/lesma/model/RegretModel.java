@@ -20,7 +20,7 @@ public class RegretModel extends AbstractModel {
 		myAgent.findWitnesses(server);		
 	}
 
-	private void findReputation(AID server) {
+	public void findReputation(AID server) {
 		for (AID witness : getWitnesses()) {
 			myAgent.findReputation(witness, server);
 		}

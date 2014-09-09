@@ -37,9 +37,7 @@ public class AbstractModel implements ITrustModel {
 
 	public Boolean test(Rating rating) {
 		Instance in = Data.createByRating(rating.getAttributes());
-		boolean cc = data.getClassifier().correctlyClassifies(in);
-		data.getClassifier().trainOnInstance(in);
-		return cc;
+		return data.getClassifier().correctlyClassifies(in);
 	}
 
 	public void addRating(Rating rating) {
@@ -48,6 +46,10 @@ public class AbstractModel implements ITrustModel {
 			data.getClassifier().trainOnInstance(in);
 			data.addRating(rating.getServer(), rating);
 		}
+	}
+	
+	public void reset() {
+		data.resetClassifier();
 	}
 
 	public Properties getProperties() {
@@ -72,7 +74,7 @@ public class AbstractModel implements ITrustModel {
 	}
 
 	public List<Rating> getRatings(AID aid) {
-		return null;
+		return data.getRating(aid);
 	}
 
 	public Rating addRating(AID client, AID server, int iteration, String term, float value) {
@@ -150,5 +152,14 @@ public class AbstractModel implements ITrustModel {
 			throw new RuntimeException("Erro serialize trustmodel", e);
 		}
 	}
+
+	public void findReputation(AID server) {
+	}
+
+	public List<Rating> getRatings() {
+		return data.getAllRating();
+	}
+
+	
 
 }

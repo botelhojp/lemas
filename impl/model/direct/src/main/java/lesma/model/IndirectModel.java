@@ -32,7 +32,7 @@ public class IndirectModel extends AbstractModel {
 		findReputation(rating.getServer());
 	}
 
-	private void findReputation(AID server) {
+	public void findReputation(AID server) {
 		for (AID witness : getWitnesses()) {
 			myAgent.findReputation(witness, server);
 		}

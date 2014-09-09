@@ -5,7 +5,6 @@ import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 import jade.util.leap.Iterator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lemas.agent.behaviour.TesterBehavior;
@@ -15,7 +14,6 @@ import openjade.core.OpenAgent;
 import openjade.core.OpenJadeException;
 import openjade.core.annotation.ReceiveMatchMessage;
 import openjade.core.annotation.ReceiveSimpleMessage;
-import openjade.core.behaviours.SendMessageBehaviour;
 import openjade.ontology.Rating;
 import openjade.ontology.RequestRating;
 import openjade.ontology.SendRating;
@@ -29,7 +27,8 @@ public class LemasAgent extends OpenAgent {
 
 	private static final long serialVersionUID = 1L;
 	public static final String SERVICE = "LEMAS";
-	private List<Rating> test = new ArrayList<Rating>();
+	private Rating pendingRating;
+	
 
 	/**
 	 * Inicialização
@@ -42,11 +41,6 @@ public class LemasAgent extends OpenAgent {
 		trustModel.setProperties(Runner.currentProject.getProperties());
 		trustModel.loadSerialize();
 		LemasLog.info("created: " + getAID().getLocalName());
-		ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
-		message.setSender(getAID());
-		message.setConversationId(ConversationId.LOADER);
-		message.addReceiver(new AID("lemas_loader", false));
-		addBehaviour(new SendMessageBehaviour(this, message));
 		addBehaviour(new TesterBehavior(this));
 		registerService(SERVICE);
 	}
@@ -63,6 +57,36 @@ public class LemasAgent extends OpenAgent {
 		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.DO_DELETE, "");
 		this.doDelete();
 	}
+	
+	
+	/**
+	 * Recebe um pedido para enviar seu dossie
+	 * @param message
+	 */
+	@ReceiveSimpleMessage(performative = ACLMessage.REQUEST, conversationId = ConversationId.GET_DOSSIE)
+	public void requestDossie(ACLMessage message) {
+		SendRating sr = new SendRating();
+		List<Rating> rs = trustModel.getRatings();
+		for (Rating rating : rs) {
+			sr.addRating(rating);	
+		}
+		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.GET_DOSSIE, sr, openJadeOntology);
+	}
+	
+	/**
+	 * Recebe o dossie solcitado
+	 * @param message
+	 */
+	@ReceiveMatchMessage(performative = ACLMessage.INFORM, conversationId = ConversationId.GET_DOSSIE, action = SendRating.class)
+	public void responseDossie(ACLMessage message, ContentElement ce) {
+		SendRating sr = (SendRating) ce;
+		Iterator it = sr.getAllRating();
+		while (it.hasNext()) {
+			listPendingRating.add((Rating) it.next());
+		}
+		addBehaviour(new TesterBehavior(this));
+	}
+
 
 	/**
 	 * Cliente envia feedback ao servidor e ao loader
@@ -76,7 +100,7 @@ public class LemasAgent extends OpenAgent {
 		Rating rating = (Rating) sr.getRating().get(0);
 		sendMessage(rating.getServer(), ACLMessage.REQUEST, ConversationId.SEND_FEEDBACK, sr);
 		trustModel.addRating(rating);
-		test.add(rating);
+		pendingRating = rating;
 	}
 
 	/**
@@ -169,8 +193,11 @@ public class LemasAgent extends OpenAgent {
 		}
 	}
 
-	public List<Rating> getTest() {
-		return test;
+	public Rating getPendingRating() {
+		return pendingRating;
 	}
 
+	public void setPendingRating(Rating rating) {
+		this.pendingRating = rating;
+	}
 }

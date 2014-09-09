@@ -1,5 +1,7 @@
 package lesma.model;
 
+import jade.core.AID;
+import jade.lang.acl.ACLMessage;
 import lesma.annotations.TrustModel;
 import openjade.ontology.Rating;
 
@@ -12,5 +14,10 @@ public class DirectModel extends AbstractModel {
 	public void addRating(Rating rating) {
 		super.addRating(rating);
 	}
+	
+	public void findReputation(AID server) {
+		myAgent.sendMessage(myAgent.getAID(), ACLMessage.REQUEST, "GET_DOSSIE", "");
+	}
+
 
 }

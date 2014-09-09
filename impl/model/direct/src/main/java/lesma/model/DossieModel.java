@@ -1,6 +1,7 @@
 package lesma.model;
 
 import jade.core.AID;
+import jade.lang.acl.ACLMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,20 +21,17 @@ public class DossieModel extends AbstractModel {
 		if (rating.getServer().equals(myAgent.getAID())) {
 			dossie.add(rating);
 		} else {
-//			super.addRating(rating);
-//			myAgent.findReputation(rating.getServer(), rating.getServer());
+			super.addRating(rating);
 		}
 	}
 	
-	public List<Rating> getRatings(AID aid) {
-		if (aid.equals(myAgent.getAID())){
-			return dossie;
-		}else{
-			return null;
-		}
+	public List<Rating> getRatings() {
+		return dossie;
 	}
 	
-	public Boolean test(Rating rating) {		
-		return (Math.random() <= 0.2);
+	public void findReputation(AID server) {
+		myAgent.sendMessage(server, ACLMessage.REQUEST, "GET_DOSSIE", "");
 	}
+
+	
 }
