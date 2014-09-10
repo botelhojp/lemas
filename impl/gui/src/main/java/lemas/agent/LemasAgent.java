@@ -20,15 +20,12 @@ import openjade.ontology.SendRating;
 import openjade.ontology.WitnessRequest;
 import openjade.ontology.WitnessResponse;
 import openjade.trust.ITrustModel;
-import openjade.util.OpenJadeUtil;
 
-@SuppressWarnings("rawtypes")
 public class LemasAgent extends OpenAgent {
 
 	private static final long serialVersionUID = 1L;
 	public static final String SERVICE = "LEMAS";
 	private Rating pendingRating;
-	
 
 	/**
 	 * Inicialização
@@ -57,10 +54,10 @@ public class LemasAgent extends OpenAgent {
 		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.DO_DELETE, "");
 		this.doDelete();
 	}
-	
-	
+
 	/**
 	 * Recebe um pedido para enviar seu dossie
+	 * 
 	 * @param message
 	 */
 	@ReceiveSimpleMessage(performative = ACLMessage.REQUEST, conversationId = ConversationId.GET_DOSSIE)
@@ -68,13 +65,14 @@ public class LemasAgent extends OpenAgent {
 		SendRating sr = new SendRating();
 		List<Rating> rs = trustModel.getRatings();
 		for (Rating rating : rs) {
-			sr.addRating(rating);	
+			sr.addRating(rating);
 		}
 		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.GET_DOSSIE, sr, openJadeOntology);
 	}
-	
+
 	/**
 	 * Recebe o dossie solcitado
+	 * 
 	 * @param message
 	 */
 	@ReceiveMatchMessage(performative = ACLMessage.INFORM, conversationId = ConversationId.GET_DOSSIE, action = SendRating.class)
@@ -86,7 +84,6 @@ public class LemasAgent extends OpenAgent {
 		}
 		addBehaviour(new TesterBehavior(this));
 	}
-
 
 	/**
 	 * Cliente envia feedback ao servidor e ao loader
@@ -126,49 +123,57 @@ public class LemasAgent extends OpenAgent {
 	 */
 
 	/**
-	 * Atende o pedido para enviar suas avaliacoes para um determinado agente
+	 * Recebe do loader um conjunto de testemunhas
 	 * 
 	 * @param message
 	 * @param ce
 	 */
-	@ReceiveMatchMessage(conversationId = ACLMessage.REQUEST + "", performative = ACLMessage.REQUEST, action = RequestRating.class)
-	public void responseWitnessRequest(ACLMessage message, ContentElement ce) {
+	@ReceiveMatchMessage(conversationId = ConversationId.GET_INDIRECT, performative = ACLMessage.INFORM, action = WitnessResponse.class)
+	public void responseWitnessRequest2(ACLMessage message, ContentElement ce) {
+		WitnessResponse wr = (WitnessResponse) ce;
+		Iterator it = wr.getAllWitnesses();
+		while (it.hasNext()) {
+			AID aid = (AID) it.next();
+			RequestRating rr = new RequestRating();
+			rr.setAid(wr.getServer());
+			sendMessage(aid, ACLMessage.REQUEST, ConversationId.REQUEST_REPUTATION, rr);
+		}
+	}
+
+	/**
+	 * Recebe do loader um conjunto de testemunhas
+	 * 
+	 * @param message
+	 * @param ce
+	 */
+	@ReceiveMatchMessage(conversationId = ConversationId.REQUEST_REPUTATION, performative = ACLMessage.REQUEST, action = RequestRating.class)
+	public void responseWitnessRequest3(ACLMessage message, ContentElement ce) {
 		RequestRating rr = (RequestRating) ce;
-		List list = trustModel.getRatings(rr.getAid());
+		List<Rating> list = getTrustModel().getRatings(rr.getAid());
 		SendRating sr = new SendRating();
-		sr.setRating(OpenJadeUtil.convertList(list));
-		if (sr.getRating() != null) {
-			sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.SEND_RATING, sr);
+		for (Rating rating : list) {
+			sr.addRating(rating);
 		}
+		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.REQUEST_REPUTATION, sr);
 	}
-
+	
 	/**
-	 * Recebe avaliacoes vindas de testemunhas
+	 * 
 	 * 
 	 * @param message
 	 * @param ce
 	 */
-	@ReceiveMatchMessage(conversationId = ConversationId.SEND_RATING, performative = ACLMessage.INFORM, action = SendRating.class)
-	public void getRatings(ACLMessage message, ContentElement ce) {
-		SendRating sr = (SendRating) ce;
-		jade.util.leap.List ratings = sr.getRating();
-		for (int i = 0; i < ratings.size(); i++) {
-			trustModel.addRating((Rating) ratings.get(i));
+	@ReceiveMatchMessage(conversationId = ConversationId.REQUEST_REPUTATION, performative = ACLMessage.INFORM, action = SendRating.class)
+	public void responseWitnessRequest4(ACLMessage message, ContentElement ce) {
+		SendRating rr = (SendRating) ce;
+		Iterator it = rr.getAllRating();
+		while (it.hasNext()) {
+			Rating rt = (Rating) it.next();
+			listPendingRating.add(rt);
 		}
+		addBehaviour(new TesterBehavior(this));
 	}
 
-	/**
-	 * === MODELO REGRET ===
-	 */
-	@Override
-	public void findWitnesses(AID server) {
-		System.out.println(getAID());
-		System.out.println(server);
-		super.findWitnesses(server);
-		WitnessRequest wr = new WitnessRequest();
-		wr.setAid(server);
-		sendMessage(server, ACLMessage.REQUEST, ConversationId.REQUEST_WITNESS, wr);
-	}
 
 	@ReceiveMatchMessage(conversationId = ConversationId.REQUEST_WITNESS, performative = ACLMessage.REQUEST, action = WitnessRequest.class)
 	public void getResponseWitnessRequest(ACLMessage message, ContentElement ce) {

@@ -41,7 +41,6 @@ public class LoaderBehaviour extends Behaviour {
 	private boolean done = false;
 	private Instance instance = null;
 	private int round = 0;
-	private String currentDate = "";
 	private Class<ITrustModel> trustModelClass;
 
 	private ArffReader arff;
@@ -73,6 +72,7 @@ public class LoaderBehaviour extends Behaviour {
 					agent.waiting();
 					createAgent(server, "lemas.agent.LemasAgent");
 					createAgent(client, "lemas.agent.LemasAgent");
+					WitnessUtil.addWitness(server, client);;
 					sendTest(client, instance);
 				} else {
 					done = true;
@@ -107,17 +107,8 @@ public class LoaderBehaviour extends Behaviour {
 	private Rating makeRating(Instance instance) {
 		AID clientAID = new AID(instance.toString(0), false);
 		AID serverAID = new AID(instance.toString(1), false);
-		setRound(instance.toString(2));
 		String value = instance.toString(instance.numAttributes() - 1);
-		WitnessUtil.addWitness(clientAID);
-		return OpenJadeUtil.makeRating(clientAID, serverAID, round, Data.instanceToRatingAttribute(instance), value);
-	}
-
-	private void setRound(String date) {
-		if (!currentDate.equals(date)) {
-			round++;
-		}
-		currentDate = date;
+		return OpenJadeUtil.makeRating(clientAID, serverAID, round++, Data.instanceToRatingAttribute(instance), value);
 	}
 
 	private void createAgent(AID aid, String clazz) {

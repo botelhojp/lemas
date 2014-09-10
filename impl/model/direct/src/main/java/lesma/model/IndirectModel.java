@@ -1,14 +1,10 @@
 package lesma.model;
 
 import jade.core.AID;
-
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.List;
-
+import jade.lang.acl.ACLMessage;
 import lesma.annotations.TrustModel;
 import openjade.ontology.Rating;
-import openjade.trust.WitnessUtil;
+import openjade.ontology.RequestRating;
 
 @TrustModel(name = "Indirect Model")
 public class IndirectModel extends AbstractModel {
@@ -17,7 +13,6 @@ public class IndirectModel extends AbstractModel {
 
 	private static final String NEIGHBORS = "NEIGHBORS";
 	private static final String FREQUENCY = "FREQUENCY";
-	private double frequencyCount = 0;
 
 	public IndirectModel() {
 		properties.put(NEIGHBORS, "0.1");
@@ -26,29 +21,12 @@ public class IndirectModel extends AbstractModel {
 
 	@Override
 	public void addRating(Rating rating) {
-		
 		super.addRating(rating);
-		updateWitnesses();
-		findReputation(rating.getServer());
 	}
 
 	public void findReputation(AID server) {
-		for (AID witness : getWitnesses()) {
-			myAgent.findReputation(witness, server);
-		}
-	}
-
-	private void updateWitnesses() {
-		try {
-			if (++frequencyCount % getDouble(FREQUENCY) == 0) {
-				List<AID> list = WitnessUtil.getWitness(getDouble(NEIGHBORS));
-				Iterator<AID> it = list.iterator();
-				while (it.hasNext()) {
-					addWitness((AID) it.next());
-				}
-			}
-		} catch (ConcurrentModificationException ex) {
-
-		}
+		RequestRating rr = new RequestRating();
+		rr.setAid(server);
+		myAgent.sendMessage(new AID("lemas_loader", false), ACLMessage.REQUEST, "GET_INDIRECT", rr);
 	}
 }
