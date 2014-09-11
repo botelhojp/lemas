@@ -83,7 +83,6 @@ public class AgentLoader extends OpenAgent {
 	@ReceiveMatchMessage(performative = ACLMessage.REQUEST, conversationId = ConversationId.GET_INDIRECT, action = RequestRating.class)
 	public void requestWitness(ACLMessage message, ContentElement ce) {
 		RequestRating sr = (RequestRating) ce;
-		System.out.println(sr.getAid());
 		List<AID> list = WitnessUtil.getWitness(sr.getAid());
 		WitnessResponse wr = new WitnessResponse();
 		wr.setServer(sr.getAid());

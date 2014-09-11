@@ -17,7 +17,6 @@ import openjade.core.annotation.ReceiveSimpleMessage;
 import openjade.ontology.Rating;
 import openjade.ontology.RequestRating;
 import openjade.ontology.SendRating;
-import openjade.ontology.WitnessRequest;
 import openjade.ontology.WitnessResponse;
 import openjade.trust.ITrustModel;
 
@@ -26,6 +25,7 @@ public class LemasAgent extends OpenAgent {
 	private static final long serialVersionUID = 1L;
 	public static final String SERVICE = "LEMAS";
 	private Rating pendingRating;
+	private TesterBehavior tb;
 
 	/**
 	 * Inicialização
@@ -38,7 +38,8 @@ public class LemasAgent extends OpenAgent {
 		trustModel.setProperties(Runner.currentProject.getProperties());
 		trustModel.loadSerialize();
 		LemasLog.info("created: " + getAID().getLocalName());
-		addBehaviour(new TesterBehavior(this));
+		tb = new TesterBehavior(this);
+		addBehaviour(tb);
 		registerService(SERVICE);
 	}
 
@@ -55,36 +56,8 @@ public class LemasAgent extends OpenAgent {
 		this.doDelete();
 	}
 
-	/**
-	 * Recebe um pedido para enviar seu dossie
-	 * 
-	 * @param message
-	 */
-	@ReceiveSimpleMessage(performative = ACLMessage.REQUEST, conversationId = ConversationId.GET_DOSSIE)
-	public void requestDossie(ACLMessage message) {
-		SendRating sr = new SendRating();
-		List<Rating> rs = trustModel.getRatings();
-		for (Rating rating : rs) {
-			sr.addRating(rating);
-		}
-		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.GET_DOSSIE, sr, openJadeOntology);
-	}
-
-	/**
-	 * Recebe o dossie solcitado
-	 * 
-	 * @param message
-	 */
-	@ReceiveMatchMessage(performative = ACLMessage.INFORM, conversationId = ConversationId.GET_DOSSIE, action = SendRating.class)
-	public void responseDossie(ACLMessage message, ContentElement ce) {
-		SendRating sr = (SendRating) ce;
-		Iterator it = sr.getAllRating();
-		while (it.hasNext()) {
-			listPendingRating.add((Rating) it.next());
-		}
-		addBehaviour(new TesterBehavior(this));
-	}
-
+	// ==== GERAL ====
+	
 	/**
 	 * Cliente envia feedback ao servidor e ao loader
 	 * 
@@ -99,7 +72,7 @@ public class LemasAgent extends OpenAgent {
 		trustModel.addRating(rating);
 		pendingRating = rating;
 	}
-
+	
 	/**
 	 * Servidor recebendo um feedback e quarda referencia da testemunha e
 	 * avaliacao se do modelo dossie
@@ -117,10 +90,40 @@ public class LemasAgent extends OpenAgent {
 			throw new OpenJadeException("Esta avaliacao nao he minha: " + message.toString());
 		}
 	}
+	
+	// ==== DOSSIE ====
+	
+	/**
+	 * Recebe um pedido para enviar seu dossie
+	 * 
+	 * @param message
+	 */
+	@ReceiveSimpleMessage(performative = ACLMessage.REQUEST, conversationId = ConversationId.GET_DOSSIE)
+	public void requestDossie(ACLMessage message) {
+		SendRating sr = new SendRating();
+		List<Rating> rs = trustModel.getRatings();
+		for (Rating rating : rs) {
+			sr.addRating(rating);
+		}
+		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.GET_DOSSIE, sr);
+	}
 
 	/**
-	 * === MODELO INDIRETO ===
+	 * Recebe o dossie solicitado
+	 * 
+	 * @param message
 	 */
+	@ReceiveMatchMessage(performative = ACLMessage.INFORM, conversationId = ConversationId.GET_DOSSIE, action = SendRating.class)
+	public void responseDossie(ACLMessage message, ContentElement ce) {
+		SendRating sr = (SendRating) ce;
+		Iterator it = sr.getAllRating();
+		while (it.hasNext()) {
+			listPendingRating.add((Rating) it.next());
+		}
+		tb.resume();
+	}
+
+	// ==== INDIRETO ====
 
 	/**
 	 * Recebe do loader um conjunto de testemunhas
@@ -128,6 +131,7 @@ public class LemasAgent extends OpenAgent {
 	 * @param message
 	 * @param ce
 	 */
+	private static int done = 0;
 	@ReceiveMatchMessage(conversationId = ConversationId.GET_INDIRECT, performative = ACLMessage.INFORM, action = WitnessResponse.class)
 	public void responseWitnessRequest2(ACLMessage message, ContentElement ce) {
 		WitnessResponse wr = (WitnessResponse) ce;
@@ -136,16 +140,18 @@ public class LemasAgent extends OpenAgent {
 			AID aid = (AID) it.next();
 			RequestRating rr = new RequestRating();
 			rr.setAid(wr.getServer());
+			done++;
 			sendMessage(aid, ACLMessage.REQUEST, ConversationId.REQUEST_REPUTATION, rr);
 		}
 	}
 
 	/**
-	 * Recebe do loader um conjunto de testemunhas
+	 * Informa, como uma testemunha, a reputação de um certo agente.
 	 * 
 	 * @param message
 	 * @param ce
 	 */
+	
 	@ReceiveMatchMessage(conversationId = ConversationId.REQUEST_REPUTATION, performative = ACLMessage.REQUEST, action = RequestRating.class)
 	public void responseWitnessRequest3(ACLMessage message, ContentElement ce) {
 		RequestRating rr = (RequestRating) ce;
@@ -158,43 +164,22 @@ public class LemasAgent extends OpenAgent {
 	}
 	
 	/**
-	 * 
+	 * Recebe testemunhos sobre o agente solicitado
 	 * 
 	 * @param message
 	 * @param ce
 	 */
 	@ReceiveMatchMessage(conversationId = ConversationId.REQUEST_REPUTATION, performative = ACLMessage.INFORM, action = SendRating.class)
 	public void responseWitnessRequest4(ACLMessage message, ContentElement ce) {
+		done--;
 		SendRating rr = (SendRating) ce;
 		Iterator it = rr.getAllRating();
 		while (it.hasNext()) {
 			Rating rt = (Rating) it.next();
 			listPendingRating.add(rt);
 		}
-		addBehaviour(new TesterBehavior(this));
-	}
-
-
-	@ReceiveMatchMessage(conversationId = ConversationId.REQUEST_WITNESS, performative = ACLMessage.REQUEST, action = WitnessRequest.class)
-	public void getResponseWitnessRequest(ACLMessage message, ContentElement ce) {
-		WitnessRequest wr = (WitnessRequest) ce;
-		WitnessResponse wrs = new WitnessResponse();
-		List<Rating> l = trustModel.getRatings(wr.getAid());
-		if (l != null) {
-			for (Rating r : l) {
-				wrs.getWitnesses().add(r);
-			}
-		}
-		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.REQUEST_WITNESS, wr);
-	}
-
-	@ReceiveMatchMessage(performative = ACLMessage.INFORM, action = WitnessResponse.class, conversationId = "dfdsfs")
-	public void getReceiveWitnessRequest(ACLMessage message, ContentElement ce) {
-		WitnessResponse wr = (WitnessResponse) ce;
-		Iterator it = wr.getAllWitnesses();
-		while (it.hasNext()) {
-			AID aid = (AID) it.next();
-			trustModel.addWitness(aid);
+		if (done == 0){
+			tb.resume();
 		}
 	}
 
