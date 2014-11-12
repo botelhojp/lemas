@@ -76,12 +76,9 @@ public class FrameProject extends JDialog {
         txtContainer = new javax.swing.JTextField();
         btSave = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        panelARRF = new javax.swing.JPanel();
+        panelProperties = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTableProperties = new javax.swing.JTable();
-        panelLoad = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtLoad = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Project");
@@ -148,37 +145,20 @@ public class FrameProject extends JDialog {
         ));
         jScrollPane3.setViewportView(jTableProperties);
 
-        javax.swing.GroupLayout panelARRFLayout = new javax.swing.GroupLayout(panelARRF);
-        panelARRF.setLayout(panelARRFLayout);
-        panelARRFLayout.setHorizontalGroup(
-            panelARRFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelARRFLayout.createSequentialGroup()
+        javax.swing.GroupLayout panelPropertiesLayout = new javax.swing.GroupLayout(panelProperties);
+        panelProperties.setLayout(panelPropertiesLayout);
+        panelPropertiesLayout.setHorizontalGroup(
+            panelPropertiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPropertiesLayout.createSequentialGroup()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-        panelARRFLayout.setVerticalGroup(
-            panelARRFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelPropertiesLayout.setVerticalGroup(
+            panelPropertiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Properties", panelARRF);
-
-        txtLoad.setColumns(20);
-        txtLoad.setRows(5);
-        jScrollPane2.setViewportView(txtLoad);
-
-        javax.swing.GroupLayout panelLoadLayout = new javax.swing.GroupLayout(panelLoad);
-        panelLoad.setLayout(panelLoadLayout);
-        panelLoadLayout.setHorizontalGroup(
-            panelLoadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
-        );
-        panelLoadLayout.setVerticalGroup(
-            panelLoadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("File", panelLoad);
+        jTabbedPane1.addTab("Properties", panelProperties);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -198,16 +178,13 @@ public class FrameProject extends JDialog {
                             .addComponent(txtContainer)
                             .addComponent(cbTrustModelList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btSave)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btRun, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(btSave)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btRun, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -342,15 +319,12 @@ public class FrameProject extends JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTableProperties;
-    private javax.swing.JPanel panelARRF;
-    private javax.swing.JPanel panelLoad;
+    private javax.swing.JPanel panelProperties;
     private javax.swing.JTextField txtContainer;
     private javax.swing.JTextField txtIp;
-    private javax.swing.JTextArea txtLoad;
     // End of variables declaration//GEN-END:variables
 
 	void clean() {
@@ -364,7 +338,6 @@ public class FrameProject extends JDialog {
 		project.setTrustmodel(tmb.getName());
 		project.setClazz(tmb.getClazz().getName());
 		project.setConteiner(txtContainer.getText());
-		project.setLoading(txtLoad.getText());
 		project.getProperties().clear();
 		DefaultTableModel t = (DefaultTableModel) jTableProperties.getModel();
 		for (int row = 0; row < t.getRowCount(); row++) {
@@ -395,8 +368,6 @@ public class FrameProject extends JDialog {
 			project.setProperties(pTM);
 		}
 		updateTable(project.getProperties());
-		txtLoad.setText(project.getLoading());
-		txtLoad.setCaretPosition(0);
 	}
 
 	private void changeItemTrustModel(TrustModelBean tmb) {

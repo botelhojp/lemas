@@ -21,10 +21,8 @@ public class Project {
 		results = new ArrayList<Result>();
 		host = "-gui, -local-host, 127.0.0.1";
 		conteiner = "-container, -container-name, Agents-Container";
-		loading="1 :: seller:lesma.model.direct.agent.TaskAgent(Agents-Container,openjade.trust.DirectModel,TERRIBLE)\n" +
-				"1 :: buyer:lesma.model.direct.agent.TaskAgent(Agents-Container,openjade.trust.DirectModel,TERRIBLE)";
 	}
-
+	
 	public String getTrustmodel() {
 		return trustmodel;
 	}
