@@ -36,6 +36,7 @@ public class FrameMain extends javax.swing.JFrame {
 	private FrameMain() {
 		setExtendedState(MAXIMIZED_BOTH);
 		initComponents();
+		menu(false);
 		this.setExtendedState(FrameMain.MAXIMIZED_BOTH);
 		windowDialog.setVisible(false);
 		windowDialog1.setVisible(false);
@@ -69,14 +70,13 @@ public class FrameMain extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         menuOpenArff = new javax.swing.JMenuItem();
-        jmenuAgents = new javax.swing.JMenu();
-        mnNewProject = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        menuNewProject = new javax.swing.JMenuItem();
         mnOpenProject = new javax.swing.JMenuItem();
-        jMenuConfig = new javax.swing.JMenu();
-        menuStart = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         menuStop = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        mnExit = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        menuExit = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -161,7 +161,7 @@ public class FrameMain extends javax.swing.JFrame {
         );
         windowDialog2Layout.setVerticalGroup(
             windowDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 426, Short.MAX_VALUE)
+            .addGap(0, 510, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
@@ -200,7 +200,7 @@ public class FrameMain extends javax.swing.JFrame {
         );
         jDesktopPane1.setLayer(panelMain, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jMenuFile.setText("File");
+        jMenuFile.setText("Lemas");
 
         menuOpenArff.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         menuOpenArff.setText("Open Arff");
@@ -210,41 +210,26 @@ public class FrameMain extends javax.swing.JFrame {
             }
         });
         jMenuFile.add(menuOpenArff);
+        jMenuFile.add(jSeparator1);
 
-        jMenuBar1.add(jMenuFile);
-
-        jmenuAgents.setText("Project");
-
-        mnNewProject.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-        mnNewProject.setText("New");
-        mnNewProject.addActionListener(new java.awt.event.ActionListener() {
+        menuNewProject.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        menuNewProject.setText("New Project");
+        menuNewProject.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnNewProjectActionPerformed(evt);
+               mnNewProjectActionPerformed(evt);
             }
         });
-        jmenuAgents.add(mnNewProject);
+        jMenuFile.add(menuNewProject);
 
         mnOpenProject.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        mnOpenProject.setText("Open");
+        mnOpenProject.setText("Open Project");
         mnOpenProject.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnOpenProjectActionPerformed(evt);
             }
         });
-        jmenuAgents.add(mnOpenProject);
-
-        jMenuBar1.add(jmenuAgents);
-
-        jMenuConfig.setText("JADE");
-
-        menuStart.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
-        menuStart.setText("Start Container");
-        menuStart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuStartActionPerformed(evt);
-            }
-        });
-        jMenuConfig.add(menuStart);
+        jMenuFile.add(mnOpenProject);
+        jMenuFile.add(jSeparator3);
 
         menuStop.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_0, java.awt.event.InputEvent.CTRL_MASK));
         menuStop.setText("Stop Container");
@@ -253,22 +238,19 @@ public class FrameMain extends javax.swing.JFrame {
                 menuStopActionPerformed(evt);
             }
         });
-        jMenuConfig.add(menuStop);
+        jMenuFile.add(menuStop);
+        jMenuFile.add(jSeparator2);
 
-        jMenuBar1.add(jMenuConfig);
-
-        jMenu2.setText("Window");
-
-        mnExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
-        mnExit.setText("Exit");
-        mnExit.addActionListener(new java.awt.event.ActionListener() {
+        menuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+        menuExit.setText("Exit");
+        menuExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnExitActionPerformed(evt);
             }
         });
-        jMenu2.add(mnExit);
+        jMenuFile.add(menuExit);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(jMenuFile);
 
         setJMenuBar(jMenuBar1);
 
@@ -298,7 +280,8 @@ public class FrameMain extends javax.swing.JFrame {
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
 			arfffile = file;
-			message("open file: " + arfffile.getAbsolutePath());			
+			message("open file: " + arfffile.getAbsolutePath());
+			menu(true);
 		}
         
     }//GEN-LAST:event_menuOpenArffActionPerformed
@@ -403,17 +386,16 @@ public class FrameMain extends javax.swing.JFrame {
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenu jMenuConfig;
     private javax.swing.JMenu jMenuFile;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JMenu jmenuAgents;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JMenuItem menuExit;
+    private javax.swing.JMenuItem menuNewProject;
     private javax.swing.JMenuItem menuOpenArff;
-    private javax.swing.JMenuItem menuStart;
     private javax.swing.JMenuItem menuStop;
-    private javax.swing.JMenuItem mnExit;
-    private javax.swing.JMenuItem mnNewProject;
     private javax.swing.JMenuItem mnOpenProject;
     private javax.swing.JPanel panelMain;
     private javax.swing.JTextArea txtLog;
@@ -442,6 +424,12 @@ public class FrameMain extends javax.swing.JFrame {
 	public void visibleWindows(boolean value) {
 		windowDialog1.setVisible(value);
 		windowDialog2.setVisible(value);
+	}
+	
+	private void menu(boolean value) {
+		this.menuNewProject.setEnabled(value);
+		this.mnOpenProject.setEnabled(value);
+		this.menuStop.setEnabled(value);
 	}
 
 }
