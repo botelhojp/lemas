@@ -27,7 +27,7 @@ public class Runner {
 				started = true;
 				currentProject = project;
 				openjade.Boot.main(makeArray(project.getHost(), ","));
-				String[] loader = { "-local-host", "127.0.0.1", "-container", "-container-name", "Lemas-Container", "lemas_loader:lemas.agent.AgentLoader(" + project.getClazz() + ",)" };
+				String[] loader = { "-local-host", "127.0.0.1", "-container", "-container-name", "Lemas-Container", "lemas_loader:lemas.agent.AgentLoader" };
 				openjade.Boot.main(loader);
 			} catch (Exception e) {
 				LemasLog.erro(e);

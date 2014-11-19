@@ -71,8 +71,9 @@ public class AgentLoader extends OpenAgent {
 		if (!test) {
 			countFalse++;
 		}
-		addResult(executions, round++, countFalse);
-		LemasLog.info("total = " + count + " acertos = " + countFalse);
+		double value = (1.00 - countFalse/count)*100;
+		addResult(executions, round++, value);
+		LemasLog.info("total = " + count + " value = " + value);
 		wait--;
 	}
 	
@@ -111,9 +112,6 @@ public class AgentLoader extends OpenAgent {
 	@SuppressWarnings("unchecked")
 	private Class<ITrustModel> getTrustModelClass() {
 		try {
-			if (getArguments().length != 2) {
-				throw new RuntimeException("Modelo de Confiancao nao selecionado");
-			}
 			return (Class<ITrustModel>) Class.forName(FrameProject.getInstance().getCurrentProject().getClazz());
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Modelo de Confiancao nao selecionado", e);
