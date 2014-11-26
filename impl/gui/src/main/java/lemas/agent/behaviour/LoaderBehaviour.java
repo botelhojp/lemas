@@ -100,7 +100,7 @@ public class LoaderBehaviour extends Behaviour {
 			Rating rating = makeRating(line);
 			SendRating sr = new SendRating();
 			sr.addRating(rating);
-			agent.sendMessage(client, ACLMessage.REQUEST, ConversationId.TEST_ITERATE, sr, OpenJadeOntology.getInstance());
+			agent.sendMessage(client, ACLMessage.REQUEST, ConversationId.START_ITERATE, sr, OpenJadeOntology.getInstance());
 		}
 	}
 

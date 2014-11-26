@@ -1,4 +1,4 @@
-package lesma.model.data;
+package lemas.trust.data;
 
 import openjade.core.DataProvider;
 import openjade.ontology.RatingAttribute;

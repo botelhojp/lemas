@@ -7,7 +7,7 @@ import jade.util.leap.Iterator;
 
 import java.util.List;
 
-import lemas.agent.behaviour.TesterBehavior;
+import lemas.agent.behaviour.SendMessageBehavior;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
 import openjade.core.OpenAgent;
@@ -24,8 +24,7 @@ public class LemasAgent extends OpenAgent {
 
 	private static final long serialVersionUID = 1L;
 	public static final String SERVICE = "LEMAS";
-	private Rating pendingRating;
-	private TesterBehavior tb;
+	private SendMessageBehavior tb;
 
 	/**
 	 * Inicialização
@@ -38,7 +37,7 @@ public class LemasAgent extends OpenAgent {
 		trustModel.setProperties(Runner.currentProject.getProperties());
 		trustModel.loadSerialize();
 		LemasLog.info("created: " + getAID().getLocalName());
-		tb = new TesterBehavior(this);
+		tb = new SendMessageBehavior(this);
 		addBehaviour(tb);
 		registerService(SERVICE);
 	}
@@ -55,6 +54,16 @@ public class LemasAgent extends OpenAgent {
 		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.DO_DELETE, "");
 		this.doDelete();
 	}
+	
+	// Operacoes essencias
+	
+	public void testLastRating(AID aid){
+		tb.test(aid);
+	}	
+	
+	public void requestDossie(AID aid){
+		tb.requestDossie(aid);
+	}
 
 	// ==== GERAL ====
 	
@@ -64,13 +73,12 @@ public class LemasAgent extends OpenAgent {
 	 * @param message
 	 * @param ce
 	 */
-	@ReceiveMatchMessage(conversationId = ConversationId.TEST_ITERATE, action = SendRating.class)
+	@ReceiveMatchMessage(conversationId = ConversationId.START_ITERATE, action = SendRating.class)
 	public void receiveTestIterate(ACLMessage message, ContentElement ce) {
 		SendRating sr = (SendRating) ce;
 		Rating rating = (Rating) sr.getRating().get(0);
 		sendMessage(rating.getServer(), ACLMessage.REQUEST, ConversationId.SEND_FEEDBACK, sr);
-		trustModel.addRating(rating);
-		pendingRating = rating;
+		trustModel.addRating(rating, true);		
 	}
 	
 	/**
@@ -85,7 +93,7 @@ public class LemasAgent extends OpenAgent {
 		SendRating sr = (SendRating) ce;
 		Rating rating = (Rating) sr.getRating().get(0);
 		trustModel.addWitness(message.getSender());
-		trustModel.addRating(rating);
+		trustModel.addRating(rating, true);
 		if (!rating.getServer().equals(getAID())) {
 			throw new OpenJadeException("Esta avaliacao nao he minha: " + message.toString());
 		}
@@ -101,7 +109,7 @@ public class LemasAgent extends OpenAgent {
 	@ReceiveSimpleMessage(performative = ACLMessage.REQUEST, conversationId = ConversationId.GET_DOSSIE)
 	public void requestDossie(ACLMessage message) {
 		SendRating sr = new SendRating();
-		List<Rating> rs = trustModel.getRatings();
+		List<Rating> rs = trustModel.getDossie();
 		for (Rating rating : rs) {
 			sr.addRating(rating);
 		}
@@ -118,9 +126,12 @@ public class LemasAgent extends OpenAgent {
 		SendRating sr = (SendRating) ce;
 		Iterator it = sr.getAllRating();
 		while (it.hasNext()) {
-			listPendingRating.add((Rating) it.next());
+			Rating rating = (Rating) it.next();
+			if (!rating.getClient().equals(this.getAID())){
+				trustModel.addRating(rating, false);	
+			}
 		}
-		tb.resume();
+		tb.test(message.getSender());
 	}
 
 	// ==== INDIRETO ====
@@ -154,13 +165,13 @@ public class LemasAgent extends OpenAgent {
 	
 	@ReceiveMatchMessage(conversationId = ConversationId.REQUEST_REPUTATION, performative = ACLMessage.REQUEST, action = RequestRating.class)
 	public void responseWitnessRequest3(ACLMessage message, ContentElement ce) {
-		RequestRating rr = (RequestRating) ce;
-		List<Rating> list = getTrustModel().getRatings(rr.getAid());
-		SendRating sr = new SendRating();
-		for (Rating rating : list) {
-			sr.addRating(rating);
-		}
-		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.REQUEST_REPUTATION, sr);
+//		RequestRating rr = (RequestRating) ce;
+//		List<Rating> list = getTrustModel().getRatings(rr.getAid());
+//		SendRating sr = new SendRating();
+//		for (Rating rating : list) {
+//			sr.addRating(rating);
+//		}
+//		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.REQUEST_REPUTATION, sr);
 	}
 	
 	/**
@@ -176,18 +187,10 @@ public class LemasAgent extends OpenAgent {
 		Iterator it = rr.getAllRating();
 		while (it.hasNext()) {
 			Rating rt = (Rating) it.next();
-			listPendingRating.add(rt);
+//			listPendingRating.add(rt);
 		}
 		if (done == 0){
 			tb.resume();
 		}
-	}
-
-	public Rating getPendingRating() {
-		return pendingRating;
-	}
-
-	public void setPendingRating(Rating rating) {
-		this.pendingRating = rating;
 	}
 }

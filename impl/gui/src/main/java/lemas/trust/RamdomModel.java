@@ -1,4 +1,4 @@
-package lesma.model;
+package lemas.trust;
 
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
@@ -15,7 +15,7 @@ public class RamdomModel extends AbstractModel {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public Boolean test(openjade.ontology.Rating rating) {
+	public Boolean test(AID aid) {
 		double r = Math.random();
 		return (r <= getDouble("RELIABLE"));
 	}

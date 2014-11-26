@@ -1,4 +1,4 @@
-package lesma.model;
+package lemas.trust;
 
 import jade.core.AID;
 
@@ -8,49 +8,61 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Enumeration;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-import lesma.model.data.Data;
+import lemas.agent.LemasAgent;
 import openjade.core.OpenAgent;
 import openjade.ontology.Rating;
 import openjade.trust.ITrustModel;
 import openjade.trust.model.Pair;
-import weka.core.Instance;
 
 public class AbstractModel implements ITrustModel {
 
-	protected TrustModelData data;
-
+	protected HashMap<AID, TrustModelData> data = new HashMap<AID, TrustModelData>();
 	protected int currentIteration;
-	protected OpenAgent myAgent;
+	protected LemasAgent myAgent;
+	protected List<AID> witnessList;
 	protected Properties properties;
 	protected File tmpFile;
 
 	private static final long serialVersionUID = 1L;
 
 	public AbstractModel() {
-		data = new TrustModelData();
 		properties = new Properties();
+		witnessList = new ArrayList<AID>();
 	}
 
-	public Boolean test(Rating rating) {
-		Instance in = Data.createByRating(rating.getAttributes());
-		return data.getClassifier().correctlyClassifies(in);
+	public Boolean test(AID aid) {
+		return data.get(aid).getTest();
 	}
 
-	public void addRating(Rating rating) {
-		if (rating != null && !rating.getServer().equals(myAgent.getAID())) {
-			Instance in = Data.createByRating(rating.getAttributes());
-			data.getClassifier().trainOnInstance(in);
-			data.addRating(rating.getServer(), rating);
+	public void addRating(Rating rating, boolean direct) {
+		if (isIamClient(rating)) {
+			if (data.containsKey(rating.getServer())) {
+				data.get(rating.getServer()).addRating(rating);
+			} else {
+				TrustModelData tmd = new TrustModelData();
+				tmd.addRating(rating);
+				data.put(rating.getServer(), tmd);
+			}
 		}
 	}
-	
-	public void reset() {
-		data.resetClassifier();
+
+	protected boolean isIamClient(Rating rating) {
+		return (rating != null && rating.getClient().equals(myAgent.getAID()));
 	}
+
+	protected boolean isIamServer(Rating rating) {
+		return (rating != null && rating.getServer().equals(myAgent.getAID()));
+	}
+
+	// public void reset() {
+	// data.resetClassifier();
+	// }
 
 	public Properties getProperties() {
 		return properties;
@@ -69,29 +81,25 @@ public class AbstractModel implements ITrustModel {
 	}
 
 	public void setAgent(OpenAgent agent) {
-		this.myAgent = agent;
-		tmpFile = new File(System.getProperty("java.io.tmpdir") + File.separatorChar + myAgent.getLocalName()+ Constants.AGENT_FILE_EXTENSION);
-	}
-
-	public List<Rating> getRatings(AID aid) {
-		return data.getRating(aid);
+		this.myAgent = (LemasAgent) agent;
+		tmpFile = new File(System.getProperty("java.io.tmpdir") + File.separatorChar + myAgent.getLocalName() + Constants.AGENT_FILE_EXTENSION);
 	}
 
 	public Rating addRating(AID client, AID server, int iteration, String term, float value) {
 		return null;
 	}
 
-	public Enumeration<AID> getAllServer() {
-		return data.getRatings().keys();
+	public Iterator<AID> getAllServer() {
+		return data.keySet().iterator();
 	}
 
 	public boolean know(AID aid) {
-		return data.getRatings().containsKey(aid);
+		return data.containsKey(aid);
 	}
 
 	public void addWitness(AID witness) {
-		if (!data.getWitnesses().contains(witness) && !myAgent.equals(witness)) {
-			data.getWitnesses().add(witness);
+		if (!witnessList.contains(witness) && !myAgent.equals(witness)) {
+			witnessList.add(witness);
 		}
 	}
 
@@ -118,7 +126,7 @@ public class AbstractModel implements ITrustModel {
 	}
 
 	public List<AID> getWitnesses() {
-		return this.data.getWitnesses();
+		return witnessList;
 	}
 
 	public void serialize() {
@@ -138,12 +146,13 @@ public class AbstractModel implements ITrustModel {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void loadSerialize() {
 		try {
 			if (tmpFile.exists()) {
 				FileInputStream arquivoLeitura = new FileInputStream(tmpFile);
 				ObjectInputStream objLeitura = new ObjectInputStream(arquivoLeitura);
-				this.data = (TrustModelData) objLeitura.readObject();
+				this.data = (HashMap<AID, TrustModelData>) objLeitura.readObject();
 				objLeitura.close();
 				arquivoLeitura.close();
 				tmpFile.delete();
@@ -156,10 +165,7 @@ public class AbstractModel implements ITrustModel {
 	public void findReputation(AID server) {
 	}
 
-	public List<Rating> getRatings() {
-		return data.getAllRating();
+	public List<Rating> getDossie() {
+		return null;
 	}
-
-	
-
 }

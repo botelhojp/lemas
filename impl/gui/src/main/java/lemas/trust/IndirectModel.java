@@ -1,4 +1,4 @@
-package lesma.model;
+package lemas.trust;
 
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
@@ -20,8 +20,8 @@ public class IndirectModel extends AbstractModel {
 	}
 
 	@Override
-	public void addRating(Rating rating) {
-		super.addRating(rating);
+	public void addRating(Rating rating, boolean direct) {
+		super.addRating(rating, direct);
 	}
 
 	public void findReputation(AID server) {

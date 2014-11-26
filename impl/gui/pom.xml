@@ -30,16 +30,17 @@
 			<artifactId>openj-framework</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>lemas.model</groupId>
-			<artifactId>lemas-trustmodel-direct</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>lemas</groupId>
 			<artifactId>lemas-annotations</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>stax</groupId>
 			<artifactId>stax-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>nz.ac.waikato.cms.moa</groupId>
+			<artifactId>moa</artifactId>
+			<version>2013.11</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>

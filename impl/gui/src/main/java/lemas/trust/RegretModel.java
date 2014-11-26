@@ -1,4 +1,4 @@
-package lesma.model;
+package lemas.trust;
 
 import jade.core.AID;
 import lesma.annotations.TrustModel;
@@ -10,8 +10,8 @@ public class RegretModel extends AbstractModel {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void addRating(Rating rating) {
-		super.addRating(rating);
+	public void addRating(Rating rating, boolean direct) {
+		super.addRating(rating, direct);
 		findWitnesses(rating.getServer());
 		findReputation(rating.getServer());
 	}

@@ -5,7 +5,7 @@ import java.io.File;
 import lemas.form.FrameMain;
 import lemas.form.SplashScreen;
 import lemas.model.Workspace;
-import lesma.model.Constants;
+import lemas.trust.Constants;
 
 import org.apache.log4j.Logger;
 
