@@ -17,10 +17,11 @@ public class DossieModel extends AbstractModel {
 	public void addRating(Rating rating, boolean direct) {
 		super.addRating(rating, direct);
 		if (isIamClient(rating)) {
-			if (direct){
+			if (direct) {
 				myAgent.requestDossie(rating.getServer());
 			}
-		} else {
+		} 
+		if (isIamServer(rating)) {
 			dossie.add(rating);
 		}
 	}

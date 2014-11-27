@@ -41,7 +41,7 @@ public class AbstractModel implements ITrustModel {
 	}
 
 	public void addRating(Rating rating, boolean direct) {
-		if (isIamClient(rating)) {
+		if (isIamClient(rating) || !direct) {
 			if (data.containsKey(rating.getServer())) {
 				data.get(rating.getServer()).addRating(rating);
 			} else {
