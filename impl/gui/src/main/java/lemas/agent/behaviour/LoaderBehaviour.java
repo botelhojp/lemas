@@ -18,6 +18,8 @@ import lemas.agent.ConversationId;
 import lemas.agent.LemasAgent;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
+import lemas.trust.result.ContractResult;
+import lemas.trust.result.IResult;
 import lemas.util.Data;
 import openjade.core.DataProvider;
 import openjade.ontology.OpenJadeOntology;
@@ -42,6 +44,7 @@ public class LoaderBehaviour extends Behaviour {
 	private Instance instance = null;
 	private int round = 0;
 	private Class<ITrustModel> trustModelClass;
+	private IResult result;
 
 	private ArffReader arff;
 	private BufferedReader reader;
@@ -49,6 +52,7 @@ public class LoaderBehaviour extends Behaviour {
 	public LoaderBehaviour(AgentLoader _agent, Class<ITrustModel> trustModelClass) {
 		agent = _agent;
 		this.trustModelClass = trustModelClass;
+		result = new ContractResult();
 		loadArff();
 	}
 
@@ -65,6 +69,7 @@ public class LoaderBehaviour extends Behaviour {
 				data.setClassIndex(data.numAttributes() - 1);
 				instance = arff.readInstance(data);
 				if (instance != null) {
+					result.addInstance(instance);
 					System.out.println(instance);
 					DataProvider.getInstance().put("DATASET", instance.dataset());
 					AID client =  new AID(instance.toString(0), false);
