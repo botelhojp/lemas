@@ -1,13 +1,13 @@
 package lemas.model;
 
 @SuppressWarnings("rawtypes")
-public class TrustModelBean implements Comparable<TrustModelBean> {
+public class ClassBean implements Comparable<ClassBean> {
 
 	private String name;
 
 	private Class clazz;
 
-	public TrustModelBean(String name, Class<?> clazz) {
+	public ClassBean(String name, Class<?> clazz) {
 		this.name = name;
 		this.clazz = clazz;
 	}
@@ -29,7 +29,7 @@ public class TrustModelBean implements Comparable<TrustModelBean> {
 	}
 
 	@Override
-	public int compareTo(TrustModelBean arg0) {
+	public int compareTo(ClassBean arg0) {
 		return this.name.compareTo(arg0.name);
 	}
 

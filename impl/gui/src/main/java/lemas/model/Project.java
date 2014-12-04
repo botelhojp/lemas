@@ -8,6 +8,7 @@ public class Project {
 
 	private String trustmodel;
 	private String clazz;
+	private String metricsClass;
 	private String saveIn;
 	private String loading;
 	private String host;
@@ -81,6 +82,14 @@ public class Project {
 
 	public void setProperties(Properties properties) {
 		this.properties = properties;
+	}
+
+	public String getMetricsClass() {
+		return metricsClass;
+	}
+
+	public void setMetricsClass(String metricsClass) {
+		this.metricsClass = metricsClass;
 	}
 
 }

@@ -18,8 +18,7 @@ import lemas.agent.ConversationId;
 import lemas.agent.LemasAgent;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
-import lemas.trust.result.ContractResult;
-import lemas.trust.result.IResult;
+import lemas.trust.metrics.IMetrics;
 import lemas.util.Data;
 import openjade.core.DataProvider;
 import openjade.ontology.OpenJadeOntology;
@@ -44,16 +43,21 @@ public class LoaderBehaviour extends Behaviour {
 	private Instance instance = null;
 	private int round = 0;
 	private Class<ITrustModel> trustModelClass;
-	private IResult result;
+	private IMetrics metrics;
 
 	private ArffReader arff;
 	private BufferedReader reader;
 
-	public LoaderBehaviour(AgentLoader _agent, Class<ITrustModel> trustModelClass) {
-		agent = _agent;
-		this.trustModelClass = trustModelClass;
-		result = new ContractResult();
-		loadArff();
+	public LoaderBehaviour(AgentLoader _agent, Class<ITrustModel> trustModelClass, Class<IMetrics> metricsClass) {
+		try {
+			agent = _agent;
+			this.trustModelClass = trustModelClass;
+			metrics = metricsClass.newInstance();
+			loadArff();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
@@ -69,15 +73,16 @@ public class LoaderBehaviour extends Behaviour {
 				data.setClassIndex(data.numAttributes() - 1);
 				instance = arff.readInstance(data);
 				if (instance != null) {
-					result.addInstance(instance);
+					metrics.preProcess(instance);
 					System.out.println(instance);
 					DataProvider.getInstance().put("DATASET", instance.dataset());
-					AID client =  new AID(instance.toString(0), false);
-					AID server =  new AID(instance.toString(1), false);
+					AID client = new AID(instance.toString(0), false);
+					AID server = new AID(instance.toString(1), false);
 					agent.waiting();
 					createAgent(server, "lemas.agent.LemasAgent");
 					createAgent(client, "lemas.agent.LemasAgent");
-					WitnessUtil.addWitness(server, client);;
+					WitnessUtil.addWitness(server, client);
+					;
 					sendTest(client, instance);
 				} else {
 					done = true;
@@ -147,6 +152,10 @@ public class LoaderBehaviour extends Behaviour {
 		}
 		Lemas.sleep(2000);
 		Lemas.cleanFiles();
+	}
+
+	public double posProcess(ACLMessage msg) {
+		return metrics.prosProcess(msg);
 	}
 
 }

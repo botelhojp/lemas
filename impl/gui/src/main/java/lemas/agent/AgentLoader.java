@@ -1,16 +1,17 @@
 package lemas.agent;
 
-import java.util.List;
-
 import jade.content.ContentElement;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
+
+import java.util.List;
+
 import lemas.Lemas;
 import lemas.agent.behaviour.LoaderBehaviour;
 import lemas.form.DialogResult;
 import lemas.form.FrameMain;
 import lemas.form.FrameProject;
-import lemas.model.LemasLog;
+import lemas.trust.metrics.IMetrics;
 import lemas.util.CommonsFrame;
 import openjade.core.OpenAgent;
 import openjade.core.annotation.ReceiveMatchMessage;
@@ -25,10 +26,8 @@ public class AgentLoader extends OpenAgent {
 	private static AgentLoader instance;
 	private static final long serialVersionUID = 1L;
 	private int wait = 0;;
-	private double countFalse = 0;
 	private static int executions = -1;
 	private DialogResult dialogResult;
-	private double count = 0;
 	private double round = 0;
 	private LoaderBehaviour loader;
 	
@@ -40,12 +39,10 @@ public class AgentLoader extends OpenAgent {
 	public void setup() {
 		super.setup();
 		wait = 0;
-		countFalse = 0;
-		count = 0;
 		round = 0;
 		executions++;
 		
-		loader = new LoaderBehaviour(this, getTrustModelClass());
+		loader = new LoaderBehaviour(this, getTrustModelClass(), getMetricsClass());
 		addBehaviour(loader);
 		instance = this;
 	}
@@ -66,14 +63,7 @@ public class AgentLoader extends OpenAgent {
 	 */
 	@ReceiveSimpleMessage(conversationId = ConversationId.TEST)
 	public void getTestMessage(ACLMessage msg) {
-		++count;
-		Boolean test = Boolean.parseBoolean(msg.getContent());
-		if (!test) {
-			countFalse++;
-		}
-		double value = (1.00 - countFalse/count)*100;
-		addResult(executions, round++, value);
-		LemasLog.info("total = " + count + " value = " + value);
+		addResult(executions, round++, loader.posProcess(msg));
 		wait--;
 	}
 	
@@ -115,6 +105,15 @@ public class AgentLoader extends OpenAgent {
 			return (Class<ITrustModel>) Class.forName(FrameProject.getInstance().getCurrentProject().getClazz());
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Modelo de Confiancao nao selecionado", e);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Class<IMetrics> getMetricsClass() {
+		try {
+			return (Class<IMetrics>) Class.forName(FrameProject.getInstance().getCurrentProject().getMetricsClass());
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Metrica nao selecionada", e);
 		}
 	}
 

@@ -23,7 +23,7 @@ import lemas.model.LemasLog;
 import lemas.model.LemasReflection;
 import lemas.model.Project;
 import lemas.model.Runner;
-import lemas.model.TrustModelBean;
+import lemas.model.ClassBean;
 import lemas.model.Workspace;
 import lemas.util.Data;
 import lemas.util.Message;
@@ -44,10 +44,15 @@ public class FrameProject extends JDialog {
 
 	void load() {
 		project = new Project();
-		List<TrustModelBean> list = LemasReflection.getTrustModels();
+		List<ClassBean> list = LemasReflection.getTrustModels();
 		cbTrustModelList.removeAllItems();
-		for (TrustModelBean item : list) {
+		for (ClassBean item : list) {
 			cbTrustModelList.addItem(item);
+		}
+		cbMetrics.removeAllItems();
+		list = LemasReflection.getMetrics();
+		for (ClassBean item : list) {
+			cbMetrics.addItem(item);
 		}
 	}
 
@@ -79,6 +84,8 @@ public class FrameProject extends JDialog {
         panelProperties = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTableProperties = new javax.swing.JTable();
+        cbMetrics = new javax.swing.JComboBox();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Project");
@@ -155,10 +162,24 @@ public class FrameProject extends JDialog {
         );
         panelPropertiesLayout.setVerticalGroup(
             panelPropertiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Properties", panelProperties);
+
+        cbMetrics.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbMetrics.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbMetricsItemStateChanged(evt);
+            }
+        });
+        cbMetrics.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbMetricsActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Metrics:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -171,12 +192,14 @@ public class FrameProject extends JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtIp, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtContainer)
-                            .addComponent(cbTrustModelList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtIp)
+                            .addComponent(txtContainer, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cbTrustModelList, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbMetrics, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -203,8 +226,12 @@ public class FrameProject extends JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(cbTrustModelList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cbMetrics, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btSave)
@@ -218,9 +245,17 @@ public class FrameProject extends JDialog {
 
     private void cbTrustModelListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbTrustModelListItemStateChanged
     	if ( evt.getStateChange() == 1 ){
-    		changeItemTrustModel((TrustModelBean) evt.getItem());    			
+    		changeItemTrustModel((ClassBean) evt.getItem());    			
     	}
     }//GEN-LAST:event_cbTrustModelListItemStateChanged
+
+    private void cbMetricsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMetricsItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbMetricsItemStateChanged
+
+    private void cbMetricsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMetricsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbMetricsActionPerformed
 
 
 	private void cbTrustModelListActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cbTrustModelListActionPerformed
@@ -315,10 +350,12 @@ public class FrameProject extends JDialog {
     private javax.swing.JButton btCancel;
     private javax.swing.JButton btRun;
     private javax.swing.JButton btSave;
+    private javax.swing.JComboBox cbMetrics;
     private javax.swing.JComboBox cbTrustModelList;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTableProperties;
@@ -334,8 +371,10 @@ public class FrameProject extends JDialog {
 
 	private void updateProject() {
 		project.setHost(txtIp.getText());
-		TrustModelBean tmb = (TrustModelBean) cbTrustModelList.getSelectedItem();
+		ClassBean tmb = (ClassBean) cbTrustModelList.getSelectedItem();
+		ClassBean tmb2 = (ClassBean) cbMetrics.getSelectedItem();
 		project.setTrustmodel(tmb.getName());
+		project.setMetricsClass(tmb2.getClazz().getName());
 		project.setClazz(tmb.getClazz().getName());
 		project.setConteiner(txtContainer.getText());
 		project.getProperties().clear();
@@ -355,7 +394,7 @@ public class FrameProject extends JDialog {
 		txtContainer.setText(this.project.getConteiner());
 		Properties pTM = new Properties();
 		for (int index = 0; index < cbTrustModelList.getItemCount(); index++) {
-			TrustModelBean item = (TrustModelBean) cbTrustModelList.getItemAt(index);
+			ClassBean item = (ClassBean) cbTrustModelList.getItemAt(index);
 			if (project.getTrustmodel() != null && project.getTrustmodel().equals(item.getName())) {
 				this.cbTrustModelList.setSelectedItem(item);
 				ITrustModel tm = (ITrustModel) TrustModelFactory.create(item.getClazz().getName());
@@ -370,7 +409,7 @@ public class FrameProject extends JDialog {
 		updateTable(project.getProperties());
 	}
 
-	private void changeItemTrustModel(TrustModelBean tmb) {
+	private void changeItemTrustModel(ClassBean tmb) {
 		ITrustModel tm = (ITrustModel) TrustModelFactory.create(tmb.getClazz().getName());
 		updateTable(tm.getProperties());
 	}
