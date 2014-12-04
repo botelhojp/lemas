@@ -393,10 +393,19 @@ public class FrameProject extends JDialog {
 		txtIp.setText(project.getHost());
 		txtContainer.setText(this.project.getConteiner());
 		Properties pTM = new Properties();
+		
+		for (int index = 0; index < cbMetrics.getItemCount(); index++) {
+			ClassBean item = (ClassBean) cbMetrics.getItemAt(index);
+			if (project.getMetricsClass() != null && item.getClazz().getName().equals(project.getMetricsClass())) {
+				this.cbMetrics.setSelectedItem(item);
+			}
+		}
+		
 		for (int index = 0; index < cbTrustModelList.getItemCount(); index++) {
 			ClassBean item = (ClassBean) cbTrustModelList.getItemAt(index);
 			if (project.getTrustmodel() != null && project.getTrustmodel().equals(item.getName())) {
 				this.cbTrustModelList.setSelectedItem(item);
+				
 				ITrustModel tm = (ITrustModel) TrustModelFactory.create(item.getClazz().getName());
 				pTM = tm.getProperties();
 				break;

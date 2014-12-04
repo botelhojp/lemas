@@ -125,7 +125,8 @@ public class LemasAgent extends OpenAgent {
 	public void responseDossie(ACLMessage message, ContentElement ce) {
 		SendRating sr = (SendRating) ce;
 		Iterator it = sr.getAllRating();
-		while (it.hasNext()) {
+		trustModel.clean();;
+		while (it.hasNext()) {			
 			Rating rating = (Rating) it.next();
 			if (!rating.getClient().equals(this.getAID())){
 				trustModel.addRating(rating, false);	
@@ -186,7 +187,7 @@ public class LemasAgent extends OpenAgent {
 		SendRating rr = (SendRating) ce;
 		Iterator it = rr.getAllRating();
 		while (it.hasNext()) {
-			Rating rt = (Rating) it.next();
+//			Rating rt = (Rating) it.next();
 //			listPendingRating.add(rt);
 		}
 		if (done == 0){

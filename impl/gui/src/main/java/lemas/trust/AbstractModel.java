@@ -37,6 +37,9 @@ public class AbstractModel implements ITrustModel {
 	}
 
 	public Boolean test(AID aid) {
+		if (data.isEmpty()){
+			return false;
+		}
 		return data.get(aid).getTest();
 	}
 
@@ -167,5 +170,9 @@ public class AbstractModel implements ITrustModel {
 
 	public List<Rating> getDossie() {
 		return null;
+	}
+
+	public void clean() {
+		data.clear();
 	}
 }
