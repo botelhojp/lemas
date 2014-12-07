@@ -432,4 +432,8 @@ public class FrameMain extends javax.swing.JFrame {
 		this.menuStop.setEnabled(value);
 	}
 
+	public static File getArfffile() {
+		return arfffile;
+	}
+
 }

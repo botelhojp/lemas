@@ -39,9 +39,12 @@ public class Data {
 	}
 
 	public static void projectToFile(Project project, String filePath) {
+			project.setSaveIn(filePath);
 			Gson gson = new Gson();
 			String json = gson.toJson(project);
 			try {
+				if (filePath == null)
+					throw new RuntimeException("Save your project");
 				FileWriter writer = new FileWriter(filePath);
 				writer.write(json);
 				writer.close();

@@ -20,7 +20,7 @@ public class Project {
 	public Project() {
 		properties = new Properties();
 		results = new ArrayList<Result>();
-		host = "-gui, -local-host, 127.0.0.1";
+		host = "-local-host, 127.0.0.1";
 		conteiner = "-container, -container-name, Agents-Container";
 	}
 	
