@@ -5,12 +5,14 @@
 package lemas.form;
 
 import java.awt.Dimension;
+import java.awt.TextArea;
 import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import lemas.model.LemasLog;
@@ -39,7 +41,7 @@ public class FrameMain extends javax.swing.JFrame {
 		menu(false);
 		this.setExtendedState(FrameMain.MAXIMIZED_BOTH);
 		windowDialog.setVisible(false);
-		windowDialog1.setVisible(false);
+                JConsole.getInstance().setVisible(false);
 		windowDialog2.setVisible(false);
 	}
 
@@ -63,9 +65,6 @@ public class FrameMain extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         panelMain = new javax.swing.JPanel();
         windowDialog = new javax.swing.JInternalFrame();
-        windowDialog1 = new javax.swing.JInternalFrame();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtLog = new javax.swing.JTextArea();
         windowDialog2 = new javax.swing.JInternalFrame();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
@@ -124,28 +123,6 @@ public class FrameMain extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        windowDialog1.setMaximizable(true);
-        windowDialog1.setResizable(true);
-        windowDialog1.setTitle("Console");
-        windowDialog1.setNormalBounds(new java.awt.Rectangle(0, 0, 500, 500));
-        windowDialog1.setVisible(true);
-
-        txtLog.setColumns(20);
-        txtLog.setFont(new java.awt.Font("Courier 10 Pitch", 0, 12)); // NOI18N
-        txtLog.setRows(5);
-        jScrollPane1.setViewportView(txtLog);
-
-        javax.swing.GroupLayout windowDialog1Layout = new javax.swing.GroupLayout(windowDialog1.getContentPane());
-        windowDialog1.getContentPane().setLayout(windowDialog1Layout);
-        windowDialog1Layout.setHorizontalGroup(
-            windowDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-        );
-        windowDialog1Layout.setVerticalGroup(
-            windowDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-
         windowDialog2.setBackground(new java.awt.Color(255, 255, 255));
         windowDialog2.setMaximizable(true);
         windowDialog2.setResizable(true);
@@ -157,11 +134,11 @@ public class FrameMain extends javax.swing.JFrame {
         windowDialog2.getContentPane().setLayout(windowDialog2Layout);
         windowDialog2Layout.setHorizontalGroup(
             windowDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 413, Short.MAX_VALUE)
+            .addGap(0, 276, Short.MAX_VALUE)
         );
         windowDialog2Layout.setVerticalGroup(
             windowDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 510, Short.MAX_VALUE)
+            .addGap(0, 408, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
@@ -172,17 +149,11 @@ public class FrameMain extends javax.swing.JFrame {
                 .addComponent(windowDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(windowDialog2))
-            .addComponent(windowDialog1)
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMainLayout.createSequentialGroup()
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(windowDialog2)
-                    .addComponent(windowDialog))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(windowDialog1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(800, Short.MAX_VALUE))
+            .addComponent(windowDialog2)
+            .addComponent(windowDialog)
         );
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
@@ -196,7 +167,7 @@ public class FrameMain extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(341, 341, 341))
+                .addGap(1038, 1038, 1038))
         );
         jDesktopPane1.setLayer(panelMain, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -216,7 +187,7 @@ public class FrameMain extends javax.swing.JFrame {
         menuNewProject.setText("New Project");
         menuNewProject.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-               mnNewProjectActionPerformed(evt);
+                menuNewProjectActionPerformed(evt);
             }
         });
         jMenuFile.add(menuNewProject);
@@ -245,7 +216,7 @@ public class FrameMain extends javax.swing.JFrame {
         menuExit.setText("Exit");
         menuExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnExitActionPerformed(evt);
+                menuExitActionPerformed(evt);
             }
         });
         jMenuFile.add(menuExit);
@@ -265,7 +236,7 @@ public class FrameMain extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3))
+                .addGap(534, 534, 534))
         );
 
         pack();
@@ -286,7 +257,7 @@ public class FrameMain extends javax.swing.JFrame {
         
     }//GEN-LAST:event_menuOpenArffActionPerformed
 
-	private void mnNewProjectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_mnNewProjectActionPerformed
+	private void menuNewProjectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_mnNewProjectActionPerformed
 		if (this.arfffile == null){
 			JOptionPane.showMessageDialog(new JFrame(), "Selecione um arquivo Arff", "Selecione um arquivo", JOptionPane.ERROR_MESSAGE);	
 		}else{
@@ -299,7 +270,7 @@ public class FrameMain extends javax.swing.JFrame {
 		}
 	}// GEN-LAST:event_mnNewProjectActionPerformed
 
-	private void mnExitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_mnExitActionPerformed
+	private void menuExitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_mnExitActionPerformed
 		System.exit(0);
 	}// GEN-LAST:event_mnExitActionPerformed
 
@@ -388,7 +359,6 @@ public class FrameMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuFile;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
@@ -398,19 +368,19 @@ public class FrameMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuStop;
     private javax.swing.JMenuItem mnOpenProject;
     private javax.swing.JPanel panelMain;
-    private javax.swing.JTextArea txtLog;
     private javax.swing.JInternalFrame windowDialog;
-    private javax.swing.JInternalFrame windowDialog1;
     private javax.swing.JInternalFrame windowDialog2;
     // End of variables declaration//GEN-END:variables
 
+        private JTextArea log = JConsole.getInstance().getLog();
+    
 	public void message(String message) {
-		txtLog.append(message + "\n");
-		txtLog.getCaret().setDot(txtLog.getText().length());
+		log.append(message + "\n");
+		log.getCaret().setDot(log.getText().length());
 	}
 
 	public void clean() {
-		txtLog.setText("");
+		log.setText("");
 	}
 
 	public JInternalFrame getWindow() {
@@ -422,7 +392,7 @@ public class FrameMain extends javax.swing.JFrame {
 	}
 
 	public void visibleWindows(boolean value) {
-		windowDialog1.setVisible(value);
+		JConsole.getInstance().setVisible(value);
 		windowDialog2.setVisible(value);
 	}
 	

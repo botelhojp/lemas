@@ -25,6 +25,7 @@ public class LemasAgent extends OpenAgent {
 	private static final long serialVersionUID = 1L;
 	public static final String SERVICE = "LEMAS";
 	private SendMessageBehavior tb;
+	private static long countMessages = 0;
 
 	/**
 	 * Inicialização
@@ -193,5 +194,19 @@ public class LemasAgent extends OpenAgent {
 		if (done == 0){
 			tb.resume();
 		}
+	}
+	
+	@Override
+	public void sendMessage(ACLMessage msg) {
+		countMessages++;
+		super.sendMessage(msg);
+	}
+	
+	public static void resetCountMessage(){
+		countMessages = 0;
+	}
+	
+	public static long countMessage(){
+		return countMessages;
 	}
 }

@@ -16,6 +16,7 @@ import lemas.Lemas;
 import lemas.agent.AgentLoader;
 import lemas.agent.ConversationId;
 import lemas.agent.LemasAgent;
+import lemas.form.FrameMain;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
 import lemas.trust.metrics.IMetrics;
@@ -74,7 +75,8 @@ public class LoaderBehaviour extends Behaviour {
 				instance = arff.readInstance(data);
 				if (instance != null) {
 					metrics.preProcess(instance);
-					System.out.println(instance);
+                    FrameMain.getInstance().message(instance.toString());
+//					System.out.println(instance);
 					DataProvider.getInstance().put("DATASET", instance.dataset());
 					AID client = new AID(instance.toString(0), false);
 					AID server = new AID(instance.toString(1), false);
