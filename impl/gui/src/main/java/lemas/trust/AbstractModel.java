@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +24,6 @@ public class AbstractModel implements ITrustModel {
 	protected HashMap<AID, TrustModelData> data = new HashMap<AID, TrustModelData>();
 	protected int currentIteration;
 	protected LemasAgent myAgent;
-	protected List<AID> witnessList;
 	protected Properties properties;
 	protected File tmpFile;
 
@@ -33,7 +31,6 @@ public class AbstractModel implements ITrustModel {
 
 	public AbstractModel() {
 		properties = new Properties();
-		witnessList = new ArrayList<AID>();
 	}
 
 	public Boolean test(AID aid) {
@@ -100,12 +97,6 @@ public class AbstractModel implements ITrustModel {
 		return data.containsKey(aid);
 	}
 
-	public void addWitness(AID witness) {
-		if (!witnessList.contains(witness) && !myAgent.equals(witness)) {
-			witnessList.add(witness);
-		}
-	}
-
 	/** Properties */
 
 	protected double getDouble(String key) {
@@ -126,10 +117,6 @@ public class AbstractModel implements ITrustModel {
 
 	public void setProperties(Properties properties) {
 		this.properties = properties;
-	}
-
-	public List<AID> getWitnesses() {
-		return witnessList;
 	}
 
 	public void serialize() {

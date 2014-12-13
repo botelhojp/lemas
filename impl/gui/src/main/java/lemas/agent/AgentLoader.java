@@ -67,6 +67,11 @@ public class AgentLoader extends OpenAgent {
 		wait--;
 	}
 	
+	@ReceiveSimpleMessage(conversationId = ConversationId.NEXT)
+	public void getNextMessage(ACLMessage msg) {
+		System.out.println(msg.toString());
+	}
+	
 	/**
 	 * Recebe um pedido para informar testemunhas de um agente
 	 * @param message

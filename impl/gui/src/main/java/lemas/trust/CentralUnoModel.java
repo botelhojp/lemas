@@ -15,7 +15,7 @@ public class CentralUnoModel extends AbstractModel {
 	public void addRating(Rating rating, boolean direct) {
 		if (isIamClient(rating)){
 			unoData.addRating(rating);
-			myAgent.testLastRating(rating.getServer());	
+			myAgent.test(rating.getServer());	
 		}
 	}
 	

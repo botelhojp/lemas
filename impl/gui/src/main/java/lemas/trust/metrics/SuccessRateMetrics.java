@@ -4,7 +4,7 @@ import jade.lang.acl.ACLMessage;
 import lesma.annotations.Metrics;
 import weka.core.Instance;
 
-@Metrics(name = "Success Rate")
+@Metrics(name = "Success Rate AVG")
 public class SuccessRateMetrics implements IMetrics {
 	
 	private double countFalse = 0;

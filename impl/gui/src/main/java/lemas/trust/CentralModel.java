@@ -23,7 +23,7 @@ public class CentralModel extends AbstractModel {
 				tmd.addRating(rating);
 				mydata.put(rating.getServer(), tmd);
 			}
-			myAgent.testLastRating(rating.getServer());
+			myAgent.test(rating.getServer());
 		}
 	}
 

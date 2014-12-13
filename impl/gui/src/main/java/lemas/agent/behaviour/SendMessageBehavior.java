@@ -13,7 +13,9 @@ public class SendMessageBehavior extends Behaviour {
 	private boolean resume = true;
 	private boolean sendTest = false;
 	private boolean requestDossie = false;
+	private boolean findWitness = false;
 	private AID aid;
+	private AID aidFind;
 
 	public SendMessageBehavior(LemasAgent agent) {
 		this.myAgent = agent;
@@ -30,6 +32,11 @@ public class SendMessageBehavior extends Behaviour {
 				myAgent.sendMessage(makeMessage(aid, ConversationId.GET_DOSSIE, ""));
 				requestDossie = false;
 				aid = null;
+			}
+			if (findWitness){
+				myAgent.sendMessage(makeMessage(new AID("lemas_loader", false), ConversationId.NEXT, ""));
+				findWitness = false;
+				aidFind = null;
 			}
 		}
 		block(50);
@@ -58,6 +65,10 @@ public class SendMessageBehavior extends Behaviour {
 		sendTest = true;
 	}
 
+	public void findWitness(AID aidFind) {
+		this.aidFind = aidFind;
+		findWitness = true;
+	}
 	
 	public void requestDossie(AID aid) {
 		this.aid = aid;

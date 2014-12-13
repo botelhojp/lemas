@@ -56,14 +56,22 @@ public class LemasAgent extends OpenAgent {
 		this.doDelete();
 	}
 	
-	// Operacoes essencias
+	// Operacoes assincronas
 	
-	public void testLastRating(AID aid){
+	public void test(AID aid){
 		tb.test(aid);
 	}	
 	
 	public void requestDossie(AID aid){
 		tb.requestDossie(aid);
+	}
+	
+	public void findWitness(AID aid) {
+		tb.findWitness(aid);
+	}
+
+	public void wantWitness(AID aid) {
+//		tb.wantWitness(aid);
 	}
 
 	// ==== GERAL ====
@@ -93,7 +101,6 @@ public class LemasAgent extends OpenAgent {
 	public void receiveFeedback(ACLMessage message, ContentElement ce) {
 		SendRating sr = (SendRating) ce;
 		Rating rating = (Rating) sr.getRating().get(0);
-		trustModel.addWitness(message.getSender());
 		trustModel.addRating(rating, true);
 		if (!rating.getServer().equals(getAID())) {
 			throw new OpenJadeException("Esta avaliacao nao he minha: " + message.toString());

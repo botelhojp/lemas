@@ -22,6 +22,11 @@ public class IndirectModel extends AbstractModel {
 	@Override
 	public void addRating(Rating rating, boolean direct) {
 		super.addRating(rating, direct);
+		if (isIamClient(rating)){
+			myAgent.test(rating.getServer());
+			myAgent.findWitnesses(rating.getServer());
+			myAgent.wantWitness(rating.getServer());
+		}
 	}
 
 	public void findReputation(AID server) {
