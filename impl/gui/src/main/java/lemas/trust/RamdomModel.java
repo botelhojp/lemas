@@ -15,9 +15,11 @@ public class RamdomModel extends AbstractModel {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public Boolean test(AID aid) {
+	public String test(AID aid) {
 		double r = Math.random();
-		return (r <= getDouble("RELIABLE"));
+		// TODO corrigir
+		//return (r <= getDouble("RELIABLE"));
+		return "ERROR";
 	}
 	
 	public void findReputation(AID server) {

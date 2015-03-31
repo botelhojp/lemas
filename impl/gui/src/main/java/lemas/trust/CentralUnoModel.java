@@ -20,8 +20,8 @@ public class CentralUnoModel extends AbstractModel {
 	}
 	
 	@Override
-	public Boolean test(AID aid) {
-		return unoData.getTest();
+	public String test(AID aid) {
+		return unoData.getTest(test);
 	}
 
 }

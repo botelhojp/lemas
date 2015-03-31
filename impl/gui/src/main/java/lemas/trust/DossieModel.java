@@ -14,10 +14,10 @@ public class DossieModel extends AbstractModel {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void addRating(Rating rating, boolean direct) {
-		super.addRating(rating, direct);
+	public void addRating(Rating rating, boolean requestDossie) {
+		super.addRating(rating, requestDossie);
 		if (isIamClient(rating)) {
-			if (direct) {
+			if (requestDossie) {
 				myAgent.requestDossie(rating.getServer());
 			}
 		} 

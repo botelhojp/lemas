@@ -2,62 +2,41 @@ package lemas.trust;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
-import lemas.trust.data.Data;
-import moa.classifiers.Classifier;
-import moa.classifiers.trees.HoeffdingTree;
+import lemas.trust.metrics.Classes;
+import lemas.trust.metrics.Clazz;
 import openjade.ontology.Rating;
-import weka.core.Instance;
 
 public class TrustModelData implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	protected List<Rating> ratings = new ArrayList<Rating>();
-	protected Classifier classifier;
-	
-	
+	protected Hashtable<Integer, Rating> hash = new Hashtable<Integer, Rating>();
+
 	double sum = 0.0;
 	double count = 0.0;
 
 	public TrustModelData() {
-		classifier = new HoeffdingTree();
-		classifier.prepareForUse();
 	}
 
-	public Classifier getClassifier() {
-		return classifier;
-	}
-	
-	public boolean getTest() {
-		boolean expect = false;
-		while (!ratings.isEmpty()) {
-			Rating r = ratings.remove(0);			
+	public String getTest(Rating test) {		
+		if (!ratings.isEmpty()) {
+			Clazz avaliado = null;
+			if (count == 0){
+				//na primeira vez ele retorna a primeira classe
+				avaliado = Classes.getClasses().get(0);
+			}else{
+				avaliado = Classes.getClass((sum / count));	
+			}						
+			Clazz esperado = Classes.getClass(test.getValue());
 			count++;
-			if ( r.getValue().equals("pos") ){
-				sum+=1.0;
-				expect = true;
-			}else if ( r.getValue().equals("neg") ){
-				sum+=-1.0;
-				expect = false;
-			} else if ( r.getValue().equals("neu") ){
-				sum+=0.5;
-				expect = true;
-			}
+			sum += esperado.getValue();
+			return esperado.getName() + ";" + avaliado.getName() ;
 		}
-		boolean aval = ((sum / count) >= 0.5);
-		return (expect == aval);
-	}	
-
-//	public boolean getTest() {
-//		boolean test = false;
-//		while (!ratings.isEmpty()) {
-//			Instance instance = Data.createByRating(ratings.remove(0).getAttributes());
-//			test = classifier.correctlyClassifies(instance);
-//			classifier.trainOnInstance(instance);
-//		}
-//		return test;
-//	}
+		return null;
+	}
 
 	/**
 	 * Adiciona o avalicao
@@ -65,6 +44,10 @@ public class TrustModelData implements Serializable {
 	 * @param rating
 	 */
 	public void addRating(Rating rating) {
-		ratings.add(rating);
+		//Garante que não haverá avaliacoes no conjunto
+		if (!hash.containsKey(rating.getRound())){
+			ratings.add(rating);	
+			hash.put(rating.getRound(), rating);
+		}		
 	}
 }

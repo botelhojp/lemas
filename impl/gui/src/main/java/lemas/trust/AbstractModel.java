@@ -21,33 +21,32 @@ import openjade.trust.model.Pair;
 
 public class AbstractModel implements ITrustModel {
 
-	protected HashMap<AID, TrustModelData> data = new HashMap<AID, TrustModelData>();
+	protected HashMap<AID, TrustModelData> data;
 	protected int currentIteration;
 	protected LemasAgent myAgent;
 	protected Properties properties;
 	protected File tmpFile;
+	protected Rating test;
 
 	private static final long serialVersionUID = 1L;
 
 	public AbstractModel() {
+		data = new HashMap<AID, TrustModelData>();
 		properties = new Properties();
 	}
 
-	public Boolean test(AID aid) {
-		if (data.isEmpty()){
-			return false;
-		}
-		return data.get(aid).getTest();
+	public String test(AID aid) {
+		return data.get(aid).getTest(test);
 	}
 
-	public void addRating(Rating rating, boolean direct) {
-		if (isIamClient(rating) || !direct) {
+	public void addRating(Rating rating, boolean requestDossie) {
+		if (isIamClient(rating) || !requestDossie) {
 			if (data.containsKey(rating.getServer())) {
 				data.get(rating.getServer()).addRating(rating);
 			} else {
-				TrustModelData tmd = new TrustModelData();
-				tmd.addRating(rating);
-				data.put(rating.getServer(), tmd);
+				data.put(rating.getServer(), new TrustModelData());
+				//TODO colocado a pouco tempo para o dossie
+				data.get(rating.getServer()).addRating(rating);
 			}
 		}
 	}
@@ -161,5 +160,10 @@ public class AbstractModel implements ITrustModel {
 
 	public void clean() {
 		data.clear();
+	}
+
+	@Override
+	public void setTest(Rating rating) {
+		this.test = rating;		
 	}
 }

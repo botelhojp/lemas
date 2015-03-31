@@ -19,6 +19,7 @@ import lemas.agent.LemasAgent;
 import lemas.form.FrameMain;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
+import lemas.trust.metrics.Classes;
 import lemas.trust.metrics.IMetrics;
 import lemas.util.Data;
 import openjade.core.DataProvider;
@@ -71,6 +72,7 @@ public class LoaderBehaviour extends Behaviour {
 		if (agent.nowait()) {
 			try {
 				Instances data = arff.getStructure();
+				Classes.getInstance(data);
 				data.setClassIndex(data.numAttributes() - 1);
 				instance = arff.readInstance(data);
 				if (instance != null) {
@@ -84,7 +86,6 @@ public class LoaderBehaviour extends Behaviour {
 					createAgent(server, "lemas.agent.LemasAgent");
 					createAgent(client, "lemas.agent.LemasAgent");
 					WitnessUtil.addWitness(server, client);
-					;
 					sendTest(client, instance);
 				} else {
 					done = true;
