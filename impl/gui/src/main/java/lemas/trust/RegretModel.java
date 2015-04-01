@@ -10,8 +10,8 @@ public class RegretModel extends AbstractModel {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void addRating(Rating rating, boolean direct) {
-		super.addRating(rating, direct);
+	public void addRating(Rating rating) {
+		super.addRating(rating);
 		findWitnesses(rating.getServer());
 		findReputation(rating.getServer());
 	}

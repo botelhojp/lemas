@@ -254,7 +254,10 @@ public class FrameMain extends javax.swing.JFrame {
 			message("open file: " + arfffile.getAbsolutePath());
 			menu(true);
 		}
-        
+		Project prj = FrameProject.getInstance().getCurrentProject();
+		if (prj != null){
+			prj.setLoading(arfffile.getAbsolutePath());		
+		}
     }//GEN-LAST:event_menuOpenArffActionPerformed
 
 	private void menuNewProjectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_mnNewProjectActionPerformed
@@ -275,9 +278,9 @@ public class FrameMain extends javax.swing.JFrame {
 	}// GEN-LAST:event_mnExitActionPerformed
 
 	private void mnOpenProjectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_mnOpenProjectActionPerformed
-		if (this.arfffile == null){
-			JOptionPane.showMessageDialog(new JFrame(), "Selecione um arquivo Arff", "Selecione um arquivo", JOptionPane.ERROR_MESSAGE);
-		}else{
+//		if (this.arfffile == null){
+//			JOptionPane.showMessageDialog(new JFrame(), "Selecione um arquivo Arff", "Selecione um arquivo", JOptionPane.ERROR_MESSAGE);
+//		}else{
 			message("Open project...");
 			FrameProject frame = FrameProject.getInstance();
 			frame.setTitle("Open project");
@@ -289,12 +292,20 @@ public class FrameMain extends javax.swing.JFrame {
 				File file = fileChooser.getSelectedFile();
 				message("open file: " + file.getAbsolutePath());
 				Project project = Data.fileToProject(file);
-				project.setLoading(this.arfffile.getAbsolutePath());
+				if (this.arfffile != null){
+					project.setLoading(this.arfffile.getAbsolutePath());
+				}else if (project.getLoading() == null){				
+					menuOpenArffActionPerformed(null);	
+					project.setLoading(this.arfffile.getAbsolutePath());
+				}				
 				project.setSaveIn(file.getAbsolutePath());
 				frame.updateScreen(project);
+				frame.setTitle("Open Project - " + (new File(project.getLoading()).getName()));
 			}
+			
+			 
 			CommonsFrame.loadFrame(windowDialog, frame);
-		}
+//		}
 		// frame.setVisible(true);
 	}// GEN-LAST:event_mnOpenProjectActionPerformed
 
@@ -397,9 +408,9 @@ public class FrameMain extends javax.swing.JFrame {
 	}
 	
 	private void menu(boolean value) {
-		this.menuNewProject.setEnabled(value);
-		this.mnOpenProject.setEnabled(value);
-		this.menuStop.setEnabled(value);
+//		this.menuNewProject.setEnabled(value);
+//		this.mnOpenProject.setEnabled(value);
+//		this.menuStop.setEnabled(value);
 	}
 
 	public static File getArfffile() {

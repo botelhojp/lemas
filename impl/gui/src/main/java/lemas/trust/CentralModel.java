@@ -10,8 +10,8 @@ public class CentralModel extends AbstractModel {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void addRating(Rating rating, boolean direct) {
-		if (isIamClient(rating) || !direct) {
+	public void addRating(Rating rating) {
+		if (isIamClient(rating)) {
 			if (data.containsKey(rating.getServer())) {
 				data.get(rating.getServer()).addRating(rating);
 			} else {

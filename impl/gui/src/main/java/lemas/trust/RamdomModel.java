@@ -16,7 +16,7 @@ public class RamdomModel extends AbstractModel {
 
 	@Override
 	public String test(AID aid) {
-		double r = Math.random();
+//		double r = Math.random();
 		// TODO corrigir
 		//return (r <= getDouble("RELIABLE"));
 		return "ERROR";

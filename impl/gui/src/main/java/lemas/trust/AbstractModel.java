@@ -39,16 +39,19 @@ public class AbstractModel implements ITrustModel {
 		return data.get(aid).getTest(test);
 	}
 
-	public void addRating(Rating rating, boolean requestDossie) {
-		if (isIamClient(rating) || !requestDossie) {
-			if (data.containsKey(rating.getServer())) {
-				data.get(rating.getServer()).addRating(rating);
-			} else {
-				data.put(rating.getServer(), new TrustModelData());
-				//TODO colocado a pouco tempo para o dossie
-				data.get(rating.getServer()).addRating(rating);
-			}
+	public void addRating(Rating rating) {
+		if (isIamClient(rating)) {
+			addRatingFromWitness(rating);
 		}
+	}
+	
+	public void addRatingFromWitness(Rating rating) {
+		if (data.containsKey(rating.getServer())) {
+			data.get(rating.getServer()).addRating(rating);
+		} else {
+			data.put(rating.getServer(), new TrustModelData());
+			data.get(rating.getServer()).addRating(rating);
+		}		
 	}
 
 	protected boolean isIamClient(Rating rating) {
@@ -165,5 +168,8 @@ public class AbstractModel implements ITrustModel {
 	@Override
 	public void setTest(Rating rating) {
 		this.test = rating;		
+		if (!data.containsKey(rating.getServer())) {
+			data.put(rating.getServer(), new TrustModelData());
+		}
 	}
 }

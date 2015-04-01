@@ -87,7 +87,8 @@ public class LemasAgent extends OpenAgent {
 		SendRating sr = (SendRating) ce;
 		Rating rating = (Rating) sr.getRating().get(0);
 		sendMessage(rating.getServer(), ACLMessage.REQUEST, ConversationId.SEND_FEEDBACK, sr);
-		trustModel.addRating(rating, true);		
+//		trustModel.addRating(rating, true);
+		trustModel.setTest(rating);
 	}
 	
 	/**
@@ -101,7 +102,7 @@ public class LemasAgent extends OpenAgent {
 	public void receiveFeedback(ACLMessage message, ContentElement ce) {
 		SendRating sr = (SendRating) ce;
 		Rating rating = (Rating) sr.getRating().get(0);
-		trustModel.addRating(rating, true);
+		trustModel.addRating(rating);
 		if (!rating.getServer().equals(getAID())) {
 			throw new OpenJadeException("Esta avaliacao nao he minha: " + message.toString());
 		}
@@ -133,11 +134,10 @@ public class LemasAgent extends OpenAgent {
 	public void responseDossie(ACLMessage message, ContentElement ce) {
 		SendRating sr = (SendRating) ce;
 		Iterator it = sr.getAllRating();
-//		trustModel.clean();
 		while (it.hasNext()) {			
 			Rating rating = (Rating) it.next();
 			if (!rating.getClient().equals(this.getAID())){
-				trustModel.addRating(rating, false);	
+				trustModel.addRatingFromWitness(rating);	
 			}
 		}
 		tb.test(message.getSender());

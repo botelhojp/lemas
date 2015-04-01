@@ -264,7 +264,7 @@ public class FrameProject extends JDialog {
 	private void btRunActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btRunActionPerformed
 		try {
 			updateProject();
-			project.setLoading(FrameMain.getInstance().getArfffile().getAbsolutePath());
+//			project.setLoading(FrameMain.getInstance().getArfffile().getAbsolutePath());
 			Data.projectToFile(project, project.getSaveIn());
 			//this.setVisible(false);
 			FrameMain.getInstance().visibleWindows(true);
@@ -305,7 +305,7 @@ public class FrameProject extends JDialog {
 					Message.error(ex.getMessage(), this);
 				}
 			}
-		} else {
+		} else {		
 			Data.projectToFile(project, project.getSaveIn());
 			Message.info("project saved", this);
 		}

@@ -12,7 +12,7 @@ public class CentralUnoModel extends AbstractModel {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void addRating(Rating rating, boolean direct) {
+	public void addRating(Rating rating) {
 		if (isIamClient(rating)){
 			unoData.addRating(rating);
 			myAgent.test(rating.getServer());	

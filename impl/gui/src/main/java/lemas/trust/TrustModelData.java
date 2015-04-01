@@ -15,27 +15,26 @@ public class TrustModelData implements Serializable {
 	protected List<Rating> ratings = new ArrayList<Rating>();
 	protected Hashtable<Integer, Rating> hash = new Hashtable<Integer, Rating>();
 
-	double sum = 0.0;
-	double count = 0.0;
-
 	public TrustModelData() {
 	}
 
 	public String getTest(Rating test) {		
-		if (!ratings.isEmpty()) {
-			Clazz avaliado = null;
-			if (count == 0){
-				//na primeira vez ele retorna a primeira classe
-				avaliado = Classes.getClasses().get(0);
-			}else{
-				avaliado = Classes.getClass((sum / count));	
-			}						
-			Clazz esperado = Classes.getClass(test.getValue());
-			count++;
-			sum += esperado.getValue();
-			return esperado.getName() + ";" + avaliado.getName() ;
+		double sum = 0.0;
+		double count = 0.0;
+		Clazz avaliado = null;
+		for(Rating r : ratings){
+			double delta = (test.getRound() - r.getRound())/test.getRound();
+			count+=delta;
+			Clazz esperado = Classes.getClass(r.getValue());			
+			sum += (esperado.getValue()*delta);			
 		}
-		return null;
+		if (count == 0){
+			avaliado = Classes.getClasses().get(0);
+		}else{
+			avaliado = Classes.getClass((sum / count));
+		}
+		addRating(test);
+		return test.getValue() + ";" + avaliado.getName() ;
 	}
 
 	/**

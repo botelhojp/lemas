@@ -1,6 +1,7 @@
 package lemas.trust.metrics;
 
 import jade.lang.acl.ACLMessage;
+import lemas.Lemas;
 import lemas.agent.LemasAgent;
 import lesma.annotations.Metrics;
 import weka.core.Instance;
@@ -20,6 +21,7 @@ public class PointsMetrics implements IMetrics {
 	@Override
 	public double prosProcess(ACLMessage msg) {
 		if (msg.getContent().contains(";")) {
+			System.out.println(msg.getContent());
 			String[] tokens = msg.getContent().split(";");
 			String esperado = tokens[0];
 			String avaliado = tokens[1];
