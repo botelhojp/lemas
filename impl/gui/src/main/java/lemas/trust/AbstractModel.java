@@ -14,12 +14,14 @@ import java.util.List;
 import java.util.Properties;
 
 import lemas.agent.LemasAgent;
+import lemas.trust.metrics.Classes;
+import lemas.trust.metrics.Clazz;
 import openjade.core.OpenAgent;
 import openjade.ontology.Rating;
 import openjade.trust.ITrustModel;
 import openjade.trust.model.Pair;
 
-public class AbstractModel implements ITrustModel {
+public  class AbstractModel implements ITrustModel {
 
 	protected HashMap<AID, TrustModelData> data;
 	protected int currentIteration;
@@ -35,10 +37,25 @@ public class AbstractModel implements ITrustModel {
 		properties = new Properties();
 	}
 
-	public String test(AID aid) {
-		return data.get(aid).getTest(test);
+	public String test(AID aid){
+		double sum = 0.0;
+		double count = 0.0;
+		Clazz avaliado = null;
+		for(Rating r : getRatings(aid)){
+			double delta = (test.getRound() - r.getRound())/test.getRound();
+			count+=delta;
+			Clazz esperado = Classes.getClass(r.getValue());			
+			sum += (esperado.getValue()*delta);			
+		}
+		if (count == 0){
+			avaliado = Classes.getClasses().get(0);
+		}else{
+			avaliado = Classes.getClass((sum / count));
+		}
+		addRating(test);
+		return test.getValue() + ";" + avaliado.getName() ;
 	}
-
+	
 	public void addRating(Rating rating) {
 		if (isIamClient(rating)) {
 			addRatingFromWitness(rating);
@@ -171,5 +188,9 @@ public class AbstractModel implements ITrustModel {
 		if (!data.containsKey(rating.getServer())) {
 			data.put(rating.getServer(), new TrustModelData());
 		}
+	}
+	
+	public List<Rating> getRatings(AID aid) {		
+		return data.get(aid).getRatings();
 	}
 }

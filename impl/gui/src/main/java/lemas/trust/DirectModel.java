@@ -13,5 +13,4 @@ public class DirectModel extends AbstractModel {
 		super.setTest(rating);
 		myAgent.test(rating.getServer());
 	}
-
 }

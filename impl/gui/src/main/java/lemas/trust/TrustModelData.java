@@ -49,4 +49,8 @@ public class TrustModelData implements Serializable {
 			hash.put(rating.getRound(), rating);
 		}		
 	}
+
+	public List<Rating> getRatings() {
+		return ratings;
+	}
 }
