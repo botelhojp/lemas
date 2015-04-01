@@ -9,6 +9,7 @@ import lemas.trust.metrics.Classes;
 import lemas.trust.metrics.Clazz;
 import lesma.annotations.TrustModel;
 import openjade.ontology.Rating;
+import openjade.ontology.RatingAttribute;
 
 @TrustModel(name = "Dossie Model")
 public class DossieModel extends AbstractModel {
@@ -53,6 +54,7 @@ public class DossieModel extends AbstractModel {
 			avaliado = Classes.getClass((sum / count));
 		}
 		addRating(test);
-		return test.getValue() + ";" + avaliado.getName() ;
+		RatingAttribute ob = (RatingAttribute) test.getAttributes().get(5);
+		return test.getValue() + ";" + avaliado.getName() + ";" + ob.getValue() ;
 	}
 }

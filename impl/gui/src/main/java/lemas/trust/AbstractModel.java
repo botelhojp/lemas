@@ -18,6 +18,7 @@ import lemas.trust.metrics.Classes;
 import lemas.trust.metrics.Clazz;
 import openjade.core.OpenAgent;
 import openjade.ontology.Rating;
+import openjade.ontology.RatingAttribute;
 import openjade.trust.ITrustModel;
 import openjade.trust.model.Pair;
 
@@ -53,7 +54,8 @@ public  class AbstractModel implements ITrustModel {
 			avaliado = Classes.getClass((sum / count));
 		}
 		addRating(test);
-		return test.getValue() + ";" + avaliado.getName() ;
+		RatingAttribute ob = (RatingAttribute) test.getAttributes().get(5);
+		return test.getValue() + ";" + avaliado.getName() + ";" + ob.getValue() ;
 	}
 	
 	public void addRating(Rating rating) {

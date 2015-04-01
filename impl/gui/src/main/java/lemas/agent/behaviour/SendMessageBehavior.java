@@ -47,7 +47,7 @@ public class SendMessageBehavior extends Behaviour {
 		msg.setSender(myAgent.getAID());
 		msg.setConversationId(conversation);
 		msg.addReceiver(receiver);
-		msg.setContent(content);
+		msg.setContent(content);		
 		return msg;
 	}
 

@@ -1,7 +1,6 @@
 package lemas.trust.metrics;
 
 import jade.lang.acl.ACLMessage;
-import lemas.Lemas;
 import lemas.agent.LemasAgent;
 import lesma.annotations.Metrics;
 import weka.core.Instance;
@@ -17,6 +16,10 @@ public class PointsMetrics implements IMetrics {
 
 	public void preProcess(Instance instance) {
 	}
+	
+	public static void main(String[] args) {
+		System.out.println(Double.parseDouble("389"));		
+	}
 
 	@Override
 	public double prosProcess(ACLMessage msg) {
@@ -25,13 +28,14 @@ public class PointsMetrics implements IMetrics {
 			String[] tokens = msg.getContent().split(";");
 			String esperado = tokens[0];
 			String avaliado = tokens[1];
+			Double peso =  Double.parseDouble(tokens[2]);
 			Clazz c1 = Classes.getClass(esperado);
 			Clazz c2 = Classes.getClass(avaliado);
 			double diff = c1.getValue() - c2.getValue();
 			if (diff < 0){
 				diff = diff * (-1);
 			}
-			sum += diff;
+			sum += (peso - (peso*diff));
 		}
 		return sum;
 	}
