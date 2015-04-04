@@ -11,7 +11,7 @@ public class Classes {
 	
 	public static Classes instance;
 	
-	private static final double min = 0.0;
+	private static final double min = -1.0;
 	private static final double max = 1.0;
 	private static List<Clazz> list;
 	private static Hashtable<String, Clazz> hash;
@@ -25,10 +25,10 @@ public class Classes {
 		double range = (max - min)/at.numValues();		
 		double step = (max - min)/(at.numValues()-1);
 		for(int i = 0; i < at.numValues(); i++){
+			double r_max = max - (i*range);
+			double r_min = r_max - range;
 			int index = at.numValues() - i - 1;
-			double r_min = index * range;
-			double r_max = (index + 1) * range;			
-			Clazz clazz = new Clazz(at.value(i), step*index, r_min, r_max);
+			Clazz clazz = new Clazz(at.value(i), step*index - max, r_min, r_max);
 			System.out.println(clazz);
 			list.add(clazz);
 			hash.put(clazz.getName(), clazz);

@@ -18,7 +18,6 @@ import lemas.trust.metrics.Classes;
 import lemas.trust.metrics.Clazz;
 import openjade.core.OpenAgent;
 import openjade.ontology.Rating;
-import openjade.ontology.RatingAttribute;
 import openjade.trust.ITrustModel;
 import openjade.trust.model.Pair;
 
@@ -38,24 +37,24 @@ public  class AbstractModel implements ITrustModel {
 		properties = new Properties();
 	}
 
-	public String test(AID aid){
+	@Override
+	public String test(AID aid) {
 		double sum = 0.0;
 		double count = 0.0;
 		Clazz avaliado = null;
 		for(Rating r : getRatings(aid)){
-			double delta = (test.getRound() - r.getRound())/test.getRound();
+			double delta = (test.getRound() - r.getRound())/ (double) test.getRound();
 			count+=delta;
 			Clazz esperado = Classes.getClass(r.getValue());			
 			sum += (esperado.getValue()*delta);			
 		}
-		if (count == 0){
-			avaliado = Classes.getClasses().get(0);
-		}else{
-			avaliado = Classes.getClass((sum / count));
-		}
 		addRating(test);
-		RatingAttribute ob = (RatingAttribute) test.getAttributes().get(5);
-		return test.getValue() + ";" + avaliado.getName() + ";" + ob.getValue() ;
+		avaliado = (count == 0)? Classes.getClasses().get(0) : Classes.getClass((sum / count));
+		if (avaliado.getValue() > 0){
+			return "AGREE;" + test.getRound();
+		}else{
+			return "REFUSE;" + test.getRound();
+		}
 	}
 	
 	public void addRating(Rating rating) {

@@ -19,6 +19,7 @@ import lemas.agent.LemasAgent;
 import lemas.form.FrameMain;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
+import lemas.trust.data.RatingCache;
 import lemas.trust.metrics.Classes;
 import lemas.trust.metrics.IMetrics;
 import lemas.util.Data;
@@ -111,6 +112,7 @@ public class LoaderBehaviour extends Behaviour {
 	private void sendTest(AID client, Instance line) {
 		if (line != null) {
 			Rating rating = makeRating(line);
+			RatingCache.put(rating.getRound(), rating);
 			SendRating sr = new SendRating();
 			sr.addRating(rating);
 			agent.sendMessage(client, ACLMessage.REQUEST, ConversationId.START_ITERATE, sr, OpenJadeOntology.getInstance());

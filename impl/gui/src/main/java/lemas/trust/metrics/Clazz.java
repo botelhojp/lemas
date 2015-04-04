@@ -44,7 +44,11 @@ public class Clazz {
 
 	public void setR_max(double r_max) {
 		this.r_max = r_max;
-	}	
+	}
+	
+	public double diff(Clazz other){
+		return this.getValue() - other.getValue();
+	}
 	
 	@Override
 	public String toString() {		
