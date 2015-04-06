@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import lemas.Lemas;
 import lemas.model.LemasLog;
 import lemas.model.Project;
 import lemas.model.Runner;
@@ -43,6 +44,18 @@ public class FrameMain extends javax.swing.JFrame {
 		windowDialog.setVisible(false);
                 JConsole.getInstance().setVisible(false);
 		windowDialog2.setVisible(false);
+		if (Lemas.file1 != null && Lemas.file2 != null){
+			arfffile = new File(Lemas.file1);			
+			FrameProject frame = FrameProject.getInstance();
+			frame.setTitle("Open project");
+			File file = new File(Lemas.file2);
+			Project project = Data.fileToProject(file);
+			project.setLoading(this.arfffile.getAbsolutePath());
+			project.setSaveIn(file.getAbsolutePath());
+			frame.updateScreen(project);
+			frame.setTitle("Open Project - " + (new File(project.getLoading()).getName()));
+			CommonsFrame.loadFrame(windowDialog, frame);
+		}
 	}
 
 	public static FrameMain getInstance() {
@@ -102,7 +115,7 @@ public class FrameMain extends javax.swing.JFrame {
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Learning Environment for Systems Multi Agent");
+        setTitle("ART Simulator");
 
         panelMain.setBackground(new java.awt.Color(255, 255, 255));
         panelMain.setForeground(new java.awt.Color(255, 255, 255));
@@ -171,7 +184,7 @@ public class FrameMain extends javax.swing.JFrame {
         );
         jDesktopPane1.setLayer(panelMain, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jMenuFile.setText("Lemas");
+        jMenuFile.setText("ARTS");
 
         menuOpenArff.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         menuOpenArff.setText("Open Arff");

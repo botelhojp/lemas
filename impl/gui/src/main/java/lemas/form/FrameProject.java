@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 import openjade.trust.ITrustModel;
 import openjade.trust.TrustModelFactory;
+import lemas.Lemas;
 import lemas.model.LemasLog;
 import lemas.model.LemasReflection;
 import lemas.model.Project;

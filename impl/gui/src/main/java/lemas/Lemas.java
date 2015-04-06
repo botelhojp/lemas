@@ -12,9 +12,16 @@ import org.apache.log4j.Logger;
 
 public class Lemas {
 
+	public static String file1 = null;
+	public static String file2 = null;
+	
 	private static Logger log = Logger.getLogger(Lemas.class);
 
 	public static void main(String args[]) {
+		if (args.length==2){
+			file1=args[0];
+			file2=args[1];
+		}
 		SplashScreen spaScreen = new SplashScreen();
 		try {
 			java.awt.EventQueue.invokeLater(new Runnable() {

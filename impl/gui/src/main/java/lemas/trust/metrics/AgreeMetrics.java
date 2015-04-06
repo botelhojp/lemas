@@ -8,14 +8,13 @@ import openjade.ontology.Rating;
 import openjade.ontology.RatingAttribute;
 import weka.core.Instance;
 
-@Metrics(name = "Points Value")
-public class PointsMetrics implements IMetrics {
+@Metrics(name = "Refused Value")
+public class AgreeMetrics implements IMetrics {
 
-	private double cost = 0.0;
-	private double benefit = 0.0;
+	private double refused = 0.0;
 	
 
-	public PointsMetrics() {
+	public AgreeMetrics() {
 		LemasAgent.resetCountMessage();
 	}
 
@@ -30,15 +29,11 @@ public class PointsMetrics implements IMetrics {
 			String options = tokens[0];
 			Integer id = Integer.parseInt(tokens[1]);
 			Rating r = RatingCache.remove(id);
-			Clazz clazz = Classes.getClass(r.getValue());
-			if (options.equals("AGREE")){
-				RatingAttribute ra = (RatingAttribute) r.getAttributes().get(5);
-				double value = Double.parseDouble(ra.getValue());
-				cost+= value;
-				benefit+= value + (value * clazz.getValue());
+			if (!options.equals("AGREE")){
+				refused++;
 			}			
 		}
-		return 100 * (benefit/cost);
+		return refused;
 	}
 
 }
