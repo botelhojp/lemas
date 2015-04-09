@@ -6,7 +6,7 @@ import lesma.annotations.TrustModel;
 import openjade.ontology.Rating;
 import openjade.ontology.RequestRating;
 
-@TrustModel(name = "Indirect Model")
+@TrustModel(name = "TrustNet")
 public class IndirectModel extends AbstractModel {
 
 	private static final long serialVersionUID = 1L;

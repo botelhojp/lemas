@@ -3,8 +3,8 @@ package lemas.trust;
 import lesma.annotations.TrustModel;
 import openjade.ontology.Rating;
 
-@TrustModel(name = "Direct Model")
-public class DirectModel extends AbstractModel {
+@TrustModel(name = "MARSH")
+public class MARSHModel extends AbstractModel {
 
 	private static final long serialVersionUID = 1L;
 

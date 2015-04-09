@@ -35,7 +35,7 @@ public class PointsMetrics implements IMetrics {
 				RatingAttribute ra = (RatingAttribute) r.getAttributes().get(5);
 				double value = Double.parseDouble(ra.getValue());
 				cost+= value;
-				benefit+= value + (value * clazz.getValue());
+				benefit+= (value * clazz.getValue());
 			}			
 		}
 		return 100 * (benefit/cost);
