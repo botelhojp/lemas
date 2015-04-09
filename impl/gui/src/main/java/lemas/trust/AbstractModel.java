@@ -80,10 +80,6 @@ public  class AbstractModel implements ITrustModel {
 		return (rating != null && rating.getServer().equals(myAgent.getAID()));
 	}
 
-	// public void reset() {
-	// data.resetClassifier();
-	// }
-
 	public Properties getProperties() {
 		return properties;
 	}
