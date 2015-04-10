@@ -15,7 +15,7 @@ import weka.core.Instance;
 @Metrics(name = "Rounds Value")
 public class RoundsMetrics extends AbstractIMetric {
 
-	private double rounds = 10;
+	private double rounds = 100;
 	
 	private List<Double> costs = new ArrayList<Double>();
 	private List<Double> benefits = new ArrayList<Double>();
@@ -44,7 +44,10 @@ public class RoundsMetrics extends AbstractIMetric {
 				add(benefits, value * clazz.getValue());
 			}			
 		}
-		return 100 * (value(benefits)/value(costs));
+		if (benefits.size() < 25){
+			return super.put(0);
+		}
+		return super.put(100 * (value(benefits)/value(costs)));
 	}
 
 	private double value(List<Double> costs2) {

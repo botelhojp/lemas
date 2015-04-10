@@ -45,7 +45,7 @@ public abstract class AbstractIMetric implements IMetrics {
 			for (int r = 0; r < rols; r++) {
 				String line = "";
 				for (int c = 0; c < colums; c++) {
-					line += "\"" + csv.get(c).get(r).replaceAll(".", ",") + "\";";
+					line += "\"" + csv.get(c).get(r).replace('.', ',') + "\";";
 				}
 				line = line.substring(0, line.length()-1);
 				writer.println(line);
