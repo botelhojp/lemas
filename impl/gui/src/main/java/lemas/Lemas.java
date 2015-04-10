@@ -6,6 +6,7 @@ import lemas.form.FrameMain;
 import lemas.form.SplashScreen;
 import lemas.model.Workspace;
 import lemas.trust.Constants;
+import lemas.trust.metrics.IMetrics;
 
 import org.apache.log4j.Logger;
 
@@ -14,13 +15,26 @@ public class Lemas {
 
 	public static String file1 = null;
 	public static String file2 = null;
+	public static IMetrics metrics = null;
 	
 	private static Logger log = Logger.getLogger(Lemas.class);
 
 	public static void main(String args[]) {
-		if (args.length==2){
+		if (args.length==2){			
 			file1=args[0];
-			file2=args[1];
+			file2=args[1];			
+			if (!(new File(file1).exists())){
+				file1 =  System.getProperty("user.home") + file1;
+				if (!(new File(file1).exists())){
+					file1=args[0];
+				}
+			}
+			if (!(new File(file2).exists())){
+				file2 =  System.getProperty("user.home") + file2;
+				if (!(new File(file2).exists())){
+					file2=args[1];	
+				}
+			}
 		}
 		SplashScreen spaScreen = new SplashScreen();
 		try {
@@ -60,5 +74,17 @@ public class Lemas {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void saveCSV() {
+		if (metrics != null){
+			File file = new File(System.getProperty("user.home") + File.separatorChar + "Dropbox" + File.separatorChar + "result.csv");
+			metrics.save(file);
+		}
+		
+	}
+
+	public static void seIMetrics(IMetrics abstractIMetric) {
+		metrics = abstractIMetric;		
 	}
 }

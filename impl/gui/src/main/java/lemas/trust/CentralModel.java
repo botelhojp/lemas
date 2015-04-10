@@ -11,7 +11,7 @@ import lemas.trust.metrics.Clazz;
 import lesma.annotations.TrustModel;
 import openjade.ontology.Rating;
 
-@TrustModel(name = "Central Model")
+@TrustModel(name = "Central")
 public class CentralModel extends AbstractModel {
 	
 	protected static HashMap<AID, TrustModelData> data = new HashMap<AID, TrustModelData>();

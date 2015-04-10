@@ -5,11 +5,10 @@ import lemas.agent.LemasAgent;
 import lemas.trust.data.RatingCache;
 import lesma.annotations.Metrics;
 import openjade.ontology.Rating;
-import openjade.ontology.RatingAttribute;
 import weka.core.Instance;
 
 @Metrics(name = "Refused Value")
-public class AgreeMetrics implements IMetrics {
+public class AgreeMetrics extends AbstractIMetric {
 
 	private double refused = 0.0;
 	

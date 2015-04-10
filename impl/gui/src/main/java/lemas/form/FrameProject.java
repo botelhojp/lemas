@@ -308,6 +308,7 @@ public class FrameProject extends JDialog {
 			}
 		} else {		
 			Data.projectToFile(project, project.getSaveIn());
+			Lemas.saveCSV();
 			Message.info("project saved", this);
 		}
 	}// GEN-LAST:event_btSaveActionPerformed

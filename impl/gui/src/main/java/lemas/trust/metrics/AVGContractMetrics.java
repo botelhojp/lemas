@@ -9,7 +9,7 @@ import lesma.annotations.Metrics;
 import weka.core.Instance;
 
 @Metrics(name = "Contract AVG")
-public class AVGContractMetrics implements IMetrics {
+public class AVGContractMetrics extends AbstractIMetric {
 
 	private List<Instance> instances = new ArrayList<Instance>();
 	private String currentContract = null;

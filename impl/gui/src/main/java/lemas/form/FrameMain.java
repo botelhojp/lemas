@@ -115,7 +115,7 @@ public class FrameMain extends javax.swing.JFrame {
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("ART Simulator");
+        setTitle("SITIM - Simulated Time Machine");
 
         panelMain.setBackground(new java.awt.Color(255, 255, 255));
         panelMain.setForeground(new java.awt.Color(255, 255, 255));
@@ -184,7 +184,7 @@ public class FrameMain extends javax.swing.JFrame {
         );
         jDesktopPane1.setLayer(panelMain, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jMenuFile.setText("ARTS");
+        jMenuFile.setText("SITIM");
 
         menuOpenArff.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         menuOpenArff.setText("Open Arff");

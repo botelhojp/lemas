@@ -9,7 +9,7 @@ import lesma.annotations.Metrics;
 import weka.core.Instance;
 
 @Metrics(name = "Success Rate Prequential")
-public class PrequentialMetrics implements IMetrics {
+public class PrequentialMetrics extends AbstractIMetric {
 	
 	private double count = 50;
 	private List<Boolean> prequential = new ArrayList<Boolean>();

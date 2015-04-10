@@ -10,7 +10,7 @@ import lemas.trust.metrics.Clazz;
 import lesma.annotations.TrustModel;
 import openjade.ontology.Rating;
 
-@TrustModel(name = "Dossie Model")
+@TrustModel(name = "ICE")
 public class DossieModel extends AbstractModel {
 
 	protected List<Rating> dossie = new ArrayList<Rating>();
