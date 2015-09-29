@@ -37,8 +37,8 @@ public class RoundsMetrics extends AbstractIMetric {
 			Integer id = Integer.parseInt(tokens[1]);
 			Rating r = RatingCache.remove(id);
 			Clazz clazz = Classes.getClass(r.getValue());
-			if (options.equals("AGREE")){
-				RatingAttribute ra = (RatingAttribute) r.getAttributes().get(5);
+			if (options.equals("AGREE")){				
+				RatingAttribute ra = (RatingAttribute) getAttributes("cost", r.getAttributes());
 				double value = Double.parseDouble(ra.getValue());
 				add(costs, value);
 				add(benefits, value * clazz.getValue());

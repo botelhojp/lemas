@@ -32,7 +32,7 @@ public class PointsMetrics extends AbstractIMetric {
 			Rating r = RatingCache.remove(id);
 			Clazz clazz = Classes.getClass(r.getValue());
 			if (options.equals("AGREE")){
-				RatingAttribute ra = (RatingAttribute) r.getAttributes().get(5);
+				RatingAttribute ra = (RatingAttribute) getAttributes("cost", r.getAttributes());
 				double value = Double.parseDouble(ra.getValue());
 				cost+= value;
 				benefit+= (value * clazz.getValue());
@@ -41,4 +41,5 @@ public class PointsMetrics extends AbstractIMetric {
 		double value = 100 * (benefit/cost);
 		return super.put(value);
 	}
+
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
+import openjade.ontology.RatingAttribute;
 import lemas.Lemas;
 import weka.core.Instance;
 
@@ -29,6 +30,15 @@ public abstract class AbstractIMetric implements IMetrics {
 	public double put(double value) {
 		csv.get(count).add(""+value);
 		return value;
+	}
+	
+	protected RatingAttribute getAttributes(String key, jade.util.leap.List list) {
+		for (int i = 0; i < list.size(); i++) {
+			RatingAttribute ra = (RatingAttribute)list.get(i);
+			if (ra.getName().equals(key))
+				return ra;
+		}
+		return null;
 	}
 
 	public void save(File file) {

@@ -4,7 +4,6 @@ import jade.lang.acl.ACLMessage;
 import lemas.agent.LemasAgent;
 import lemas.trust.data.RatingCache;
 import lesma.annotations.Metrics;
-import openjade.ontology.Rating;
 import weka.core.Instance;
 
 @Metrics(name = "Refused Value")
@@ -27,7 +26,7 @@ public class AgreeMetrics extends AbstractIMetric {
 			String[] tokens = msg.getContent().split(";");
 			String options = tokens[0];
 			Integer id = Integer.parseInt(tokens[1]);
-			Rating r = RatingCache.remove(id);
+			RatingCache.remove(id);
 			if (!options.equals("AGREE")){
 				refused++;
 			}			

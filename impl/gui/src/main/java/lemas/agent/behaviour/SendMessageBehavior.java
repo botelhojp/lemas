@@ -15,7 +15,6 @@ public class SendMessageBehavior extends Behaviour {
 	private boolean requestDossie = false;
 	private boolean findWitness = false;
 	private AID aid;
-	private AID aidFind;
 
 	public SendMessageBehavior(LemasAgent agent) {
 		this.myAgent = agent;
@@ -36,7 +35,6 @@ public class SendMessageBehavior extends Behaviour {
 			if (findWitness){
 				myAgent.sendMessage(makeMessage(new AID("lemas_loader", false), ConversationId.NEXT, ""));
 				findWitness = false;
-				aidFind = null;
 			}
 		}
 		block(50);
@@ -66,7 +64,6 @@ public class SendMessageBehavior extends Behaviour {
 	}
 
 	public void findWitness(AID aidFind) {
-		this.aidFind = aidFind;
 		findWitness = true;
 	}
 	
