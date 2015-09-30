@@ -38,7 +38,7 @@ public class LoaderBehaviour extends Behaviour {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final long CACHE_SIZE = 500;
+	private static final long CACHE_SIZE = 2000;
 
 	private AgentLoader agent;
 	private List<AID> agentCache = new ArrayList<AID>();

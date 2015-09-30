@@ -31,7 +31,7 @@ public class RoundsMetrics extends AbstractIMetric {
 	@Override
 	public double prosProcess(ACLMessage msg) {
 		if (msg.getContent().contains(";")) {
-			System.out.println(msg.getContent());
+//			System.out.println(msg.getContent());
 			String[] tokens = msg.getContent().split(";");
 			String options = tokens[0];
 			Integer id = Integer.parseInt(tokens[1]);
