@@ -38,10 +38,11 @@ public class LoaderBehaviour extends Behaviour {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final long CACHE_SIZE = 2000;
+	private static final long CACHE_SIZE = 2000;	
 
 	private AgentLoader agent;
-	private List<AID> agentCache = new ArrayList<AID>();
+	private List<AID> agentCache_Client = new ArrayList<AID>();
+	private List<AID> agentCache_Server = new ArrayList<AID>();
 	private boolean done = false;
 	private Instance instance = null;
 	private int round = 0;
@@ -65,11 +66,6 @@ public class LoaderBehaviour extends Behaviour {
 
 	@Override
 	public void action() {
-		if (agentCache.size() > CACHE_SIZE) {
-			AID deleteAid = agentCache.get(0);
-			agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");
-			return;
-		}
 		if (agent.nowait()) {
 			try {
 				Instances data = arff.getStructure();
@@ -84,8 +80,8 @@ public class LoaderBehaviour extends Behaviour {
 					AID client = new AID(instance.toString(0), false);
 					AID server = new AID(instance.toString(1), false);
 					agent.waiting();
-					createAgent(server, "lemas.agent.LemasAgent");
-					createAgent(client, "lemas.agent.LemasAgent");
+					createAgent(server, "lemas.agent.LemasAgent", agentCache_Server);
+					createAgent(client, "lemas.agent.LemasAgent", agentCache_Client);
 					WitnessUtil.addWitness(server, client);
 					sendTest(client, instance);
 				} else {
@@ -126,14 +122,20 @@ public class LoaderBehaviour extends Behaviour {
 		return OpenJadeUtil.makeRating(clientAID, serverAID, round++, Data.instanceToRatingAttribute(instance), value);
 	}
 
-	private void createAgent(AID aid, String clazz) {
+	private void createAgent(AID aid, String clazz, List<AID> cache) {
 		try {
-			if (!agentCache.contains(aid)) {
+			if (!cache.contains(aid)) {
 				Object[] param = { trustModelClass };
 				AgentController a = agent.getContainerController().createNewAgent(aid.getLocalName(), clazz, param);
 				a.start();
-				agentCache.add(aid);
+				cache.add(aid);
 			}
+			
+			if (cache.size() > CACHE_SIZE) {
+				AID deleteAid = cache.get(0);
+				agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");				
+			}
+			
 		} catch (StaleProxyException e) {
 			LemasLog.erro(e);
 		} catch (Exception e) {
@@ -142,7 +144,12 @@ public class LoaderBehaviour extends Behaviour {
 	}
 
 	public void removerCache(AID sender) {
-		agentCache.remove(sender);
+		if (agentCache_Client.contains(sender)){
+			agentCache_Client.remove(sender);
+		}
+		if (agentCache_Server.contains(sender)){
+			agentCache_Server.remove(sender);
+		}
 	}
 
 	@Override
