@@ -5,7 +5,7 @@
 	<groupId>lemas</groupId>
 	<artifactId>lemas-gui</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.0-BETA3</version>
+	<version>1.0.0-BETA5</version>
 
 	<name>lemas - Application GUI</name>
 	<url>https://github.com/botelhojp/cronos</url>
@@ -17,7 +17,7 @@
 	<parent>
 		<groupId>lemas.parent</groupId>
 		<artifactId>lemas-parent-base</artifactId>
-		<version>1.0.0-BETA1</version>
+		<version>1.0.0-BETA5</version>
 	</parent>
 
 	<dependencies>

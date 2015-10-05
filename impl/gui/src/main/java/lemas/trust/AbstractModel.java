@@ -37,7 +37,6 @@ public  class AbstractModel implements ITrustModel {
 		properties = new Properties();
 	}
 
-	@Override
 	public String test(AID aid) {
 		double sum = 0.0;
 		double count = 0.0;
@@ -179,7 +178,6 @@ public  class AbstractModel implements ITrustModel {
 		data.clear();
 	}
 
-	@Override
 	public void setTest(Rating rating) {
 		this.test = rating;		
 		if (!data.containsKey(rating.getServer())) {

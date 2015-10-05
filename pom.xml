@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>lemas</groupId>
 	<artifactId>lemas-build</artifactId>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>1.0.0-BETA5</version>
 	<packaging>pom</packaging>
 	<name>lemas - Build Aggregate</name>
 	<description>lemas - Build Aggregate</description>
