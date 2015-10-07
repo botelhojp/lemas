@@ -399,8 +399,11 @@ public class FrameMain extends javax.swing.JFrame {
         private JTextArea log = JConsole.getInstance().getLog();
     
 	public void message(String message) {
-		log.append(message + "\n");
-		log.getCaret().setDot(log.getText().length());
+		//TODO desempenho
+		log.setText(message);
+		
+//		log.append(message + "\n");
+//		log.getCaret().setDot(log.getText().length());
 	}
 
 	public void clean() {

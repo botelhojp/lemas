@@ -66,6 +66,7 @@ public class LoaderBehaviour extends Behaviour {
 
 	@Override
 	public void action() {
+		block(50);
 		if (agent.nowait()) {
 			try {
 				Instances data = arff.getStructure();
