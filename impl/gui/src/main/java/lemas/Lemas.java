@@ -2,6 +2,7 @@ package lemas;
 
 import java.io.File;
 
+import lemas.db.LemasDB;
 import lemas.form.FrameMain;
 import lemas.form.SplashScreen;
 import lemas.model.Workspace;
@@ -59,6 +60,10 @@ public class Lemas {
 	}
 
 	public static void cleanFiles() {
+		LemasDB db = new LemasDB();
+		db.connect();
+		db.cleanAll();
+		db.close();
 		File folderTmp = new File(System.getProperty("java.io.tmpdir"));
 		File[] listOfFiles = folderTmp.listFiles();
 		for (File file : listOfFiles) {

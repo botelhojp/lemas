@@ -3,17 +3,13 @@ package lemas.trust;
 import jade.core.AID;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
 import lemas.agent.LemasAgent;
+import lemas.db.LemasDB;
 import lemas.trust.metrics.Classes;
 import lemas.trust.metrics.Clazz;
 import openjade.core.OpenAgent;
@@ -136,32 +132,41 @@ public  class AbstractModel implements ITrustModel {
 
 	public void serialize() {
 		try {
-			if (tmpFile.exists()) {
-				tmpFile.delete();
-			}
-			FileOutputStream arquivoGrav = new FileOutputStream(tmpFile);
-			ObjectOutputStream objGravar = new ObjectOutputStream(arquivoGrav);
-			objGravar.writeObject(data);
-			objGravar.flush();
-			objGravar.close();
-			arquivoGrav.flush();
-			arquivoGrav.close();
-		} catch (IOException e) {
+//			if (tmpFile.exists()) {
+//				tmpFile.delete();
+//			}
+//			FileOutputStream arquivoGrav = new FileOutputStream(tmpFile);
+//			ObjectOutputStream objGravar = new ObjectOutputStream(arquivoGrav);
+//			objGravar.writeObject(data);
+//			objGravar.flush();
+//			objGravar.close();
+//			arquivoGrav.flush();
+//			arquivoGrav.close();
+			LemasDB db = new LemasDB();
+			db.connect();
+			db.save(myAgent, data);
+			
+		} catch (Exception e) {
 			throw new RuntimeException("Erro serialize trustmodel", e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void loadSerialize() {
 		try {
-			if (tmpFile.exists()) {
-				FileInputStream arquivoLeitura = new FileInputStream(tmpFile);
-				ObjectInputStream objLeitura = new ObjectInputStream(arquivoLeitura);
-				this.data = (HashMap<AID, TrustModelData>) objLeitura.readObject();
-				objLeitura.close();
-				arquivoLeitura.close();
-				tmpFile.delete();
+			LemasDB db = new LemasDB();
+			db.connect();
+			if (db.exist(myAgent)){
+				data = db.load(myAgent);
 			}
+			db.close();
+//			if (tmpFile.exists()) {
+//				FileInputStream arquivoLeitura = new FileInputStream(tmpFile);
+//				ObjectInputStream objLeitura = new ObjectInputStream(arquivoLeitura);
+//				this.data = (HashMap<AID, TrustModelData>) objLeitura.readObject();
+//				objLeitura.close();
+//				arquivoLeitura.close();
+//				tmpFile.delete();
+//			}
 		} catch (Exception e) {
 			throw new RuntimeException("Erro serialize trustmodel", e);
 		}

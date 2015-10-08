@@ -38,7 +38,7 @@ public class LoaderBehaviour extends Behaviour {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final long CACHE_SIZE = 2000;	
+	private static final long CACHE_SIZE = 3000;	
 
 	private AgentLoader agent;
 	private List<AID> agentCache_Client = new ArrayList<AID>();
@@ -51,7 +51,7 @@ public class LoaderBehaviour extends Behaviour {
 
 	private ArffReader arff;
 	private BufferedReader reader;
-
+	
 	public LoaderBehaviour(AgentLoader _agent, Class<ITrustModel> trustModelClass, Class<IMetrics> metricsClass) {
 		try {
 			agent = _agent;
@@ -66,7 +66,6 @@ public class LoaderBehaviour extends Behaviour {
 
 	@Override
 	public void action() {
-		block(50);
 		if (agent.nowait()) {
 			try {
 				Instances data = arff.getStructure();
@@ -95,6 +94,7 @@ public class LoaderBehaviour extends Behaviour {
 				System.out.println(e.getMessage());
 			}
 		}
+		block(10);
 	}
 
 	public void loadArff() {

@@ -8,6 +8,7 @@ import java.util.List;
 
 import lemas.Lemas;
 import lemas.agent.behaviour.LoaderBehaviour;
+import lemas.db.LemasDB;
 import lemas.form.DialogResult;
 import lemas.form.FrameMain;
 import lemas.form.FrameProject;
@@ -30,6 +31,7 @@ public class AgentLoader extends OpenAgent {
 	private DialogResult dialogResult;
 	private double round = 0;
 	private LoaderBehaviour loader;
+	private LemasDB db;
 	
 	public static AgentLoader getInstance(){
 		return instance;
@@ -41,7 +43,8 @@ public class AgentLoader extends OpenAgent {
 		wait = 0;
 		round = 0;
 		executions++;
-		
+		db = new LemasDB();
+		db.connect();
 		loader = new LoaderBehaviour(this, getTrustModelClass(), getMetricsClass());
 		addBehaviour(loader);
 		instance = this;
@@ -89,11 +92,12 @@ public class AgentLoader extends OpenAgent {
 	}
 	
 	public void addResult(int executions, double round, double value){
-		if (dialogResult == null) {
-			dialogResult = new DialogResult();
-			CommonsFrame.loadFrame(FrameMain.getInstance().getFrameResult(), dialogResult);
-		}
-		dialogResult.addResult(executions, round, value);
+//		if (dialogResult == null) {
+//			dialogResult = new DialogResult();
+//			CommonsFrame.loadFrame(FrameMain.getInstance().getFrameResult(), dialogResult);
+//		}
+//		dialogResult.addResult(executions, round, value);
+		db.save(executions, round, value);
 	}
 
 	public void waiting() {
@@ -123,7 +127,8 @@ public class AgentLoader extends OpenAgent {
 	}
 
 	public void stop() {
+		db.close();
 		loader.stop();
-		Lemas.cleanFiles();
+		Lemas.cleanFiles();		
 	}
 }
