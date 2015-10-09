@@ -32,43 +32,45 @@ import lemas.util.Message;
 @SuppressWarnings("all")
 public class FrameProject extends JDialog {
 
-	private static final long serialVersionUID = 1L;
-	private static FrameProject instance;
-	private Project project = null;
+    private static final long serialVersionUID = 1L;
+    private static FrameProject instance;
+    private Project project = null;
+    private boolean bVerLog = true;
+    private boolean bVerResult = true;
 
-	public static FrameProject getInstance() {
-		if (instance == null) {
-			instance = new FrameProject();
-		}
-		return instance;
-	}
+    public static FrameProject getInstance() {
+        if (instance == null) {
+            instance = new FrameProject();
+        }
+        return instance;
+    }
 
-	void load() {
-		project = new Project();
-		List<ClassBean> list = LemasReflection.getTrustModels();
-		cbTrustModelList.removeAllItems();
-		for (ClassBean item : list) {
-			cbTrustModelList.addItem(item);
-		}
-		cbMetrics.removeAllItems();
-		list = LemasReflection.getMetrics();
-		for (ClassBean item : list) {
-			cbMetrics.addItem(item);
-		}
-	}
+    void load() {
+        project = new Project();
+        List<ClassBean> list = LemasReflection.getTrustModels();
+        cbTrustModelList.removeAllItems();
+        for (ClassBean item : list) {
+            cbTrustModelList.addItem(item);
+        }
+        cbMetrics.removeAllItems();
+        list = LemasReflection.getMetrics();
+        for (ClassBean item : list) {
+            cbMetrics.addItem(item);
+        }
+    }
 
-	private FrameProject() {
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		initComponents();
-		setLocationRelativeTo(null);
-		setResizable(false);
-		setModal(false);
-		String[] col = new String[] { "Properties", "Value" };
-		DefaultTableModel dtm = new DefaultTableModel(col, 0);
-		jTableProperties.setModel(dtm);
-	}
+    private FrameProject() {
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setModal(false);
+        String[] col = new String[]{"Properties", "Value"};
+        DefaultTableModel dtm = new DefaultTableModel(col, 0);
+        jTableProperties.setModel(dtm);
+    }
 
-	// <editor-fold defaultstate="collapsed"
+    // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -135,7 +137,7 @@ public class FrameProject extends JDialog {
 
         txtContainer.setText("Agents-Container");
 
-        btSave.setText("Save Project");
+        btSave.setText("Save");
         btSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btSaveActionPerformed(evt);
@@ -184,14 +186,14 @@ public class FrameProject extends JDialog {
 
         jLabel4.setText("Metrics:");
 
-        btVerLog.setText("VerLog");
+        btVerLog.setText("Log");
         btVerLog.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btVerLogActionPerformed(evt);
             }
         });
 
-        btVerResultado.setText("VerResult");
+        btVerResultado.setText("Result");
         btVerResultado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btVerResultadoActionPerformed(evt);
@@ -220,16 +222,16 @@ public class FrameProject extends JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btVerLog, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btVerResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
+                        .addComponent(btVerLog, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btVerResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
                         .addComponent(btRun, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 3, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -267,9 +269,9 @@ public class FrameProject extends JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbTrustModelListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbTrustModelListItemStateChanged
-    	if ( evt.getStateChange() == 1 ){
-    		changeItemTrustModel((ClassBean) evt.getItem());    			
-    	}
+        if (evt.getStateChange() == 1) {
+            changeItemTrustModel((ClassBean) evt.getItem());
+        }
     }//GEN-LAST:event_cbTrustModelListItemStateChanged
 
     private void cbMetricsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMetricsItemStateChanged
@@ -281,106 +283,115 @@ public class FrameProject extends JDialog {
     }//GEN-LAST:event_cbMetricsActionPerformed
 
     private void btVerLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVerLogActionPerformed
-       if (btVerLog.getText().equals("VerLog")){
-           btVerLog.setText("---");
-       }else if (btVerLog.getText().equals("---")){
-           btVerLog.setText("VerLog");
-       }
+        if (btVerLog.getText().equals("Log")) {
+            btVerLog.setText("L..");
+            bVerLog = false;
+        } else if (btVerLog.getText().equals("L..")) {
+            btVerLog.setText("Log");
+            bVerLog = true;
+        }
     }//GEN-LAST:event_btVerLogActionPerformed
 
     private void btVerResultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVerResultadoActionPerformed
-        // TODO add your handling code here:
+        if (btVerResultado.getText().equals("Result")) {
+            btVerResultado.setText("R.....");
+            bVerResult = false;
+        } else if (btVerResultado.getText().equals("R.....")) {
+            btVerResultado.setText("Result");
+            bVerResult = true;
+        }
     }//GEN-LAST:event_btVerResultadoActionPerformed
 
+    private void cbTrustModelListActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cbTrustModelListActionPerformed
+    }// GEN-LAST:event_cbTrustModelListActionPerformed
 
-	private void cbTrustModelListActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cbTrustModelListActionPerformed
-	}// GEN-LAST:event_cbTrustModelListActionPerformed
-
-	private void btRunActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btRunActionPerformed
-		try {
-			updateProject();
+    private void btRunActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btRunActionPerformed
+        try {
+            updateProject();
 //			project.setLoading(FrameMain.getInstance().getArfffile().getAbsolutePath());
-			Data.projectToFile(project, project.getSaveIn());
-			//this.setVisible(false);
-			FrameMain.getInstance().visibleWindows(true);
+            Data.projectToFile(project, project.getSaveIn());
+            //this.setVisible(false);
+            FrameMain.getInstance().visibleWindows(true);
 //			Runner.run(project);
-			Runner.run();
-			LemasLog.clean();
-		} catch (Exception ex) {
-			Message.error(ex.getMessage(), this);
-			Logger.getLogger(FrameProject.class.getName()).log(Level.SEVERE, null, ex);
-		}
-	}// GEN-LAST:event_btRunActionPerformed
+            Runner.run();
+            LemasLog.clean();
+            LemasLog.setEnable(bVerLog);
+        } catch (Exception ex) {
+            Message.error(ex.getMessage(), this);
+            Logger.getLogger(FrameProject.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }// GEN-LAST:event_btRunActionPerformed
 
-	private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btCancelActionPerformed
-		FrameMain.getInstance().getWindow().setVisible(false);
-	}// GEN-LAST:event_btCancelActionPerformed
+    private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btCancelActionPerformed
+    	this.setVisible(false);
+        DialogResult.getInstance().setVisible(false);        
+    }// GEN-LAST:event_btCancelActionPerformed
 
-	private void txtIpKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtIpKeyReleased
+    private void txtIpKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtIpKeyReleased
 
-	}// GEN-LAST:event_txtIpKeyReleased
+    }// GEN-LAST:event_txtIpKeyReleased
 
-	private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btSaveActionPerformed
-		String ext = ".lma";
-		updateProject();
-		if (project.getSaveIn() == null) {
-			FileNameExtensionFilter filterExt = new FileNameExtensionFilter("Project Lesma file (.lma)", "lma");
-			JFileChooser chooser = new JFileChooser();
-			chooser.addChoosableFileFilter(filterExt);
-			chooser.setCurrentDirectory(new File(Workspace.FOLDER_PROJECT));
-			int retrival = chooser.showSaveDialog(this);
-			if (retrival == JFileChooser.APPROVE_OPTION) {
-				try {
-					if (chooser.getSelectedFile().getName().endsWith(ext)) {
-						Data.projectToFile(project, chooser.getSelectedFile() + "");
-					} else {
-						Data.projectToFile(project, chooser.getSelectedFile() + ext);
-					}
-				} catch (Exception ex) {
-					Message.error(ex.getMessage(), this);
-				}
-			}
-		} else {		
-			Data.projectToFile(project, project.getSaveIn());
-			Message.info("project saved", this);
-		}
-	}// GEN-LAST:event_btSaveActionPerformed
+    private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btSaveActionPerformed
+        String ext = ".lma";
+        updateProject();
+        if (project.getSaveIn() == null) {
+            FileNameExtensionFilter filterExt = new FileNameExtensionFilter("Project Lesma file (.lma)", "lma");
+            JFileChooser chooser = new JFileChooser();
+            chooser.addChoosableFileFilter(filterExt);
+            chooser.setCurrentDirectory(new File(Workspace.FOLDER_PROJECT));
+            int retrival = chooser.showSaveDialog(this);
+            if (retrival == JFileChooser.APPROVE_OPTION) {
+                try {
+                    if (chooser.getSelectedFile().getName().endsWith(ext)) {
+                        Data.projectToFile(project, chooser.getSelectedFile() + "");
+                    } else {
+                        Data.projectToFile(project, chooser.getSelectedFile() + ext);
+                    }
+                } catch (Exception ex) {
+                    Message.error(ex.getMessage(), this);
+                }
+            }
+        } else {
+            Data.projectToFile(project, project.getSaveIn());
+            Message.info("project saved", this);
+        }
+    }// GEN-LAST:event_btSaveActionPerformed
 
-	public static void main(String args[]) {
-		/* Set the Nimbus look and feel */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
 		// <editor-fold defaultstate="collapsed"
-		// desc=" Look and feel setting code (optional) ">
+        // desc=" Look and feel setting code (optional) ">
 		/*
-		 * If Nimbus (introduced in Java SE 6) is not available, stay with the
-		 * default look and feel. For details see
-		 * http://download.oracle.com/javase
-		 * /tutorial/uiswing/lookandfeel/plaf.html
-		 */
-		try {
-			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					javax.swing.UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		}
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the
+         * default look and feel. For details see
+         * http://download.oracle.com/javase
+         * /tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FrameProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
 		// </editor-fold>
 
-		/* Create and display the form */
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new FrameProject().setVisible(true);
-			}
-		});
-	}
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new FrameProject().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancel;
@@ -402,80 +413,99 @@ public class FrameProject extends JDialog {
     private javax.swing.JTextField txtIp;
     // End of variables declaration//GEN-END:variables
 
-	void clean() {
-		project = new Project();
-		updateScreen(project);
-	}
+    void clean() {
+        project = new Project();
+        updateScreen(project);
+    }
 
-	private void updateProject() {
-		project.setHost(txtIp.getText());
-		ClassBean tmb = (ClassBean) cbTrustModelList.getSelectedItem();
-		ClassBean tmb2 = (ClassBean) cbMetrics.getSelectedItem();
-		project.setTrustmodel(tmb.getName());
-		project.setMetricsClass(tmb2.getClazz().getName());
-		project.setClazz(tmb.getClazz().getName());
-		project.setConteiner(txtContainer.getText());
-		project.getProperties().clear();
-		DefaultTableModel t = (DefaultTableModel) jTableProperties.getModel();
-		for (int row = 0; row < t.getRowCount(); row++) {
-			String key = (String) t.getValueAt(row, 0);
-			String value = (String) t.getValueAt(row, 1);
-			;
-			project.getProperties().put(key, value);
-		}
-	}
+    private void updateProject() {
+        project.setHost(txtIp.getText());
+        ClassBean tmb = (ClassBean) cbTrustModelList.getSelectedItem();
+        ClassBean tmb2 = (ClassBean) cbMetrics.getSelectedItem();
+        project.setTrustmodel(tmb.getName());
+        project.setMetricsClass(tmb2.getClazz().getName());
+        project.setClazz(tmb.getClazz().getName());
+        project.setConteiner(txtContainer.getText());
+        project.setVerLog(bVerLog);
+        project.setVerResult(bVerResult);
+        project.getProperties().clear();
+        DefaultTableModel t = (DefaultTableModel) jTableProperties.getModel();
+        for (int row = 0; row < t.getRowCount(); row++) {
+            String key = (String) t.getValueAt(row, 0);
+            String value = (String) t.getValueAt(row, 1);
+            ;
+            project.getProperties().put(key, value);
+        }
+    }
 
-	public void updateScreen(Project project) {
-		load();
-		this.project = project;
-		txtIp.setText(project.getHost());
-		txtContainer.setText(this.project.getConteiner());
-		Properties pTM = new Properties();
-		
-		for (int index = 0; index < cbMetrics.getItemCount(); index++) {
-			ClassBean item = (ClassBean) cbMetrics.getItemAt(index);
-			if (project.getMetricsClass() != null && item.getClazz().getName().equals(project.getMetricsClass())) {
-				this.cbMetrics.setSelectedItem(item);
-			}
-		}
-		
-		for (int index = 0; index < cbTrustModelList.getItemCount(); index++) {
-			ClassBean item = (ClassBean) cbTrustModelList.getItemAt(index);
-			if (project.getTrustmodel() != null && project.getTrustmodel().equals(item.getName())) {
-				this.cbTrustModelList.setSelectedItem(item);
-				
-				ITrustModel tm = (ITrustModel) TrustModelFactory.create(item.getClazz().getName());
-				pTM = tm.getProperties();
-				break;
-			}
-		}
-		if (pTM != null) {
-			pTM.putAll(project.getProperties());
-			project.setProperties(pTM);
-		}
-		updateTable(project.getProperties());
-	}
+    public void updateScreen(Project project) {
+        load();
+        this.project = project;
+        txtIp.setText(project.getHost());
+        txtContainer.setText(this.project.getConteiner());
+        Properties pTM = new Properties();
 
-	private void changeItemTrustModel(ClassBean tmb) {
-		ITrustModel tm = (ITrustModel) TrustModelFactory.create(tmb.getClazz().getName());
-		updateTable(tm.getProperties());
-	}
+        bVerLog = project.getVerLog();
+        if (bVerLog) {
+            btVerLog.setText("Log");
+        } else {
+            btVerLog.setText("L..");
+        }
+        bVerResult = project.getVerResult();
+        if (bVerResult) {
+            btVerResultado.setText("Result");
+        } else {
+            btVerResultado.setText("R.....");
+        }
 
-	private void updateTable(Properties properties) {
-		DefaultTableModel t = (DefaultTableModel) jTableProperties.getModel();
-		while (t.getRowCount() > 0) {
-			t.removeRow(0);
-		}
-		Enumeration<Object> keys = properties.keys();
-		while (keys.hasMoreElements()) {
-			String key = (String) keys.nextElement();
-			String[] registro = { key, (String) properties.get(key) };
-			t.insertRow(t.getRowCount(), registro);
-		}
-	}
-	
-	public Project getCurrentProject(){
-		return project;
-	}
-	
+        for (int index = 0; index < cbMetrics.getItemCount(); index++) {
+            ClassBean item = (ClassBean) cbMetrics.getItemAt(index);
+            if (project.getMetricsClass() != null && item.getClazz().getName().equals(project.getMetricsClass())) {
+                this.cbMetrics.setSelectedItem(item);
+            }
+        }
+
+        for (int index = 0; index < cbTrustModelList.getItemCount(); index++) {
+            ClassBean item = (ClassBean) cbTrustModelList.getItemAt(index);
+            if (project.getTrustmodel() != null && project.getTrustmodel().equals(item.getName())) {
+                this.cbTrustModelList.setSelectedItem(item);
+
+                ITrustModel tm = (ITrustModel) TrustModelFactory.create(item.getClazz().getName());
+                pTM = tm.getProperties();
+                break;
+            }
+        }
+        if (pTM != null) {
+            pTM.putAll(project.getProperties());
+            project.setProperties(pTM);
+        }
+        updateTable(project.getProperties());
+    }
+
+    private void changeItemTrustModel(ClassBean tmb) {
+        ITrustModel tm = (ITrustModel) TrustModelFactory.create(tmb.getClazz().getName());
+        updateTable(tm.getProperties());
+    }
+
+    private void updateTable(Properties properties) {
+        DefaultTableModel t = (DefaultTableModel) jTableProperties.getModel();
+        while (t.getRowCount() > 0) {
+            t.removeRow(0);
+        }
+        Enumeration<Object> keys = properties.keys();
+        while (keys.hasMoreElements()) {
+            String key = (String) keys.nextElement();
+            String[] registro = {key, (String) properties.get(key)};
+            t.insertRow(t.getRowCount(), registro);
+        }
+    }
+
+    public Project getCurrentProject() {
+        return project;
+    }
+
+    public boolean getVerLog() {
+        return bVerLog;
+    }
+
 }

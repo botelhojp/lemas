@@ -6,90 +6,108 @@ import java.util.Properties;
 
 public class Project {
 
-	private String trustmodel;
-	private String clazz;
-	private String metricsClass;
-	private String saveIn;
-	private String loading;
-	private String host;
-	private String conteiner;
-	private Properties properties;
+    private String trustmodel;
+    private String clazz;
+    private String metricsClass;
+    private String saveIn;
+    private String loading;
+    private String host;
+    private String conteiner;
+    private boolean verLog;
+    private boolean verResult;
+    private Properties properties;
 
-	private List<Result> results;
+    private List<Result> results;
 
-	public Project() {
-		properties = new Properties();
-		results = new ArrayList<Result>();
-		host = "-local-host, 127.0.0.1";
-		conteiner = "-container, -container-name, Agents-Container";
-	}
-	
-	public String getTrustmodel() {
-		return trustmodel;
-	}
+    public Project() {
+        properties = new Properties();
+        results = new ArrayList<Result>();
+        host = "-local-host, 127.0.0.1";
+        conteiner = "-container, -container-name, Agents-Container";
+    }
 
-	public String getClazz() {
-		return clazz;
-	}
+    public String getTrustmodel() {
+        return trustmodel;
+    }
 
-	public void setTrustmodel(String trustmodel) {
-		this.trustmodel = trustmodel;
-	}
+    public String getClazz() {
+        return clazz;
+    }
 
-	public void setClazz(String clazz) {
-		this.clazz = clazz;
-	}
+    public void setTrustmodel(String trustmodel) {
+        this.trustmodel = trustmodel;
+    }
 
-	public List<Result> getResults() {
-		return results;
-	}
+    public void setClazz(String clazz) {
+        this.clazz = clazz;
+    }
 
-	public String getSaveIn() {
-		return saveIn;
-	}
+    public List<Result> getResults() {
+        return results;
+    }
 
-	public void setSaveIn(String saveIn) {
-		this.saveIn = saveIn;
-	}
+    public String getSaveIn() {
+        return saveIn;
+    }
 
-	public void setHost(String host) {
-		this.host = host;
-	}
+    public void setSaveIn(String saveIn) {
+        this.saveIn = saveIn;
+    }
 
-	public String getHost() {
-		return host;
-	}
+    public void setHost(String host) {
+        this.host = host;
+    }
 
-	public String getConteiner() {
-		return conteiner;
-	}
+    public String getHost() {
+        return host;
+    }
 
-	public void setConteiner(String conteiner) {
-		this.conteiner = conteiner;
-	}
+    public String getConteiner() {
+        return conteiner;
+    }
 
-	public String getLoading() {
-		return loading;
-	}
+    public void setConteiner(String conteiner) {
+        this.conteiner = conteiner;
+    }
 
-	public void setLoading(String loading) {
-		this.loading = loading;
-	}
+    public String getLoading() {
+        return loading;
+    }
 
-	public Properties getProperties() {
-		return properties;
-	}
+    public void setLoading(String loading) {
+        this.loading = loading;
+    }
 
-	public void setProperties(Properties properties) {
-		this.properties = properties;
-	}
+    public Properties getProperties() {
+        return properties;
+    }
 
-	public String getMetricsClass() {
-		return metricsClass;
-	}
+    public void setProperties(Properties properties) {
+        this.properties = properties;
+    }
 
-	public void setMetricsClass(String metricsClass) {
-		this.metricsClass = metricsClass;
-	}
+    public String getMetricsClass() {
+        return metricsClass;
+    }
+
+    public void setMetricsClass(String metricsClass) {
+        this.metricsClass = metricsClass;
+    }
+
+    public boolean getVerLog() {
+        return verLog;
+    }
+
+    public boolean getVerResult() {
+        return verResult;
+    }
+
+    public void setVerLog(boolean verLog) {
+        this.verLog = verLog;
+    }
+
+    public void setVerResult(boolean verResult) {
+        this.verResult = verResult;
+    }
 
 }

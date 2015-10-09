@@ -8,6 +8,7 @@ import jade.lang.acl.ACLMessage;
 import lemas.Lemas;
 import lemas.agent.behaviour.LoaderBehaviour;
 import lemas.db.LemasDB;
+import lemas.form.DialogResult;
 import lemas.form.FrameProject;
 import lemas.trust.metrics.IMetrics;
 import openjade.core.OpenAgent;
@@ -87,12 +88,9 @@ public class AgentLoader extends OpenAgent {
 		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.GET_INDIRECT, wr);
 	}
 	
-	public void addResult(int executions, double round, double value){
-//		if (dialogResult == null) {
-//			dialogResult = new DialogResult();
-//			CommonsFrame.loadFrame(FrameMain.getInstance().getFrameResult(), dialogResult);
-//		}
-//		dialogResult.addResult(executions, round, value);
+	public void addResult(int executions, double round, double value){	
+		DialogResult dl = DialogResult.getInstance();
+		dl.addResult(executions, round, value);		
 		db.save(executions, round, value);
 	}
 
