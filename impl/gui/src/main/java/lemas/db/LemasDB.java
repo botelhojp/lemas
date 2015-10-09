@@ -22,7 +22,8 @@ public class LemasDB {
 
 	static {
 		try {
-			Class.forName("org.postgresql.Driver");
+			//Class.forName("org.postgresql.Driver");
+			Class.forName("com.mysql.jdbc.Driver");			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -30,7 +31,8 @@ public class LemasDB {
 
 	public void connect() {
 		try {
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost/agent", "postgres", "root");
+			//conn = DriverManager.getConnection("jdbc:postgresql://localhost/agent", "postgres", "root");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/jade", "root", "root");			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -48,9 +48,13 @@
                   <Group type="102" attributes="0">
                       <Component id="btSave" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btCancel" min="-2" pref="100" max="-2" attributes="0"/>
+                      <Component id="btCancel" min="-2" pref="72" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btVerLog" min="-2" pref="72" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btRun" min="-2" pref="100" max="-2" attributes="0"/>
+                      <Component id="btVerResultado" min="-2" pref="72" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                      <Component id="btRun" min="-2" pref="68" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="jTabbedPane1" min="-2" pref="423" max="-2" attributes="0"/>
@@ -91,6 +95,8 @@
                   <Component id="btSave" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btCancel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btRun" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btVerLog" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btVerResultado" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -240,6 +246,22 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Metrics:"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btVerLog">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="VerLog"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btVerLogActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btVerResultado">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="VerResult"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btVerResultadoActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

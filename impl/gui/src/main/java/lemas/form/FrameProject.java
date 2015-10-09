@@ -87,6 +87,8 @@ public class FrameProject extends JDialog {
         jTableProperties = new javax.swing.JTable();
         cbMetrics = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
+        btVerLog = new javax.swing.JButton();
+        btVerResultado = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Project");
@@ -182,6 +184,20 @@ public class FrameProject extends JDialog {
 
         jLabel4.setText("Metrics:");
 
+        btVerLog.setText("VerLog");
+        btVerLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btVerLogActionPerformed(evt);
+            }
+        });
+
+        btVerResultado.setText("VerResult");
+        btVerResultado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btVerResultadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -204,9 +220,13 @@ public class FrameProject extends JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btVerLog, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btRun, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btVerResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(btRun, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -237,7 +257,9 @@ public class FrameProject extends JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btSave)
                     .addComponent(btCancel)
-                    .addComponent(btRun))
+                    .addComponent(btRun)
+                    .addComponent(btVerLog)
+                    .addComponent(btVerResultado))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -257,6 +279,18 @@ public class FrameProject extends JDialog {
     private void cbMetricsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMetricsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbMetricsActionPerformed
+
+    private void btVerLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVerLogActionPerformed
+       if (btVerLog.getText().equals("VerLog")){
+           btVerLog.setText("---");
+       }else if (btVerLog.getText().equals("---")){
+           btVerLog.setText("VerLog");
+       }
+    }//GEN-LAST:event_btVerLogActionPerformed
+
+    private void btVerResultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVerResultadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btVerResultadoActionPerformed
 
 
 	private void cbTrustModelListActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cbTrustModelListActionPerformed
@@ -352,6 +386,8 @@ public class FrameProject extends JDialog {
     private javax.swing.JButton btCancel;
     private javax.swing.JButton btRun;
     private javax.swing.JButton btSave;
+    private javax.swing.JButton btVerLog;
+    private javax.swing.JButton btVerResultado;
     private javax.swing.JComboBox cbMetrics;
     private javax.swing.JComboBox cbTrustModelList;
     private javax.swing.JLabel jLabel1;
