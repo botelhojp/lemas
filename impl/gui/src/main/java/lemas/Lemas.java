@@ -81,14 +81,6 @@ public class Lemas {
 		}
 	}
 
-	public static void saveCSV() {
-		if (metrics != null){
-			File file = new File(System.getProperty("user.home") + File.separatorChar + "Dropbox" + File.separatorChar + "result.csv");
-			metrics.save(file);
-		}
-		
-	}
-
 	public static void seIMetrics(IMetrics abstractIMetric) {
 		metrics = abstractIMetric;		
 	}

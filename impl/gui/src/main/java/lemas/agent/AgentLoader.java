@@ -1,19 +1,15 @@
 package lemas.agent;
 
+import java.util.List;
+
 import jade.content.ContentElement;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
-
-import java.util.List;
-
 import lemas.Lemas;
 import lemas.agent.behaviour.LoaderBehaviour;
 import lemas.db.LemasDB;
-import lemas.form.DialogResult;
-import lemas.form.FrameMain;
 import lemas.form.FrameProject;
 import lemas.trust.metrics.IMetrics;
-import lemas.util.CommonsFrame;
 import openjade.core.OpenAgent;
 import openjade.core.annotation.ReceiveMatchMessage;
 import openjade.core.annotation.ReceiveSimpleMessage;
@@ -28,7 +24,7 @@ public class AgentLoader extends OpenAgent {
 	private static final long serialVersionUID = 1L;
 	private int wait = 0;;
 	private static int executions = -1;
-	private DialogResult dialogResult;
+//	private DialogResult dialogResult;
 	private double round = 0;
 	private LoaderBehaviour loader;
 	private LemasDB db;

@@ -47,7 +47,7 @@ public class LemasDB {
 	public static void main(String[] args) {
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss-SS");
 		for (int i = 0; i < 100; i++) {
-			System.out.println(f.format(((Calendar) new GregorianCalendar().getInstance()).getTime()));	
+			System.out.println(f.format(((Calendar) GregorianCalendar.getInstance()).getTime()));	
 		}
 	}
 
@@ -117,7 +117,7 @@ public class LemasDB {
 		try {
 			
 			SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String timer = f.format(((Calendar) new GregorianCalendar().getInstance()).getTime());	
+			String timer = f.format(((Calendar) GregorianCalendar.getInstance()).getTime());	
 			
 			Statement st = conn.createStatement();
 			st.executeUpdate("INSERT INTO result " + "VALUES ('" + executions + "', '" + round + "', '" + value + "', '"+timer+"'  )");

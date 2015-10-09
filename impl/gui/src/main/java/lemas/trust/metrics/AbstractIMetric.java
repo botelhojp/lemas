@@ -1,26 +1,19 @@
 package lemas.trust.metrics;
 
 import jade.lang.acl.ACLMessage;
-
-import java.io.File;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-
-import openjade.ontology.RatingAttribute;
 import lemas.Lemas;
+import openjade.ontology.RatingAttribute;
 import weka.core.Instance;
 
 public abstract class AbstractIMetric implements IMetrics {
 
-	protected static Hashtable<Integer, List<String>> csv = new Hashtable<Integer, List<String>>();
+//	protected static Hashtable<Integer, List<String>> csv = new Hashtable<Integer, List<String>>();
 	protected static int count = -1;
 
 	public AbstractIMetric() {
 		Lemas.seIMetrics(this);
-		csv.put(++count, new ArrayList<String>());
-		csv.get(count).add("model_" + count);
+//		csv.put(++count, new ArrayList<String>());
+//		csv.get(count).add("model_" + count);
 	}
 
 	public abstract void preProcess(Instance instance);
@@ -28,7 +21,7 @@ public abstract class AbstractIMetric implements IMetrics {
 	public abstract double prosProcess(ACLMessage msg);
 
 	public double put(double value) {
-		csv.get(count).add(""+value);
+//		csv.get(count).add(""+value);
 		return value;
 	}
 	
@@ -41,31 +34,31 @@ public abstract class AbstractIMetric implements IMetrics {
 		return null;
 	}
 
-	public void save(File file) {
-		if (file.exists()) {
-			file.delete();
-		}
-
-		PrintWriter writer;
-		try {
-			writer = new PrintWriter(file, "UTF-8");
-			int colums = count+1;
-			int rols = csv.get(0).size();
-
-			for (int r = 0; r < rols; r++) {
-				String line = "";
-				for (int c = 0; c < colums; c++) {
-					line += "\"" + csv.get(c).get(r).replace('.', ',') + "\";";
-				}
-				line = line.substring(0, line.length()-1);
-				writer.println(line);
-			}
-			writer.close();
-			csv.clear();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+//	public void save(File file) {
+//		if (file.exists()) {
+//			file.delete();
+//		}
+//
+//		PrintWriter writer;
+//		try {
+//			writer = new PrintWriter(file, "UTF-8");
+//			int colums = count+1;
+//			int rols = csv.get(0).size();
+//
+//			for (int r = 0; r < rols; r++) {
+//				String line = "";
+//				for (int c = 0; c < colums; c++) {
+//					line += "\"" + csv.get(c).get(r).replace('.', ',') + "\";";
+//				}
+//				line = line.substring(0, line.length()-1);
+//				writer.println(line);
+//			}
+//			writer.close();
+//			csv.clear();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 }
