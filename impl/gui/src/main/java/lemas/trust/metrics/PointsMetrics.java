@@ -37,8 +37,7 @@ public class PointsMetrics extends AbstractIMetric {
 				benefit+= (value * clazz.getValue());
 			}			
 		}		
-		double value = 100 * (benefit/cost);
-		return super.put(value);
+		return 100 * (benefit/cost);
 	}
 
 }
