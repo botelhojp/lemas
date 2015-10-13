@@ -94,7 +94,6 @@ public class FrameProject extends JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Project");
-        setModalExclusionType(java.awt.Dialog.ModalExclusionType.TOOLKIT_EXCLUDE);
 
         cbTrustModelList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbTrustModelList.addItemListener(new java.awt.event.ItemListener() {
@@ -506,6 +505,10 @@ public class FrameProject extends JDialog {
 
     public boolean getVerLog() {
         return bVerLog;
+    }
+    
+    public boolean getVerResult() {
+        return bVerResult;
     }
 
 }

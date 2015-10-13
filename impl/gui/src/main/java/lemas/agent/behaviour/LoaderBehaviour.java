@@ -38,7 +38,7 @@ public class LoaderBehaviour extends Behaviour {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final long CACHE_SIZE = 100;
+	private static final long CACHE_SIZE = 1500;
 
 	private AgentLoader agent;
 	private List<AID> agentCache_Client = new ArrayList<AID>();
@@ -76,8 +76,6 @@ public class LoaderBehaviour extends Behaviour {
 				if (instance != null) {
 					metrics.preProcess(instance);
 					FrameMain.getInstance().message(instance.toString());
-
-					System.out.println(++c + " - " + instance);
 					DataProvider.getInstance().put("DATASET", instance.dataset());
 					AID client = new AID("" + instance.toString(0).hashCode(), false);
 					AID server = new AID("" + instance.toString(1).hashCode(), false);

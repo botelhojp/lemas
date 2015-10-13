@@ -1,7 +1,5 @@
 package lemas.trust.metrics;
 
-import javax.swing.plaf.synth.SynthSeparatorUI;
-
 import jade.lang.acl.ACLMessage;
 import lesma.annotations.Metrics;
 import weka.core.Instance;
