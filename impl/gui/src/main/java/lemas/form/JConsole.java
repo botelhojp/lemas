@@ -5,8 +5,10 @@
  */
 package lemas.form;
 
+import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 
 import javax.swing.JTextArea;
 
@@ -23,6 +25,7 @@ public class JConsole extends javax.swing.JFrame {
      * Creates new form JConsole
      */
     public JConsole() {
+    	Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();        
         initComponents();        
         Rectangle b = GraphicsEnvironment
                 .getLocalGraphicsEnvironment()
@@ -30,7 +33,8 @@ public class JConsole extends javax.swing.JFrame {
                 .getDefaultConfiguration()
                 .getBounds();
         setLocation( 0, (b.height / 2) + this.getBounds().height );        
-        this.getBounds().setSize(b.width, this.getBounds().height);
+        this.getBounds().setSize(450, (int)dimension.getHeight());
+        
     }
 
     /**

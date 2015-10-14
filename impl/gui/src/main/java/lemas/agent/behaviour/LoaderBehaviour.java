@@ -38,7 +38,7 @@ public class LoaderBehaviour extends Behaviour {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final long CACHE_SIZE = 3000;	
+	private static final long CACHE_SIZE = 1500;
 
 	private AgentLoader agent;
 	private List<AID> agentCache_Client = new ArrayList<AID>();
@@ -48,10 +48,11 @@ public class LoaderBehaviour extends Behaviour {
 	private int round = 0;
 	private Class<ITrustModel> trustModelClass;
 	private IMetrics metrics;
+	int c = 0;
 
 	private ArffReader arff;
 	private BufferedReader reader;
-	
+
 	public LoaderBehaviour(AgentLoader _agent, Class<ITrustModel> trustModelClass, Class<IMetrics> metricsClass) {
 		try {
 			agent = _agent;
@@ -74,11 +75,10 @@ public class LoaderBehaviour extends Behaviour {
 				instance = arff.readInstance(data);
 				if (instance != null) {
 					metrics.preProcess(instance);
-                    FrameMain.getInstance().message(instance.toString());
-//					System.out.println(instance);
+					FrameMain.getInstance().message(instance.toString());
 					DataProvider.getInstance().put("DATASET", instance.dataset());
-					AID client = new AID(instance.toString(0), false);
-					AID server = new AID(instance.toString(1), false);
+					AID client = new AID("" + instance.toString(0).hashCode(), false);
+					AID server = new AID("" + instance.toString(1).hashCode(), false);
 					agent.waiting();
 					createAgent(server, "lemas.agent.LemasAgent", agentCache_Server);
 					createAgent(client, "lemas.agent.LemasAgent", agentCache_Client);
@@ -94,7 +94,7 @@ public class LoaderBehaviour extends Behaviour {
 				System.out.println(e.getMessage());
 			}
 		}
-		block(10);
+		block(1);
 	}
 
 	public void loadArff() {
@@ -112,7 +112,8 @@ public class LoaderBehaviour extends Behaviour {
 			RatingCache.put(rating.getRound(), rating);
 			SendRating sr = new SendRating();
 			sr.addRating(rating);
-			agent.sendMessage(client, ACLMessage.REQUEST, ConversationId.START_ITERATE, sr, OpenJadeOntology.getInstance());
+			agent.sendMessage(client, ACLMessage.REQUEST, ConversationId.START_ITERATE, sr,
+					OpenJadeOntology.getInstance());
 		}
 	}
 
@@ -131,12 +132,12 @@ public class LoaderBehaviour extends Behaviour {
 				a.start();
 				cache.add(aid);
 			}
-			
+
 			if (cache.size() > CACHE_SIZE) {
 				AID deleteAid = cache.get(0);
-				agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");				
+				agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");
 			}
-			
+
 		} catch (StaleProxyException e) {
 			LemasLog.erro(e);
 		} catch (Exception e) {
@@ -145,10 +146,10 @@ public class LoaderBehaviour extends Behaviour {
 	}
 
 	public void removerCache(AID sender) {
-		if (agentCache_Client.contains(sender)){
+		if (agentCache_Client.contains(sender)) {
 			agentCache_Client.remove(sender);
 		}
-		if (agentCache_Server.contains(sender)){
+		if (agentCache_Server.contains(sender)) {
 			agentCache_Server.remove(sender);
 		}
 	}

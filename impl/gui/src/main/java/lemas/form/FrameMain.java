@@ -35,7 +35,7 @@ public class FrameMain extends javax.swing.JFrame {
     /**
      * Creates new form FrameCronos
      */
-    private FrameMain() {
+    private FrameMain() {        
         setExtendedState(MAXIMIZED_BOTH);
         initComponents();
         menu(false);
@@ -110,6 +110,14 @@ public class FrameMain extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Learning Environment for Systems Multi Agent");
         setResizable(false);
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                formFocusLost(evt);
+            }
+        });
 
         jMenuFile.setText("Lemas");
 
@@ -196,6 +204,17 @@ public class FrameMain extends javax.swing.JFrame {
             prj.setLoading(arfffile.getAbsolutePath());
         }
     }//GEN-LAST:event_menuOpenArffActionPerformed
+
+    private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
+       System.out.println("formFocusLost");
+    }//GEN-LAST:event_formFocusLost
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+         System.out.println("formFocusGained");
+         if (!JConsole.getInstance().isVisible()){
+            JConsole.getInstance().setVisible(true);
+         }
+    }//GEN-LAST:event_formFocusGained
 
     private void menuNewProjectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_mnNewProjectActionPerformed
         if (this.arfffile == null) {
@@ -315,7 +334,7 @@ public class FrameMain extends javax.swing.JFrame {
     private JTextArea log = JConsole.getInstance().getLog();
 
     public void message(String message) {
-        if (FrameProject.getInstance().getVerLog()) {
+        if (FrameProject.getInstance().getVerLog()) {        	
             log.append(message);
             log.append("\n");
             log.getCaret().setDot(log.getText().length());

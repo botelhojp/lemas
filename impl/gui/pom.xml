@@ -5,8 +5,7 @@
 	<groupId>lemas</groupId>
 	<artifactId>lemas-gui</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.0-BETA5</version>
-
+	
 	<name>lemas - Application GUI</name>
 	<url>https://github.com/botelhojp/cronos</url>
 
@@ -56,12 +55,7 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>1.7.1</version>
-		</dependency>
-		<dependency>
-			<groupId>postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.1-901-1.jdbc4</version>
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
