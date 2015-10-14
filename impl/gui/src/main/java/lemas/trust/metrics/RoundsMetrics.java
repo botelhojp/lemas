@@ -1,12 +1,9 @@
 package lemas.trust.metrics;
 
 import jade.lang.acl.ACLMessage;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import lemas.agent.LemasAgent;
 import lemas.trust.data.RatingCache;
+import lemas.util.CountList;
 import lesma.annotations.Metrics;
 import openjade.ontology.Rating;
 import openjade.ontology.RatingAttribute;
@@ -15,10 +12,10 @@ import weka.core.Instance;
 @Metrics(name = "Rounds Value")
 public class RoundsMetrics extends AbstractIMetric {
 
-	private double rounds = 100;
+	private int rounds = 10;
 	
-	private List<Double> costs = new ArrayList<Double>();
-	private List<Double> benefits = new ArrayList<Double>();
+	private CountList costs = new CountList(rounds);
+	private CountList benefits = new CountList(rounds);
 	
 
 	public RoundsMetrics() {
@@ -40,17 +37,15 @@ public class RoundsMetrics extends AbstractIMetric {
 			if (options.equals("AGREE")){				
 				RatingAttribute ra = (RatingAttribute) getAttributes("cost", r.getAttributes());
 				double value = Double.parseDouble(ra.getValue());
-				add(costs, value);
-				add(benefits, value * clazz.getValue());
+				costs.add(value);
+				benefits.add(value * clazz.getValue());
 			}			
 		}
-		if (benefits.size() < 25){
-			return super.put(0);
-		}
-		return super.put(100 * (value(benefits)/value(costs)));
+		return 100 * (benefits.total()/costs.total());
+		/*return super.put(100 * (value(benefits)/value(costs)));*/
 	}
 
-	private double value(List<Double> costs2) {
+	/*private double value(List<Double> costs2) {
 		double sum = 0.0;
 		for (Double double1 : costs2) {
 			sum+=double1;
@@ -63,6 +58,6 @@ public class RoundsMetrics extends AbstractIMetric {
 			list.remove(0);
 		}
 		list.add(value);
-	}
+	}*/
 
 }

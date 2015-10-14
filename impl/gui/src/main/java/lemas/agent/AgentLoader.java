@@ -88,9 +88,11 @@ public class AgentLoader extends OpenAgent {
 		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.GET_INDIRECT, wr);
 	}
 	
-	public void addResult(int executions, double round, double value){	
-		DialogResult dl = DialogResult.getInstance();
-		dl.addResult(executions, round, value);		
+	public void addResult(int executions, double round, double value){
+		if (FrameProject.getInstance().getVerResult()){
+			DialogResult dl = DialogResult.getInstance();
+			dl.addResult(executions, round, value);			
+		}
 		db.save(executions, round, value);
 	}
 
