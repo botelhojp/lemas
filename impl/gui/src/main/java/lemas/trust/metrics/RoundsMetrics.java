@@ -12,7 +12,7 @@ import weka.core.Instance;
 @Metrics(name = "Rounds Value")
 public class RoundsMetrics extends AbstractIMetric {
 
-	private int rounds = 10;
+	private int rounds = 100;
 	
 	private CountList costs = new CountList(rounds);
 	private CountList benefits = new CountList(rounds);

@@ -18,7 +18,7 @@ public class Lemas {
 	public static String file2 = null;
 	public static IMetrics metrics = null;
 	
-	public static boolean MODE_AGENT = true;
+	public static boolean MODE_AGENT = false;
 	
 	private static Logger log = Logger.getLogger(Lemas.class);
 
