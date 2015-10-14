@@ -206,14 +206,9 @@ public class FrameMain extends javax.swing.JFrame {
     }//GEN-LAST:event_menuOpenArffActionPerformed
 
     private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
-       System.out.println("formFocusLost");
     }//GEN-LAST:event_formFocusLost
 
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
-         System.out.println("formFocusGained");
-         if (!JConsole.getInstance().isVisible()){
-            JConsole.getInstance().setVisible(true);
-         }
     }//GEN-LAST:event_formFocusGained
 
     private void menuNewProjectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_mnNewProjectActionPerformed
