@@ -23,7 +23,7 @@ public class RamdomModel extends AbstractModel {
 	}
 	
 	public void findReputation(AID server) {
-		myAgent.sendMessage(myAgent.getAID(), ACLMessage.REQUEST, "GET_DOSSIE", "");
+		myAgent.sendMessage(myAgent._getAID(), ACLMessage.REQUEST, "GET_DOSSIE", "");
 	}
 	
 }

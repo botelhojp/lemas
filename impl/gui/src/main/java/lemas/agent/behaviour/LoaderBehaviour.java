@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lemas.Lemas;
+import lemas.agent.AgentCache;
 import lemas.agent.AgentLoader;
+import lemas.agent.AgentOO;
 import lemas.agent.ConversationId;
 import lemas.agent.LemasAgent;
 import lemas.form.FrameMain;
@@ -77,8 +79,8 @@ public class LoaderBehaviour extends Behaviour {
 					metrics.preProcess(instance);
 					FrameMain.getInstance().message(instance.toString());
 					DataProvider.getInstance().put("DATASET", instance.dataset());
-					AID client = new AID("" + instance.toString(0).hashCode(), false);
-					AID server = new AID("" + instance.toString(1).hashCode(), false);
+					AID client = new AID("" + instance.toString(0), false);
+					AID server = new AID("" + instance.toString(1), false);
 					agent.waiting();
 					createAgent(server, "lemas.agent.LemasAgent", agentCache_Server);
 					createAgent(client, "lemas.agent.LemasAgent", agentCache_Client);
@@ -112,8 +114,18 @@ public class LoaderBehaviour extends Behaviour {
 			RatingCache.put(rating.getRound(), rating);
 			SendRating sr = new SendRating();
 			sr.addRating(rating);
-			agent.sendMessage(client, ACLMessage.REQUEST, ConversationId.START_ITERATE, sr,
-					OpenJadeOntology.getInstance());
+			
+			ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
+			message.setSender(agent.getAID());
+			message.addReceiver(client);
+			message.setConversationId(ConversationId.START_ITERATE);
+			agent.fillContent(message, sr, agent.getCodec(), OpenJadeOntology.getInstance());
+			if (Lemas.MODE_AGENT) {
+//				agent.sendMessage(client, ACLMessage.REQUEST, ConversationId.START_ITERATE, sr, OpenJadeOntology.getInstance());
+				agent.sendMessage(message);
+			}else{
+				AgentCache.get(client.getLocalName()).message(message);
+			}
 		}
 	}
 
@@ -128,16 +140,19 @@ public class LoaderBehaviour extends Behaviour {
 		try {
 			if (!cache.contains(aid)) {
 				Object[] param = { trustModelClass };
-				AgentController a = agent.getContainerController().createNewAgent(aid.getLocalName(), clazz, param);
-				a.start();
-				cache.add(aid);
+				if (Lemas.MODE_AGENT) {
+					AgentController a = agent.getContainerController().createNewAgent(aid.getLocalName(), clazz, param);
+					a.start();
+					cache.add(aid);
+				}else{ //simulacao com orientacao objeto
+					AgentCache.add(aid.getLocalName(), new AgentOO(aid.getLocalName(), param));
+				}
+				
+				if (cache.size() > CACHE_SIZE) {
+					AID deleteAid = cache.get(0);
+					agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");
+				}
 			}
-
-			if (cache.size() > CACHE_SIZE) {
-				AID deleteAid = cache.get(0);
-				agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");
-			}
-
 		} catch (StaleProxyException e) {
 			LemasLog.erro(e);
 		} catch (Exception e) {

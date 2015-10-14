@@ -37,7 +37,7 @@ public class LemasAgent extends OpenAgent {
 		loadTrustModel((Class<ITrustModel>) getArguments()[0]);
 		trustModel.setProperties(Runner.currentProject.getProperties());
 		trustModel.loadSerialize();
-		LemasLog.info("created: " + getAID().getLocalName());
+		LemasLog.info("created: " + _getLocalName());
 		tb = new SendMessageBehavior(this);
 		addBehaviour(tb);
 		registerService(SERVICE);
@@ -54,6 +54,14 @@ public class LemasAgent extends OpenAgent {
 		trustModel.serialize();
 		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.DO_DELETE, "");
 		this.doDelete();
+	}
+	
+	public String _getLocalName(){
+		return getLocalName();
+	}
+	
+	public AID _getAID(){
+		return getAID();
 	}
 	
 	// Operacoes assincronas
@@ -103,7 +111,7 @@ public class LemasAgent extends OpenAgent {
 		SendRating sr = (SendRating) ce;
 		Rating rating = (Rating) sr.getRating().get(0);
 		trustModel.addRating(rating);
-		if (!rating.getServer().equals(getAID())) {
+		if (!rating.getServer().equals(_getAID())) {
 			throw new OpenJadeException("Esta avaliacao nao he minha: " + message.toString());
 		}
 	}
@@ -136,7 +144,7 @@ public class LemasAgent extends OpenAgent {
 		Iterator it = sr.getAllRating();
 		while (it.hasNext()) {			
 			Rating rating = (Rating) it.next();
-			if (!rating.getClient().equals(this.getAID())){
+			if (!rating.getClient().equals(this._getAID())){
 				trustModel.addRatingFromWitness(rating);	
 			}
 		}

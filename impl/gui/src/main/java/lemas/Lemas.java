@@ -18,6 +18,8 @@ public class Lemas {
 	public static String file2 = null;
 	public static IMetrics metrics = null;
 	
+	public static boolean MODE_AGENT = true;
+	
 	private static Logger log = Logger.getLogger(Lemas.class);
 
 	public static void main(String args[]) {

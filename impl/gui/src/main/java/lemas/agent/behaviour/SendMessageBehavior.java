@@ -42,7 +42,7 @@ public class SendMessageBehavior extends Behaviour {
 	
 	private ACLMessage makeMessage(AID receiver, String conversation, String content){
 		ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
-		msg.setSender(myAgent.getAID());
+		msg.setSender(myAgent._getAID());
 		msg.setConversationId(conversation);
 		msg.addReceiver(receiver);
 		msg.setContent(content);		

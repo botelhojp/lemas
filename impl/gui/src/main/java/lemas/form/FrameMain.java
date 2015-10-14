@@ -36,10 +36,10 @@ public class FrameMain extends javax.swing.JFrame {
      * Creates new form FrameCronos
      */
     private FrameMain() {        
-        setExtendedState(MAXIMIZED_BOTH);
+        //setExtendedState(MAXIMIZED_BOTH);
         initComponents();
         menu(false);
-        this.setExtendedState(FrameMain.MAXIMIZED_BOTH);
+        //this.setExtendedState(FrameMain.MAXIMIZED_BOTH);
         JConsole.getInstance().setVisible(false);
         if (Lemas.file1 != null && Lemas.file2 != null) {
             arfffile = new File(Lemas.file1);
