@@ -20,12 +20,14 @@ import javax.swing.table.DefaultTableModel;
 import openjade.trust.ITrustModel;
 import openjade.trust.TrustModelFactory;
 import lemas.Lemas;
+import lemas.db.LemasDB;
 import lemas.model.LemasLog;
 import lemas.model.LemasReflection;
 import lemas.model.Project;
 import lemas.model.Runner;
 import lemas.model.ClassBean;
 import lemas.model.Workspace;
+import lemas.trust.Constants;
 import lemas.util.Data;
 import lemas.util.Message;
 
@@ -37,6 +39,8 @@ public class FrameProject extends JDialog {
     private Project project = null;
     private boolean bVerLog = true;
     private boolean bVerResult = true;
+    private boolean bSimulated = false;
+    private boolean bSaveDB = false;
 
     public static FrameProject getInstance() {
         if (instance == null) {
@@ -89,8 +93,10 @@ public class FrameProject extends JDialog {
         jTableProperties = new javax.swing.JTable();
         cbMetrics = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
-        btVerLog = new javax.swing.JButton();
-        btVerResultado = new javax.swing.JButton();
+        checkLog = new javax.swing.JCheckBox();
+        checkResult = new javax.swing.JCheckBox();
+        checkSimulated = new javax.swing.JCheckBox();
+        checkSaveBD = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Project");
@@ -185,17 +191,31 @@ public class FrameProject extends JDialog {
 
         jLabel4.setText("Metrics:");
 
-        btVerLog.setText("Log");
-        btVerLog.addActionListener(new java.awt.event.ActionListener() {
+        checkLog.setText("Log");
+        checkLog.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btVerLogActionPerformed(evt);
+                checkLogActionPerformed(evt);
             }
         });
 
-        btVerResultado.setText("Result");
-        btVerResultado.addActionListener(new java.awt.event.ActionListener() {
+        checkResult.setText("Result");
+        checkResult.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btVerResultadoActionPerformed(evt);
+                checkResultActionPerformed(evt);
+            }
+        });
+
+        checkSimulated.setText("Simulated");
+        checkSimulated.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkSimulatedActionPerformed(evt);
+            }
+        });
+
+        checkSaveBD.setText("Salvar em DB");
+        checkSaveBD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkSaveBDActionPerformed(evt);
             }
         });
 
@@ -206,31 +226,39 @@ public class FrameProject extends JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(btSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtIp)
-                            .addComponent(txtContainer, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cbTrustModelList, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cbMetrics, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btSave)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btVerLog, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btVerResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(btRun, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 3, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtIp)
+                                    .addComponent(txtContainer, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(cbTrustModelList, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cbMetrics, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(checkLog)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(checkResult)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(checkSimulated)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(checkSaveBD)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btRun, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -244,7 +272,7 @@ public class FrameProject extends JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(cbTrustModelList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -253,15 +281,18 @@ public class FrameProject extends JDialog {
                     .addComponent(jLabel4)
                     .addComponent(cbMetrics, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkLog)
+                    .addComponent(checkResult)
+                    .addComponent(checkSimulated)
+                    .addComponent(checkSaveBD))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btSave)
                     .addComponent(btCancel)
-                    .addComponent(btRun)
-                    .addComponent(btVerLog)
-                    .addComponent(btVerResultado))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btRun)))
         );
 
         pack();
@@ -281,37 +312,33 @@ public class FrameProject extends JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbMetricsActionPerformed
 
-    private void btVerLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVerLogActionPerformed
-        if (btVerLog.getText().equals("Log")) {
-            btVerLog.setText("L..");
-            bVerLog = false;
-        } else if (btVerLog.getText().equals("L..")) {
-            btVerLog.setText("Log");
-            bVerLog = true;
-        }
-    }//GEN-LAST:event_btVerLogActionPerformed
+    private void checkLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkLogActionPerformed
+        bVerLog = checkLog.isSelected();        
+    }//GEN-LAST:event_checkLogActionPerformed
 
-    private void btVerResultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVerResultadoActionPerformed
-        if (btVerResultado.getText().equals("Result")) {
-            btVerResultado.setText("R.....");
-            bVerResult = false;
-        } else if (btVerResultado.getText().equals("R.....")) {
-            btVerResultado.setText("Result");
-            bVerResult = true;
-        }
-    }//GEN-LAST:event_btVerResultadoActionPerformed
+    private void checkResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkResultActionPerformed
+        bVerResult = checkResult.isSelected();
+    }//GEN-LAST:event_checkResultActionPerformed
+
+    private void checkSimulatedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkSimulatedActionPerformed
+        bSimulated = checkSimulated.isSelected();
+    }//GEN-LAST:event_checkSimulatedActionPerformed
+
+    private void checkSaveBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkSaveBDActionPerformed
+        bSaveDB = checkSaveBD.isSelected();
+    }//GEN-LAST:event_checkSaveBDActionPerformed
 
     private void cbTrustModelListActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cbTrustModelListActionPerformed
     }// GEN-LAST:event_cbTrustModelListActionPerformed
 
     private void btRunActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btRunActionPerformed
         try {
+            cleanAll();
             updateProject();
-//			project.setLoading(FrameMain.getInstance().getArfffile().getAbsolutePath());
             Data.projectToFile(project, project.getSaveIn());
             //this.setVisible(false);
             FrameMain.getInstance().visibleWindows(true);
-//			Runner.run(project);
+//          Runner.run(project);
             Runner.run();
             LemasLog.clean();
             LemasLog.setEnable(bVerLog);
@@ -320,6 +347,14 @@ public class FrameProject extends JDialog {
             Logger.getLogger(FrameProject.class.getName()).log(Level.SEVERE, null, ex);
         }
     }// GEN-LAST:event_btRunActionPerformed
+    
+    
+    public void cleanAll() {
+        LemasDB db = new LemasDB(bSaveDB);
+        db.connect();
+        db.cleanAll();
+        db.close();
+    }
 
     private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btCancelActionPerformed
     	this.setVisible(false);
@@ -396,10 +431,12 @@ public class FrameProject extends JDialog {
     private javax.swing.JButton btCancel;
     private javax.swing.JButton btRun;
     private javax.swing.JButton btSave;
-    private javax.swing.JButton btVerLog;
-    private javax.swing.JButton btVerResultado;
     private javax.swing.JComboBox cbMetrics;
     private javax.swing.JComboBox cbTrustModelList;
+    private javax.swing.JCheckBox checkLog;
+    private javax.swing.JCheckBox checkResult;
+    private javax.swing.JCheckBox checkSaveBD;
+    private javax.swing.JCheckBox checkSimulated;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -427,12 +464,13 @@ public class FrameProject extends JDialog {
         project.setConteiner(txtContainer.getText());
         project.setVerLog(bVerLog);
         project.setVerResult(bVerResult);
-        project.getProperties().clear();
+        project.setSimulated(bSimulated);
+        project.setSaveDB(bSaveDB);
+        project.getProperties().clear();        
         DefaultTableModel t = (DefaultTableModel) jTableProperties.getModel();
         for (int row = 0; row < t.getRowCount(); row++) {
             String key = (String) t.getValueAt(row, 0);
-            String value = (String) t.getValueAt(row, 1);
-            ;
+            String value = (String) t.getValueAt(row, 1);            
             project.getProperties().put(key, value);
         }
     }
@@ -445,17 +483,16 @@ public class FrameProject extends JDialog {
         Properties pTM = new Properties();
 
         bVerLog = project.getVerLog();
-        if (bVerLog) {
-            btVerLog.setText("Log");
-        } else {
-            btVerLog.setText("L..");
-        }
+        checkLog.setSelected(bVerLog);
+        
         bVerResult = project.getVerResult();
-        if (bVerResult) {
-            btVerResultado.setText("Result");
-        } else {
-            btVerResultado.setText("R.....");
-        }
+        checkResult.setSelected(bVerResult);     
+        
+        bSimulated = project.getSimulated();
+        checkSimulated.setSelected(bSimulated);
+
+        bSaveDB = project.getSaveDB();
+        checkSaveBD.setSelected(bSaveDB);
 
         for (int index = 0; index < cbMetrics.getItemCount(); index++) {
             ClassBean item = (ClassBean) cbMetrics.getItemAt(index);
@@ -510,5 +547,13 @@ public class FrameProject extends JDialog {
     public boolean getVerResult() {
         return bVerResult;
     }
+    
+    
+    public boolean getSimulated() {
+        return bSimulated;
+    }
 
+    public boolean getSaveDB() {
+        return bSaveDB;
+    }
 }

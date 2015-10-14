@@ -19,6 +19,7 @@ import lemas.agent.AgentOO;
 import lemas.agent.ConversationId;
 import lemas.agent.LemasAgent;
 import lemas.form.FrameMain;
+import lemas.form.FrameProject;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
 import lemas.trust.data.RatingCache;
@@ -120,11 +121,11 @@ public class LoaderBehaviour extends Behaviour {
 			message.addReceiver(client);
 			message.setConversationId(ConversationId.START_ITERATE);
 			agent.fillContent(message, sr, agent.getCodec(), OpenJadeOntology.getInstance());
-			if (Lemas.MODE_AGENT) {
-//				agent.sendMessage(client, ACLMessage.REQUEST, ConversationId.START_ITERATE, sr, OpenJadeOntology.getInstance());
-				agent.sendMessage(message);
+			if (FrameProject.getInstance().getSimulated()) {
+                                AgentCache.get(client.getLocalName()).message(message);
 			}else{
-				AgentCache.get(client.getLocalName()).message(message);
+//				agent.sendMessage(client, ACLMessage.REQUEST, ConversationId.START_ITERATE, sr, OpenJadeOntology.getInstance());
+				agent.sendMessage(message);				
 			}
 		}
 	}
@@ -136,29 +137,28 @@ public class LoaderBehaviour extends Behaviour {
 		return OpenJadeUtil.makeRating(clientAID, serverAID, round++, Data.instanceToRatingAttribute(instance), value);
 	}
 
-	private void createAgent(AID aid, String clazz, List<AID> cache) {
-		try {
-			if (!cache.contains(aid)) {
-				Object[] param = { trustModelClass };
-				if (Lemas.MODE_AGENT) {
-					AgentController a = agent.getContainerController().createNewAgent(aid.getLocalName(), clazz, param);
-					a.start();
-					cache.add(aid);
-				}else{ //simulacao com orientacao objeto
-					AgentCache.add(aid.getLocalName(), new AgentOO(aid.getLocalName(), param));
-				}
-				
-				if (cache.size() > CACHE_SIZE) {
-					AID deleteAid = cache.get(0);
-					agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");
-				}
-			}
-		} catch (StaleProxyException e) {
-			LemasLog.erro(e);
-		} catch (Exception e) {
-			LemasLog.erro(e);
-		}
-	}
+    private void createAgent(AID aid, String clazz, List<AID> cache) {
+        try {
+            if (!cache.contains(aid)) {
+                Object[] param = {trustModelClass};
+                if (FrameProject.getInstance().getSimulated()) {
+                    AgentCache.add(aid.getLocalName(), new AgentOO(aid.getLocalName(), param));
+                } else {
+                    AgentController a = agent.getContainerController().createNewAgent(aid.getLocalName(), clazz, param);
+                    a.start();
+                    cache.add(aid);
+                }
+                if (cache.size() > CACHE_SIZE) {
+                    AID deleteAid = cache.get(0);
+                    agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");
+                }
+            }
+        } catch (StaleProxyException e) {
+            LemasLog.erro(e);
+        } catch (Exception e) {
+            LemasLog.erro(e);
+        }
+    }
 
 	public void removerCache(AID sender) {
 		if (agentCache_Client.contains(sender)) {
@@ -179,8 +179,7 @@ public class LoaderBehaviour extends Behaviour {
 		if (myAgent != null) {
 			myAgent.removeBehaviour(this);
 		}
-		Lemas.sleep(2000);
-		Lemas.cleanFiles();
+		Lemas.sleep(2000);		
 	}
 
 	public double posProcess(ACLMessage msg) {

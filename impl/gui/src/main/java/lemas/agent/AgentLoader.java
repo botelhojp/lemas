@@ -1,11 +1,11 @@
 package lemas.agent;
 
-import java.util.List;
-
 import jade.content.ContentElement;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
-import lemas.Lemas;
+
+import java.util.List;
+
 import lemas.agent.behaviour.LoaderBehaviour;
 import lemas.db.LemasDB;
 import lemas.form.DialogResult;
@@ -40,7 +40,7 @@ public class AgentLoader extends OpenAgent {
 		wait = 0;
 		round = 0;
 		executions++;
-		db = new LemasDB();
+		db = new LemasDB(FrameProject.getInstance().getSaveDB());
 		db.connect();
 		loader = new LoaderBehaviour(this, getTrustModelClass(), getMetricsClass());
 		addBehaviour(loader);
@@ -124,7 +124,6 @@ public class AgentLoader extends OpenAgent {
 
 	public void stop() {
 		db.close();
-		loader.stop();
-		Lemas.cleanFiles();		
+		loader.stop();		
 	}
 }

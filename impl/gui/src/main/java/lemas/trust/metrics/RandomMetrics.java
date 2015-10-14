@@ -14,7 +14,7 @@ public class RandomMetrics implements IMetrics {
 
 	@Override
 	public double prosProcess(ACLMessage msg) {
-		return 30;
+		return 100 * Math.random();
 	}
 
 }

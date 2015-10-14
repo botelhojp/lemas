@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import lemas.agent.LemasAgent;
 import lemas.db.LemasDB;
+import lemas.form.FrameProject;
 import lemas.trust.metrics.Classes;
 import lemas.trust.metrics.Clazz;
 import openjade.core.OpenAgent;
@@ -132,17 +133,7 @@ public  class AbstractModel implements ITrustModel {
 
 	public void serialize() {
 		try {
-//			if (tmpFile.exists()) {
-//				tmpFile.delete();
-//			}
-//			FileOutputStream arquivoGrav = new FileOutputStream(tmpFile);
-//			ObjectOutputStream objGravar = new ObjectOutputStream(arquivoGrav);
-//			objGravar.writeObject(data);
-//			objGravar.flush();
-//			objGravar.close();
-//			arquivoGrav.flush();
-//			arquivoGrav.close();
-			LemasDB db = new LemasDB();
+			LemasDB db = new LemasDB(FrameProject.getInstance().getSaveDB());
 			db.connect();
 			db.save(myAgent, data);
 			
@@ -153,7 +144,7 @@ public  class AbstractModel implements ITrustModel {
 
 	public void loadSerialize() {
 		try {
-			LemasDB db = new LemasDB();
+			LemasDB db = new LemasDB(FrameProject.getInstance().getSaveDB());
 			db.connect();
 			if (db.exist(myAgent)){
 				data = db.load(myAgent);

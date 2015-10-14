@@ -15,6 +15,8 @@ public class Project {
     private String conteiner;
     private boolean verLog;
     private boolean verResult;
+    private boolean simulated;
+    private boolean saveDB;
     private Properties properties;
 
     private List<Result> results;
@@ -109,5 +111,21 @@ public class Project {
     public void setVerResult(boolean verResult) {
         this.verResult = verResult;
     }
+    
+    
+    public boolean getSimulated() {
+        return simulated;
+    }
 
+    public void setSimulated(boolean simulated) {
+        this.simulated = simulated;
+    }
+    
+    public boolean getSaveDB() {
+        return saveDB;
+    }
+
+    public void setSaveDB(boolean saveDB) {
+        this.saveDB = saveDB;
+    }
 }
