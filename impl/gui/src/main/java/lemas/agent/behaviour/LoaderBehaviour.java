@@ -141,7 +141,9 @@ public class LoaderBehaviour extends Behaviour {
             if (!cache.contains(aid)) {
                 Object[] param = {trustModelClass};
                 if (FrameProject.getInstance().getSimulated()) {
-                    AgentCache.add(aid.getLocalName(), new AgentOO(aid.getLocalName(), param));
+                	if (!AgentCache.contains(aid.getLocalName())){
+                		AgentCache.add(aid.getLocalName(), new AgentOO(aid.getLocalName(), param));
+                	}
                 } else {
                     AgentController a = agent.getContainerController().createNewAgent(aid.getLocalName(), clazz, param);
                     a.start();
@@ -178,7 +180,8 @@ public class LoaderBehaviour extends Behaviour {
 		if (myAgent != null) {
 			myAgent.removeBehaviour(this);
 		}
-		Lemas.sleep(2000);		
+		Lemas.sleep(2000);	
+		AgentCache.clear();
 	}
 
 	public double posProcess(ACLMessage msg) {

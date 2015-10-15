@@ -25,17 +25,17 @@ public class SendMessageBehavior extends Behaviour {
 	public void action() {
 		if (resume) {
 			if (sendTest) {
-				myAgent.sendMessage(makeMessage(new AID("lemas_loader", false), ConversationId.TEST, "" + myAgent.getTrustModel().test(aid)));
 				sendTest = false;
+				myAgent.sendMessage(makeMessage(new AID("lemas_loader", false), ConversationId.TEST, "" + myAgent.getTrustModel().test(aid)));
 			} 
 			if (requestDossie){
-				myAgent.sendMessage(makeMessage(aid, ConversationId.GET_DOSSIE, ""));
 				requestDossie = false;
+				myAgent.sendMessage(makeMessage(aid, ConversationId.GET_DOSSIE, ""));				
 				aid = null;
 			}
 			if (findWitness){
-				myAgent.sendMessage(makeMessage(new AID("lemas_loader", false), ConversationId.NEXT, ""));
 				findWitness = false;
+				myAgent.sendMessage(makeMessage(new AID("lemas_loader", false), ConversationId.NEXT, ""));
 			}
 		}
 		block(50);

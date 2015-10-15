@@ -33,8 +33,12 @@ public class AgentOO extends LemasAgent {
 	public void sendMessage(ACLMessage msg) {
 		countMessages++;
 		AID to = (AID) msg.getAllReceiver().next();
-		AgentCache.get(to.getLocalName()).message(msg);
-		super.sendMessage(msg);
+		if (to.getLocalName().equals("lemas_loader")){
+			AgentLoader.getInstance().getTestMessage(msg);	
+		}else{
+			AgentCache.get(to.getLocalName()).message(msg);
+//			super.sendMessage(msg);
+		}
 	}
 	
 	@Override
@@ -53,7 +57,6 @@ public class AgentOO extends LemasAgent {
 		ACLMessage msg = makeMessage(new AID("lemas_loader", false), ConversationId.TEST, "" + this.getTrustModel().test(aid));
 		AgentLoader.getInstance().getTestMessage(msg);
 	}	
-	
 	
 	@Override
 	public String _getLocalName(){

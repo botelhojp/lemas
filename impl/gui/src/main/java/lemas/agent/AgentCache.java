@@ -14,4 +14,12 @@ public class AgentCache {
 		return cache.get(localName);
 	}
 
+	public static boolean contains(String localName) {
+		return cache.containsKey(localName);
+	}
+
+	public static void clear() {
+		cache.clear();
+	}
+
 }
