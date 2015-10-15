@@ -5,6 +5,7 @@ import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import lemas.agent.ConversationId;
 import lemas.agent.LemasAgent;
+import lemas.form.FrameProject;
 
 public class SendMessageBehavior extends Behaviour {
 
@@ -55,21 +56,34 @@ public class SendMessageBehavior extends Behaviour {
 	}
 
 	public void resume() {
-		resume = true;
+		resume = true;		
 	}
 	
 	public void test(AID aid) {
 		this.aid = aid;
 		sendTest = true;
+		if (FrameProject.getInstance().getSimulated()){
+			resume = true;
+			action();
+		}
 	}
 
 	public void findWitness(AID aidFind) {
 		findWitness = true;
+		if (FrameProject.getInstance().getSimulated()){
+			resume = true;
+			action();
+		}
 	}
 	
 	public void requestDossie(AID aid) {
 		this.aid = aid;
 		requestDossie = true;
+		if (FrameProject.getInstance().getSimulated()){
+			resume = true;
+			action();
+		}
+		
 	}
 
 	public void pause() {

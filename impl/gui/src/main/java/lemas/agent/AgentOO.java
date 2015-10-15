@@ -30,6 +30,14 @@ public class AgentOO extends LemasAgent {
 	}
 	
 	@Override
+	public void sendMessage(ACLMessage msg) {
+		countMessages++;
+		AID to = (AID) msg.getAllReceiver().next();
+		AgentCache.get(to.getLocalName()).message(msg);
+		super.sendMessage(msg);
+	}
+	
+	@Override
 	public ACLMessage sendMessage(AID to, int performative, String conversationId, AgentAction action) {
 		ACLMessage message = new ACLMessage(performative);
 		message.setSender(_getAID());

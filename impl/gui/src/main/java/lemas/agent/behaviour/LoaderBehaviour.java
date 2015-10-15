@@ -122,9 +122,8 @@ public class LoaderBehaviour extends Behaviour {
 			message.setConversationId(ConversationId.START_ITERATE);
 			agent.fillContent(message, sr, agent.getCodec(), OpenJadeOntology.getInstance());
 			if (FrameProject.getInstance().getSimulated()) {
-                                AgentCache.get(client.getLocalName()).message(message);
+				AgentCache.get(client.getLocalName()).message(message);
 			}else{
-//				agent.sendMessage(client, ACLMessage.REQUEST, ConversationId.START_ITERATE, sr, OpenJadeOntology.getInstance());
 				agent.sendMessage(message);				
 			}
 		}

@@ -25,14 +25,13 @@ public class LemasAgent extends OpenAgent {
 	private static final long serialVersionUID = 1L;
 	public static final String SERVICE = "LEMAS";
 	private SendMessageBehavior tb;
-	private static long countMessages = 0;
+	protected static long countMessages = 0;
 
 	/**
 	 * Inicialização
 	 */
 	@SuppressWarnings("unchecked")
 	protected void setup() {
-		// setCodec(new SLCodec());
 		super.setup();
 		loadTrustModel((Class<ITrustModel>) getArguments()[0]);
 		trustModel.setProperties(Runner.currentProject.getProperties());
