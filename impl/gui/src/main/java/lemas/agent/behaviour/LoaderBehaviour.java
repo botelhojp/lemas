@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lemas.Lemas;
+import lemas.Round;
 import lemas.agent.AgentCache;
 import lemas.agent.AgentLoader;
 import lemas.agent.AgentOO;
@@ -41,7 +42,7 @@ public class LoaderBehaviour extends Behaviour {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final long CACHE_SIZE = 150000;
+	private static final long CACHE_SIZE = 1000;
 
 	private AgentLoader agent;
 	private List<AID> agentCache_Client = new ArrayList<AID>();
@@ -82,7 +83,7 @@ public class LoaderBehaviour extends Behaviour {
 					DataProvider.getInstance().put("DATASET", instance.dataset());
 					AID client = new AID("" + instance.toString(0), false);
 					AID server = new AID("" + instance.toString(1), false);
-					setRound(instance.toString(2));
+					updateRound(instance.toString(2));
 					agent.waiting();
 					createAgent(server, "lemas.agent.LemasAgent", agentCache_Server);
 					createAgent(client, "lemas.agent.LemasAgent", agentCache_Client);
@@ -101,7 +102,8 @@ public class LoaderBehaviour extends Behaviour {
 		block(1);
 	}
 
-	private void setRound(String date) {
+	private void updateRound(String date) {
+		Round.getInstance().update(date);
 	}
 
 	public void loadArff() {

@@ -6,6 +6,7 @@ import jade.lang.acl.ACLMessage;
 
 import java.util.List;
 
+import lemas.Round;
 import lemas.agent.behaviour.LoaderBehaviour;
 import lemas.db.LemasDB;
 import lemas.form.DialogResult;
@@ -25,10 +26,10 @@ public class AgentLoader extends OpenAgent {
 	private static final long serialVersionUID = 1L;
 	private int wait = 0;;
 	private static int executions = -1;
-//	private DialogResult dialogResult;
-	private double round = 0;
 	private LoaderBehaviour loader;
 	private LemasDB db;
+	private double sum;
+	private Round round = Round.getInstance();;
 	
 	public static AgentLoader getInstance(){
 		return instance;
@@ -38,7 +39,9 @@ public class AgentLoader extends OpenAgent {
 	public void setup() {
 		super.setup();
 		wait = 0;
-		round = 0;
+		round.clear();
+		round.setRange(500);
+		sum=0;
 		executions++;
 		db = new LemasDB(FrameProject.getInstance().getSaveDB());
 		db.connect();
@@ -63,7 +66,12 @@ public class AgentLoader extends OpenAgent {
 	 */
 	@ReceiveSimpleMessage(conversationId = ConversationId.TEST)
 	public void getTestMessage(ACLMessage msg) {
-		addResult(executions, round++, loader.posProcess(msg));
+		if (round.changed()){
+			addResult(executions, round.getRound()-1, sum/round.getRange());
+			sum = 0;
+		}else{
+			sum += loader.posProcess(msg);
+		}
 		wait--;
 	}
 	
