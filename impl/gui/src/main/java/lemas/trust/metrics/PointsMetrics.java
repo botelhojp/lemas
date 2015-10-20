@@ -8,7 +8,7 @@ import openjade.ontology.Rating;
 import openjade.ontology.RatingAttribute;
 import weka.core.Instance;
 
-@Metrics(name = "Points Value")
+@Metrics(name = "Points Value", file = "points_value")
 public class PointsMetrics extends AbstractIMetric {
 
 	private double cost = 0.0;

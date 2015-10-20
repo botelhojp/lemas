@@ -8,7 +8,7 @@ import java.util.List;
 import lesma.annotations.Metrics;
 import weka.core.Instance;
 
-@Metrics(name = "Contract Value")
+@Metrics(name = "Contract Value", file = "contract_value")
 public class ContractMetrics extends AbstractIMetric {
 
 	private List<Instance> instances = new ArrayList<Instance>();

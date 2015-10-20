@@ -9,7 +9,7 @@ import openjade.ontology.Rating;
 import openjade.ontology.RatingAttribute;
 import weka.core.Instance;
 
-@Metrics(name = "Rounds Value")
+@Metrics(name = "Rounds Value", file = "rounds_value")
 public class RoundsMetrics extends AbstractIMetric {
 
 	private int rounds = 100;

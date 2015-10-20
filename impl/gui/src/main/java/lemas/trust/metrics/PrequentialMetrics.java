@@ -8,7 +8,7 @@ import java.util.List;
 import lesma.annotations.Metrics;
 import weka.core.Instance;
 
-@Metrics(name = "Success Rate Prequential")
+@Metrics(name = "Success Rate Prequential", file = "sucess_rate_prequential")
 public class PrequentialMetrics extends AbstractIMetric {
 	
 	private double count = 50;

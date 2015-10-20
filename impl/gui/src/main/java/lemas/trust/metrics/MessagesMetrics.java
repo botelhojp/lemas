@@ -5,7 +5,7 @@ import lemas.agent.LemasAgent;
 import lesma.annotations.Metrics;
 import weka.core.Instance;
 
-@Metrics(name = "Messages Value")
+@Metrics(name = "Messages Value", file = "messages_value")
 public class MessagesMetrics extends AbstractIMetric {
 	
 	private long instanceCount = 0;

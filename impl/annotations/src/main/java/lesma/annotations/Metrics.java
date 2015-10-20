@@ -12,5 +12,7 @@ import java.lang.annotation.Target;
 public @interface Metrics {
 
 	String name();
+	
+	String file();
 
 }

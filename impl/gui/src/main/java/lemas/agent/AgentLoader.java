@@ -8,10 +8,13 @@ import java.util.List;
 
 import lemas.Round;
 import lemas.agent.behaviour.LoaderBehaviour;
+import lemas.db.CSV;
 import lemas.db.LemasDB;
 import lemas.form.DialogResult;
 import lemas.form.FrameProject;
 import lemas.trust.metrics.IMetrics;
+import lesma.annotations.Metrics;
+import lesma.annotations.TrustModel;
 import openjade.core.OpenAgent;
 import openjade.core.annotation.ReceiveMatchMessage;
 import openjade.core.annotation.ReceiveSimpleMessage;
@@ -67,7 +70,7 @@ public class AgentLoader extends OpenAgent {
 	@ReceiveSimpleMessage(conversationId = ConversationId.TEST)
 	public void getTestMessage(ACLMessage msg) {
 		if (round.changed()){
-			addResult(executions, round.getRound()-1, sum/round.getRange());
+			addResult(executions, round.getRound()-1, sum/round.getRange(), getMetricsClass());
 			sum = 0;
 		}else{
 			sum += loader.posProcess(msg);
@@ -96,12 +99,14 @@ public class AgentLoader extends OpenAgent {
 		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.GET_INDIRECT, wr);
 	}
 	
-	public void addResult(int executions, double round, double value){
+	public void addResult(int executions, double round, double value, Class<?> clazz){
+		Metrics annotation = clazz.getAnnotation(Metrics.class);
+		String file = annotation.file();
 		if (FrameProject.getInstance().getVerResult()){
 			DialogResult dl = DialogResult.getInstance();
 			dl.addResult(executions, round, value);			
 		}
-		db.save(executions, round, value);
+		CSV.save(file, executions, round, value);
 	}
 
 	public void waiting() {

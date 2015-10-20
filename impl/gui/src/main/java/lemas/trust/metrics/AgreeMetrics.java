@@ -6,7 +6,7 @@ import lemas.trust.data.RatingCache;
 import lesma.annotations.Metrics;
 import weka.core.Instance;
 
-@Metrics(name = "Refused Value")
+@Metrics(name = "Refused Value", file = "refused_value")
 public class AgreeMetrics extends AbstractIMetric {
 
 	private double refused = 0.0;

@@ -4,17 +4,14 @@ import jade.lang.acl.ACLMessage;
 import lesma.annotations.Metrics;
 import weka.core.Instance;
 
-@Metrics(name = "Random", file = "random")
-public class RandomMetrics implements IMetrics {
+@Metrics(name = "Memory Used (Mb)", file = "memory_used")
+public class MemoryMetrics implements IMetrics {
 
-	@Override
 	public void preProcess(Instance instance) {
-
 	}
 
-	@Override
 	public double prosProcess(ACLMessage msg) {
-		return 100 * Math.random();
+		Runtime r = Runtime.getRuntime();
+		return (r.totalMemory() -  Runtime.getRuntime().freeMemory()) / (1024*1024);
 	}
-
 }

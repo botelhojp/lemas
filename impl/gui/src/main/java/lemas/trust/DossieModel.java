@@ -19,13 +19,17 @@ public class DossieModel extends AbstractModel {
 	
 	public DossieModel() {
 		properties.clear();
-		properties.put("INITIAL_BALANCE", "50000");
+		properties.put("DOSSIE_SIZE", "50");
 	}
 
 	@Override
 	public void addRating(Rating rating) {
 		if (isIamServer(rating)) {
+			Integer size = Integer.parseInt(properties.getProperty("DOSSIE_SIZE"));
 			dossie.add(rating);
+			if (dossie.size() > size){
+				dossie.remove(0);
+			}
 		}else{
 			super.addRating(rating);
 		}

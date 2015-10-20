@@ -128,21 +128,4 @@ public class LemasDB {
 			}
 		}
 	}
-
-	public void save(int executions, double round, double value) {
-		if (actived) {
-			try {
-
-				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String timer = f.format(((Calendar) GregorianCalendar.getInstance()).getTime());
-
-				Statement st = conn.createStatement();
-				st.executeUpdate("INSERT INTO result " + "VALUES ('" + executions + "', '" + round + "', '" + value + "', '" + timer + "'  )");
-				st.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 }
