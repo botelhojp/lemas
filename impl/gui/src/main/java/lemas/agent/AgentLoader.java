@@ -14,7 +14,6 @@ import lemas.form.DialogResult;
 import lemas.form.FrameProject;
 import lemas.trust.metrics.IMetrics;
 import lesma.annotations.Metrics;
-import lesma.annotations.TrustModel;
 import openjade.core.OpenAgent;
 import openjade.core.annotation.ReceiveMatchMessage;
 import openjade.core.annotation.ReceiveSimpleMessage;

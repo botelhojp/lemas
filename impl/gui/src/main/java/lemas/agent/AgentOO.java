@@ -43,6 +43,7 @@ public class AgentOO extends LemasAgent {
 	
 	@Override
 	public ACLMessage sendMessage(AID to, int performative, String conversationId, AgentAction action) {
+		countMessages++;
 		ACLMessage message = new ACLMessage(performative);
 		message.setSender(_getAID());
 		message.addReceiver(to);

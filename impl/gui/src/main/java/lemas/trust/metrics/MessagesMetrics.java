@@ -7,20 +7,17 @@ import weka.core.Instance;
 
 @Metrics(name = "Messages Value", file = "messages_value")
 public class MessagesMetrics extends AbstractIMetric {
-	
-	private long instanceCount = 0;
-	
-	public MessagesMetrics(){
+
+	public MessagesMetrics() {
 		LemasAgent.resetCountMessage();
 	}
 
 	public void preProcess(Instance instance) {
-		instanceCount++;
 	}
 
 	@Override
 	public double prosProcess(ACLMessage msg) {
-		return LemasAgent.countMessage()/instanceCount;
+		return LemasAgent.countMessage();
 	}
 
 }
