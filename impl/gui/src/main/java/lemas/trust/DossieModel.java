@@ -51,7 +51,7 @@ public class DossieModel extends AbstractModel {
 		double count = 0.0;
 		Clazz avaliado = null;
 		for(Rating r : getRatings(aid)){
-			double delta = (test.getRound() - r.getRound())/ (double) test.getRound();
+			double delta = (r.getRound())/ (double) (test.getRound());
 			count+=delta;
 			Clazz esperado = Classes.getClass(r.getValue());			
 			sum += (esperado.getValue()*delta);			

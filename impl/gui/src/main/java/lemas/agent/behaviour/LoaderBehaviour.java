@@ -49,7 +49,7 @@ public class LoaderBehaviour extends Behaviour {
 	private List<AID> agentCache_Server = new ArrayList<AID>();
 	private boolean done = false;
 	private Instance instance = null;
-	private int round = 0;
+//	private int round = 1;
 	private Class<ITrustModel> trustModelClass;
 	private IMetrics metrics;
 	int c = 0;
@@ -139,7 +139,7 @@ public class LoaderBehaviour extends Behaviour {
 		AID clientAID = new AID(instance.toString(0), false);
 		AID serverAID = new AID(instance.toString(1), false);
 		String value = instance.toString(instance.numAttributes() - 1);
-		return OpenJadeUtil.makeRating(clientAID, serverAID, round++, Data.instanceToRatingAttribute(instance), value);
+		return OpenJadeUtil.makeRating(clientAID, serverAID, Round.getInstance().getRound(), Data.instanceToRatingAttribute(instance), value);
 	}
 
     private void createAgent(AID aid, String clazz, List<AID> cache) {

@@ -31,7 +31,7 @@ public class AgentLoader extends OpenAgent {
 	private LoaderBehaviour loader;
 	private LemasDB db;
 	private double sum;
-	private Round round = Round.getInstance();;
+	private Round round = Round.getInstance();
 	
 	public static AgentLoader getInstance(){
 		return instance;
@@ -68,11 +68,10 @@ public class AgentLoader extends OpenAgent {
 	 */
 	@ReceiveSimpleMessage(conversationId = ConversationId.TEST)
 	public void getTestMessage(ACLMessage msg) {
+		sum += loader.posProcess(msg);
 		if (round.changed()){
 			addResult(executions, round.getRound()-1, sum/round.getRange(), getMetricsClass());
 			sum = 0;
-		}else{
-			sum += loader.posProcess(msg);
 		}
 		wait--;
 	}
