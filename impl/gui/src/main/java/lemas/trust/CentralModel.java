@@ -1,13 +1,10 @@
 package lemas.trust;
 
-import jade.core.AID;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import lemas.trust.metrics.Classes;
-import lemas.trust.metrics.Clazz;
+import jade.core.AID;
 import lesma.annotations.TrustModel;
 import openjade.ontology.Rating;
 
@@ -22,8 +19,25 @@ public class CentralModel extends AbstractModel {
 	}
 	
 	
-	@Override
+	/*@Override
 	public String test(AID aid) {
+		double sum = 0.0;
+		double count = 0.0;
+		Clazz avaliado = null;
+		for(Rating r : getRatings(aid)){
+			double delta = (r.getRound())/ (double) (test.getRound());
+			count+=delta;
+			Clazz esperado = Classes.getClass(r.getValue());			
+			sum += (esperado.getValue()*delta);			
+		}
+		addRating(test);
+		avaliado = (count == 0)? Classes.getClasses().get(0) : Classes.getClass((sum / count));
+		if (avaliado.getValue() > 0){
+			return "AGREE;" + test.getRound();
+		}else{
+			return "REFUSE;" + test.getRound();
+		}
+		
 		double sum = 0.0;
 		double count = 0.0;
 		Clazz avaliado = null;
@@ -40,7 +54,7 @@ public class CentralModel extends AbstractModel {
 		}else{
 			return "REFUSE;" + test.getRound();
 		}
-	}
+	}*/
 
 	
 	@Override

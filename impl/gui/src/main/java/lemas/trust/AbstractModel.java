@@ -39,7 +39,7 @@ public  class AbstractModel implements ITrustModel {
 		double count = 0.0;
 		Clazz avaliado = null;
 		for(Rating r : getRatings(aid)){
-			double delta = (test.getRound() - r.getRound())/ (double) test.getRound();
+			double delta = (r.getRound())/ (double) (test.getRound());
 			count+=delta;
 			Clazz esperado = Classes.getClass(r.getValue());			
 			sum += (esperado.getValue()*delta);			
@@ -51,6 +51,22 @@ public  class AbstractModel implements ITrustModel {
 		}else{
 			return "REFUSE;" + test.getRound();
 		}
+		/*double sum = 0.0;
+		double count = 0.0;
+		Clazz avaliado = null;
+		for(Rating r : getRatings(aid)){
+			double delta = (test.getRound() - r.getRound())/ (double) test.getRound();
+			count+=delta;
+			Clazz esperado = Classes.getClass(r.getValue());			
+			sum += (esperado.getValue()*delta);			
+		}
+		addRating(test);
+		avaliado = (count == 0)? Classes.getClasses().get(0) : Classes.getClass((sum / count));
+		if (avaliado.getValue() > 0){
+			return "AGREE;" + test.getRound();
+		}else{
+			return "REFUSE;" + test.getRound();
+		}*/
 	}
 	
 	public void addRating(Rating rating) {
