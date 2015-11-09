@@ -35,10 +35,10 @@ public class Round {
 	
 	public void update(String date){
 		try {
-			changed = (count++ == range);
+			changed = (++count >= range);
 			if (changed){
 				round++;
-				count = 1;
+				count = 0;
 				changed = true;
 			}
 			currentTime = dt.parse(date);
