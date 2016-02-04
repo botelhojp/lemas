@@ -19,6 +19,8 @@ public class AHPMetrics extends AbstractIMetric {
 
 	@Override
 	public double prosProcess(ACLMessage msg) {
+		
+		
 		String confianca = msg.getContent().split(";")[2];
 		System.out.println(confianca);
 		return 0;

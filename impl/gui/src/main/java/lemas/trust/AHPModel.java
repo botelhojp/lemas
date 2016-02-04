@@ -3,6 +3,7 @@ package lemas.trust;
 import jade.core.AID;
 import lemas.trust.metrics.Classes;
 import lemas.trust.metrics.Clazz;
+import lemas.trust.metrics.ahp.AHPConfig;
 import lesma.annotations.TrustModel;
 import openjade.ontology.Rating;
 
@@ -11,12 +12,19 @@ public class AHPModel extends AbstractModel {
 
 	private static final long serialVersionUID = 1L;
 	
+	public static AHPConfig pref = null;
+	
 	public AHPModel() {
 		super();
 		properties.put("PREFERENCIAS", "");
 	}
+	
+	
 	@Override
 	public void setTest(Rating rating) {
+		if (pref == null){
+			pref = new AHPConfig(properties.get("PREFERENCIAS").toString());
+		}
 		super.setTest(rating);
 		myAgent.test(rating.getServer());
 	}
