@@ -10,7 +10,6 @@ public class Project {
     private String clazz;
     private String metricsClass;
     private String saveIn;
-    private String loading;
     private String host;
     private String conteiner;
     private boolean verLog;
@@ -70,14 +69,6 @@ public class Project {
 
     public void setConteiner(String conteiner) {
         this.conteiner = conteiner;
-    }
-
-    public String getLoading() {
-        return loading;
-    }
-
-    public void setLoading(String loading) {
-        this.loading = loading;
     }
 
     public Properties getProperties() {

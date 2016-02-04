@@ -95,7 +95,7 @@ public class LemasAgent extends OpenAgent {
 		Rating rating = (Rating) sr.getRating().get(0);
 		sendMessage(rating.getServer(), ACLMessage.REQUEST, ConversationId.SEND_FEEDBACK, sr);
 		//TODO verificar porque não é adicionado
-//		trustModel.addRating(rating, true);
+		//trustModel.addRating(rating);
 		trustModel.setTest(rating);
 	}
 	

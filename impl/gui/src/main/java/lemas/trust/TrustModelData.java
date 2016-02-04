@@ -44,7 +44,8 @@ public class TrustModelData implements Serializable {
 	 */
 	public void addRating(Rating rating) {
 		//Garante que não haverá avaliacoes no conjunto
-		if (!hash.containsKey(rating.getRound())){
+		//TODO verificar porque era assim: if (!hash.containsKey(rating.getRound())){
+		if (true){		
 			ratings.add(rating);	
 			hash.put(rating.getRound(), rating);
 		}		

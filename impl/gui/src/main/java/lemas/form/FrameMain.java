@@ -30,7 +30,6 @@ import lemas.util.Data;
 public class FrameMain extends javax.swing.JFrame {
 
     private static FrameMain instance = new FrameMain();
-    private static File arfffile;
 
     /**
      * Creates new form FrameCronos
@@ -41,16 +40,14 @@ public class FrameMain extends javax.swing.JFrame {
         menu(false);
         //this.setExtendedState(FrameMain.MAXIMIZED_BOTH);
         JConsole.getInstance().setVisible(false);
-        if (Lemas.file1 != null && Lemas.file2 != null) {
-            arfffile = new File(Lemas.file1);
+        if (Lemas.file1 != null) {
             FrameProject frame = FrameProject.getInstance();
             frame.setTitle("Open project");
-            File file = new File(Lemas.file2);
+            File file = new File(Lemas.file1);
             Project project = Data.fileToProject(file);
-            project.setLoading(this.arfffile.getAbsolutePath());
             project.setSaveIn(file.getAbsolutePath());
             frame.updateScreen(project);
-            frame.setTitle("Open Project - " + (new File(project.getLoading()).getName()));
+            frame.setTitle("Open Project");
             frame.setVisible(true);
         }
     }
@@ -188,7 +185,7 @@ public class FrameMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuOpenArffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpenArffActionPerformed
-
+/*
         message("Open Arff...");
         FileNameExtensionFilter filterExt = new FileNameExtensionFilter("Arff File (.arff)", "arff");
         JFileChooser fileChooser = new JFileChooser();
@@ -202,7 +199,7 @@ public class FrameMain extends javax.swing.JFrame {
         Project prj = FrameProject.getInstance().getCurrentProject();
         if (prj != null) {
             prj.setLoading(arfffile.getAbsolutePath());
-        }
+        }*/
     }//GEN-LAST:event_menuOpenArffActionPerformed
 
     private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
@@ -212,16 +209,16 @@ public class FrameMain extends javax.swing.JFrame {
     }//GEN-LAST:event_formFocusGained
 
     private void menuNewProjectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_mnNewProjectActionPerformed
-        if (this.arfffile == null) {
+        /*if (this.arfffile == null) {
             JOptionPane.showMessageDialog(new JFrame(), "Selecione um arquivo Arff", "Selecione um arquivo", JOptionPane.ERROR_MESSAGE);
-        } else {
+        } else {*/
             message("New project...");
             FrameProject frame = FrameProject.getInstance();
 //            frame.setBounds(0, 200, 400, 500);            
             frame.load();
             frame.clean();
             frame.setVisible(true);
-        }
+        //}
     }// GEN-LAST:event_mnNewProjectActionPerformed
 
     private void menuExitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_mnExitActionPerformed
@@ -240,15 +237,15 @@ public class FrameMain extends javax.swing.JFrame {
             File file = fileChooser.getSelectedFile();
             message("open file: " + file.getAbsolutePath());
             Project project = Data.fileToProject(file);
-            if (this.arfffile != null) {
+           /* if (this.arfffile != null) {
                 project.setLoading(this.arfffile.getAbsolutePath());
             } else if (project.getLoading() == null) {
                 menuOpenArffActionPerformed(null);
                 project.setLoading(this.arfffile.getAbsolutePath());
-            }
+            }*/
             project.setSaveIn(file.getAbsolutePath());
             frame.updateScreen(project);
-            frame.setTitle("Open Project - " + (new File(project.getLoading()).getName()));
+            frame.setTitle("Open Project");
             frame.setVisible(true);
         }
 
@@ -349,10 +346,5 @@ public class FrameMain extends javax.swing.JFrame {
 //		this.menuNewProject.setEnabled(value);
 //		this.mnOpenProject.setEnabled(value);
 //		this.menuStop.setEnabled(value);
-    }
-
-    public static File getArfffile() {
-        return arfffile;
-    }
-
+    }    
 }

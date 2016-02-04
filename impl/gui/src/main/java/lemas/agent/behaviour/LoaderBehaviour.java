@@ -1,17 +1,17 @@
 package lemas.agent.behaviour;
 
-import jade.core.AID;
-import jade.core.behaviours.Behaviour;
-import jade.lang.acl.ACLMessage;
-import jade.wrapper.AgentController;
-import jade.wrapper.StaleProxyException;
-
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jade.core.AID;
+import jade.core.behaviours.Behaviour;
+import jade.lang.acl.ACLMessage;
+import jade.wrapper.AgentController;
+import jade.wrapper.StaleProxyException;
 import lemas.Lemas;
 import lemas.Round;
 import lemas.agent.AgentCache;
@@ -19,6 +19,7 @@ import lemas.agent.AgentLoader;
 import lemas.agent.AgentOO;
 import lemas.agent.ConversationId;
 import lemas.agent.LemasAgent;
+import lemas.exception.LemasException;
 import lemas.form.FrameMain;
 import lemas.form.FrameProject;
 import lemas.model.LemasLog;
@@ -108,7 +109,11 @@ public class LoaderBehaviour extends Behaviour {
 
 	public void loadArff() {
 		try {
-			reader = new BufferedReader(new FileReader(Runner.currentProject.getLoading()));
+			File file = new File((String)Runner.currentProject.getProperties().get("ARFF"));
+			if (!file.exists()){
+				throw new LemasException("ARFF não informado");
+			}
+			reader = new BufferedReader(new FileReader(file));
 			arff = new ArffReader(reader, 10);
 		} catch (Exception e1) {
 			e1.printStackTrace();

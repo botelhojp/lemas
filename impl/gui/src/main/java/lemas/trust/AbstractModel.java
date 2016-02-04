@@ -32,6 +32,7 @@ public  class AbstractModel implements ITrustModel {
 	public AbstractModel() {
 		data = new HashMap<AID, TrustModelData>();
 		properties = new Properties();
+		properties.put("ARFF", "");
 	}
 
 	public String test(AID aid) {
@@ -111,10 +112,6 @@ public  class AbstractModel implements ITrustModel {
 	public void setAgent(OpenAgent agent) {
 		this.myAgent = (LemasAgent) agent;
 		tmpFile = new File(System.getProperty("java.io.tmpdir") + File.separatorChar + myAgent._getLocalName().hashCode() + Constants.AGENT_FILE_EXTENSION);
-	}
-
-	public Rating addRating(AID client, AID server, int iteration, String term, float value) {
-		return null;
 	}
 
 	public Iterator<AID> getAllServer() {
