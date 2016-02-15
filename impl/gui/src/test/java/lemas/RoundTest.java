@@ -58,9 +58,11 @@ public class RoundTest {
 		r.update("26/03/2015");
 		assertEquals(1, r.getRound());
 		assertEquals(false, r.changed());
+		
 		r.update("27/03/2015");
 		assertEquals(1, r.getRound());
 		assertEquals(false, r.changed());
+		
 		r.update("28/03/2015");
 		assertEquals(1, r.getRound());
 		assertEquals(false, r.changed());

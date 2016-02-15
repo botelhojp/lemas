@@ -35,7 +35,7 @@ public class Round {
 	
 	public void update(String date){
 		try {
-			changed = (++count >= range);
+			changed = (count == range);
 			if (changed){
 				round++;
 				count = 0;
@@ -46,6 +46,7 @@ public class Round {
 				startTime = dt.parse(date);
 				round = 1;
 			}
+			count++;
 		} catch (ParseException e) {
 			throw new RuntimeException("erro no parse da data: " + date, e);
 		}
