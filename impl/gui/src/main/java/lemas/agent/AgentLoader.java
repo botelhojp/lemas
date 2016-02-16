@@ -42,7 +42,7 @@ public class AgentLoader extends OpenAgent {
 		super.setup();
 		wait = 0;
 		round.clear();
-		round.setRange(500);
+		round.setRange(1);
 		sum=0;
 		executions++;
 		db = new LemasDB(FrameProject.getInstance().getSaveDB());
