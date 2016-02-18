@@ -48,6 +48,6 @@ public class AHPModel extends AbstractModel {
 		if (count == 0 ){
 			count = 1;
 		}
-		return "NONE;" + test.getRound() + ";" + (sum / count);		
+		return aid.getLocalName()+ ";" + test.getRound() + ";" + (sum / count);		
 	}
 }
