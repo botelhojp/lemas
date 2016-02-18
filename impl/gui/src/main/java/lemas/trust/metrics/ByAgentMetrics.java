@@ -31,8 +31,8 @@ public class ByAgentMetrics extends AbstractIMetric {
 
 	@Override
 	public double prosProcess(ACLMessage msg) {
-		int round = Integer.parseInt(msg.getContent().split(";")[1]);
-		String valor = msg.getContent().split(";")[2];		
+		int round = Integer.parseInt(msg.getContent().split(";")[2]);
+		String valor = msg.getContent().split(";")[3];		
 		getFornecedor(msg).value = Double.parseDouble(valor);
 		
 		Enumeration<String> en = hash.keys();
@@ -46,7 +46,7 @@ public class ByAgentMetrics extends AbstractIMetric {
 	}
 
 	protected Fornecedor getFornecedor(ACLMessage msg) {
-		String fornecedor = msg.getContent().split(";")[0];
+		String fornecedor = msg.getContent().split(";")[1];
 		return hash.get(fornecedor);
 	}
 
