@@ -10,10 +10,10 @@ import lemas.form.DialogResult;
 import lesma.annotations.Metrics;
 import weka.core.Instance;
 
-@Metrics(name = "By Agent", file = "by_agent")
-public class ByAgentMetrics extends AbstractIMetric {
+@Metrics(name = "AHP - Agent", file = "ahp_agent_value")
+public class AHPAgentMetrics extends AbstractIMetric {
 
-	protected Hashtable<String, Fornecedor> hash = new Hashtable<String, ByAgentMetrics.Fornecedor>();
+	protected Hashtable<String, Fornecedor> fornecedores = new Hashtable<String, AHPAgentMetrics.Fornecedor>();
 	protected DialogResult dl = null;
 
 	@Override
@@ -22,8 +22,8 @@ public class ByAgentMetrics extends AbstractIMetric {
 		dl.disabledAddResult();
 		Fornecedor fornecedor = new Fornecedor();
 		fornecedor.nome = instance.toString(1);
-		if (!hash.containsKey(fornecedor.nome)) {
-			hash.put(fornecedor.nome, fornecedor);
+		if (!fornecedores.containsKey(fornecedor.nome)) {
+			fornecedores.put(fornecedor.nome, fornecedor);
 			DialogResult.getInstance().getXSerie().addSeries(new XYSeries(fornecedor.nome));
 			fornecedor.id = dl.getXSerie().getSeriesCount()-1;
 		}
@@ -35,10 +35,10 @@ public class ByAgentMetrics extends AbstractIMetric {
 		String valor = msg.getContent().split(";")[3];		
 		getFornecedor(msg).value = Double.parseDouble(valor);
 		
-		Enumeration<String> en = hash.keys();
+		Enumeration<String> en = fornecedores.keys();
 		while (en.hasMoreElements()) {
 			String type = en.nextElement();
-			Fornecedor f = hash.get(type);
+			Fornecedor f = fornecedores.get(type);
 			DialogResult.getInstance().addResultForce(f.id, round, f.value);
 		}
 		//retorno nao utilizado
@@ -47,7 +47,7 @@ public class ByAgentMetrics extends AbstractIMetric {
 
 	protected Fornecedor getFornecedor(ACLMessage msg) {
 		String fornecedor = msg.getContent().split(";")[1];
-		return hash.get(fornecedor);
+		return fornecedores.get(fornecedor);
 	}
 
 	protected class Fornecedor {
