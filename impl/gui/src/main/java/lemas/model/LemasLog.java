@@ -2,6 +2,7 @@ package lemas.model;
 
 import lemas.form.FrameMain;
 import lemas.util.Data;
+import lemas.util.Message;
 
 public class LemasLog {
 
@@ -9,7 +10,7 @@ public class LemasLog {
 
     public static void info(String msg) {
         if (enabled) {
-            FrameMain.getInstance().message(msg);
+        	Message.message(msg);
         }
     }
 
@@ -29,7 +30,7 @@ public class LemasLog {
         if (enabled) {
             String msg = Data.exceptionToStr(e);
             System.err.println(msg);
-            FrameMain.getInstance().message(msg);
+            Message.message(msg);
         }
     }
 

@@ -1,15 +1,17 @@
 package lemas.util;
 
-import java.awt.Component;
-import javax.swing.JOptionPane;
+import lemas.form.FrameMain;
 
 public class Message {
-	public static void error(String message, Component c){
-		JOptionPane.showMessageDialog(null, message,  "Error",   JOptionPane.ERROR_MESSAGE);
+	public static void message(String message){
+		FrameMain.getInstance().message(message);		
 	}
 
-    public static void info(String message, Component c) {
-        JOptionPane.showMessageDialog(c, message,  "Info",   JOptionPane.INFORMATION_MESSAGE);
-    }
-		
+	public static void message(Throwable e) {
+		message(StackTraceUtil.getStackTrace(e));
+	}
+
+	public static void message(String message, Throwable e) {
+		message(message + " --- " + StackTraceUtil.getStackTrace(e));
+	}
 }

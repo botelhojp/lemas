@@ -16,6 +16,8 @@ public class Project {
     private boolean verResult;
     private boolean simulated;
     private boolean saveDB;
+    private boolean step;
+    private String delay;
     private Properties properties;
 
     private List<Result> results;
@@ -119,4 +121,21 @@ public class Project {
     public void setSaveDB(boolean saveDB) {
         this.saveDB = saveDB;
     }
+
+	public boolean isStep() {
+		return step;
+	}
+
+	public void setStep(boolean step) {
+		this.step = step;
+	}
+
+	public String getDelay() {
+		return delay;
+	}
+
+	public void setDelay(String delay) {
+		this.delay = delay;
+	}
+    
 }

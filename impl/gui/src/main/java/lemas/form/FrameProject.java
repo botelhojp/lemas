@@ -39,6 +39,7 @@ public class FrameProject extends JInternalFrame {
     private boolean bVerResult = true;
     private boolean bSimulated = false;
     private boolean bSaveDB = false;
+    private boolean bStep = false;
 
     public static FrameProject getInstance() {
         if (instance == null) {
@@ -95,6 +96,10 @@ public class FrameProject extends JInternalFrame {
         checkResult = new javax.swing.JCheckBox();
         checkSimulated = new javax.swing.JCheckBox();
         checkSaveBD = new javax.swing.JCheckBox();
+        jButton1 = new javax.swing.JButton();
+        checkStep = new javax.swing.JCheckBox();
+        txtDelay = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setTitle("New Project");
 
@@ -214,6 +219,22 @@ public class FrameProject extends JInternalFrame {
             }
         });
 
+        jButton1.setText("Clean");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        checkStep.setText("Step-by-Step");
+        checkStep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkStepActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("segundos");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -224,7 +245,10 @@ public class FrameProject extends JInternalFrame {
                         .addComponent(btSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btRun, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,10 +272,12 @@ public class FrameProject extends JInternalFrame {
                                 .addComponent(checkSimulated)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(checkSaveBD)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btRun, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(checkStep)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtDelay, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5))
                             .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE))))
                 .addContainerGap())
         );
@@ -279,14 +305,18 @@ public class FrameProject extends JInternalFrame {
                     .addComponent(checkLog)
                     .addComponent(checkResult)
                     .addComponent(checkSimulated)
-                    .addComponent(checkSaveBD))
+                    .addComponent(checkSaveBD)
+                    .addComponent(checkStep)
+                    .addComponent(txtDelay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btSave)
                     .addComponent(btCancel)
-                    .addComponent(btRun)))
+                    .addComponent(btRun)
+                    .addComponent(jButton1)))
         );
 
         pack();
@@ -322,6 +352,14 @@ public class FrameProject extends JInternalFrame {
         bSaveDB = checkSaveBD.isSelected();
     }//GEN-LAST:event_checkSaveBDActionPerformed
 
+    private void checkStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkStepActionPerformed
+        bStep = checkStep.isSelected();
+    }//GEN-LAST:event_checkStepActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+		FrameMain.getInstance().clean();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void cbTrustModelListActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cbTrustModelListActionPerformed
     }// GEN-LAST:event_cbTrustModelListActionPerformed
 
@@ -330,14 +368,11 @@ public class FrameProject extends JInternalFrame {
             cleanAll();
             updateProject();
             Data.projectToFile(project, project.getSaveIn());
-            //this.setVisible(false);
-//            FrameMain.getInstance().setVisible(true);
-//          Runner.run(project);
             Runner.run();
             LemasLog.clean();
             LemasLog.setEnable(bVerLog);
         } catch (Exception ex) {
-            Message.error(ex.getMessage(), this);
+        	Message.message(ex);
             Logger.getLogger(FrameProject.class.getName()).log(Level.SEVERE, null, ex);
         }
     }// GEN-LAST:event_btRunActionPerformed
@@ -352,8 +387,6 @@ public class FrameProject extends JInternalFrame {
 
     private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btCancelActionPerformed
     	FrameMain.visibleFrames(false);
-    	//this.setVisible(false);
-        //DialogResult.getInstance().setVisible(false);        
     }// GEN-LAST:event_btCancelActionPerformed
 
     private void txtIpKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtIpKeyReleased
@@ -377,12 +410,12 @@ public class FrameProject extends JInternalFrame {
                         Data.projectToFile(project, chooser.getSelectedFile() + ext);
                     }
                 } catch (Exception ex) {
-                    Message.error(ex.getMessage(), this);
+                    Message.message("tentando salvar arquivo", ex);
                 }
             }
         } else {
             Data.projectToFile(project, project.getSaveIn());
-            Message.info("project saved", this);
+            Message.message("Projeto Salvo");
         }
     }// GEN-LAST:event_btSaveActionPerformed
 
@@ -432,15 +465,19 @@ public class FrameProject extends JInternalFrame {
     private javax.swing.JCheckBox checkResult;
     private javax.swing.JCheckBox checkSaveBD;
     private javax.swing.JCheckBox checkSimulated;
+    private javax.swing.JCheckBox checkStep;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTableProperties;
     private javax.swing.JPanel panelProperties;
     private javax.swing.JTextField txtContainer;
+    private javax.swing.JTextField txtDelay;
     private javax.swing.JTextField txtIp;
     // End of variables declaration//GEN-END:variables
 
@@ -461,8 +498,10 @@ public class FrameProject extends JInternalFrame {
         project.setVerResult(bVerResult);
         project.setSimulated(bSimulated);
         project.setSaveDB(bSaveDB);
+        project.setStep(bStep);
+        project.setDelay(txtDelay.getText());
         project.getProperties().clear();        
-        DefaultTableModel t = (DefaultTableModel) jTableProperties.getModel();
+        DefaultTableModel t = (DefaultTableModel) jTableProperties.getModel();        
         for (int row = 0; row < t.getRowCount(); row++) {
             String key = (String) t.getValueAt(row, 0);
             String value = (String) t.getValueAt(row, 1);            

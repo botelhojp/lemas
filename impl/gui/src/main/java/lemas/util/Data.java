@@ -19,7 +19,7 @@ import lemas.model.Project;
 import com.google.gson.Gson;
 
 public class Data {
-	
+
 	private static SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
 	private static SimpleDateFormat dt2 = new SimpleDateFormat("yyyyMMdd");
 
@@ -33,25 +33,25 @@ public class Data {
 			}
 			br.close();
 		} catch (IOException e) {
-                    Message.error(e.getMessage(), null);
-		} 
+			Message.message(e);
+		}
 		return sb.toString();
 	}
 
 	public static void projectToFile(Project project, String filePath) {
-			project.setSaveIn(filePath);
-			Gson gson = new Gson();
-			String json = gson.toJson(project);
-			try {
-				if (filePath == null)
-					throw new RuntimeException("Save your project");
-				FileWriter writer = new FileWriter(filePath);
-				writer.write(json);
-				writer.close();
-			} catch (IOException e) {
-				Message.error(e.getMessage(), null);
-				LemasLog.erro(e);
-			}
+		project.setSaveIn(filePath);
+		Gson gson = new Gson();
+		String json = gson.toJson(project);
+		try {
+			if (filePath == null)
+				throw new RuntimeException("Save your project");
+			FileWriter writer = new FileWriter(filePath);
+			writer.write(json);
+			writer.close();
+		} catch (IOException e) {
+			Message.message(e);
+			LemasLog.erro(e);
+		}
 	}
 
 	public static Project fileToProject(File file) {
@@ -61,12 +61,12 @@ public class Data {
 			Project project = gson.fromJson(br, Project.class);
 			return project;
 		} catch (IOException e) {
-			Message.error(e.getMessage(), null);
+			Message.message(e);
 			LemasLog.erro(e);
 			return null;
 		}
 	}
-	
+
 	public static Date strToDate(String date) {
 		try {
 			return dt.parse(date);
@@ -78,8 +78,7 @@ public class Data {
 	public static String dateToStr(Date date) {
 		return dt.format(date);
 	}
-	
-	
+
 	public static int strToIteration(String date) {
 		Date d = strToDate(date);
 		return Integer.parseInt(dt2.format(d));
@@ -94,13 +93,13 @@ public class Data {
 
 	}
 
-	public static String exceptionToStr (Throwable ex){
+	public static String exceptionToStr(Throwable ex) {
 		StringWriter errors = new StringWriter();
 		ex.printStackTrace(new PrintWriter(errors));
 		return errors.toString();
 	}
-	
-	public static jade.util.leap.List instanceToRatingAttribute(Instance instance){
+
+	public static jade.util.leap.List instanceToRatingAttribute(Instance instance) {
 		jade.util.leap.List list = new jade.util.leap.ArrayList();
 		for (int i = 0; i < instance.numAttributes(); i++) {
 			RatingAttribute ra = new RatingAttribute();
@@ -110,6 +109,5 @@ public class Data {
 		}
 		return list;
 	}
-
 
 }

@@ -10,7 +10,7 @@ import lemas.form.DialogResult;
 import lesma.annotations.Metrics;
 import weka.core.Instance;
 
-@Metrics(name = "AHP - Agent", file = "ahp_agent_value")
+@Metrics(name = "AHP - Apenas Confiança", file = "ahp_agent_value")
 public class AHPAgentMetrics extends AbstractIMetric {
 
 	protected Hashtable<String, Fornecedor> fornecedores = new Hashtable<String, AHPAgentMetrics.Fornecedor>();

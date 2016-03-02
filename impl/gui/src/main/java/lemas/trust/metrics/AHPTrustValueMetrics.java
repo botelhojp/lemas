@@ -7,7 +7,7 @@ import lemas.trust.metrics.ahp.AHPFornecedor;
 import lemas.trust.metrics.ahp.AHPPreferencia;
 import lesma.annotations.Metrics;
 
-@Metrics(name = "AHP - Risco+Trust", file = "ahp_risco_trust_value")
+@Metrics(name = "AHP - Confiança com Risco", file = "ahp_risco_trust_value")
 public class AHPTrustValueMetrics extends AHPRiskValueMetrics {
 
 	@Override
@@ -17,7 +17,6 @@ public class AHPTrustValueMetrics extends AHPRiskValueMetrics {
 
 		for (AHPFornecedor f : c.fornecedores) {
 			if (f.getId().equals(_f.nome)) {
-				System.out.println(f.getId());
 				AHPPreferencia proposta = f.getPropostas().get(0);
 
 				double notaValorMax = nota_f1(cli.getPreferencias().get(0).getValor_maximo(), proposta.getValor_maximo());

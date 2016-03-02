@@ -37,7 +37,6 @@ public class AHPModel extends AbstractModel {
 				Gson gson = new GsonBuilder().enableComplexMapKeySerialization().serializeNulls().setDateFormat(DateFormat.LONG).setPrettyPrinting().setVersion(1.0).create();
 				Reader reader = new FileReader(properties.get("PREFERENCIAS").toString());
 				pref = gson.fromJson(reader, AHPConfig.class);
-				System.out.println(gson.toJson(pref));
 			} catch (Exception ex) {
 				throw new RuntimeException("erro", ex);
 			}

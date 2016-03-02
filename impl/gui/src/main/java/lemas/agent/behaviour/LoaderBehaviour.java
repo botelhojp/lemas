@@ -20,7 +20,6 @@ import lemas.agent.AgentOO;
 import lemas.agent.ConversationId;
 import lemas.agent.LemasAgent;
 import lemas.exception.LemasException;
-import lemas.form.FrameMain;
 import lemas.form.FrameProject;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
@@ -28,6 +27,7 @@ import lemas.trust.data.RatingCache;
 import lemas.trust.metrics.Classes;
 import lemas.trust.metrics.IMetrics;
 import lemas.util.Data;
+import lemas.util.Message;
 import openjade.core.DataProvider;
 import openjade.ontology.OpenJadeOntology;
 import openjade.ontology.Rating;
@@ -49,8 +49,9 @@ public class LoaderBehaviour extends Behaviour {
 	private List<AID> agentCache_Client = new ArrayList<AID>();
 	private List<AID> agentCache_Server = new ArrayList<AID>();
 	private boolean done = false;
+	private Long delay = null;
 	private Instance instance = null;
-//	private int round = 1;
+	// private int round = 1;
 	private Class<ITrustModel> trustModelClass;
 	private IMetrics metrics;
 	int c = 0;
@@ -79,8 +80,9 @@ public class LoaderBehaviour extends Behaviour {
 				data.setClassIndex(data.numAttributes() - 1);
 				instance = arff.readInstance(data);
 				if (instance != null) {
+					verifyDelay();
 					metrics.preProcess(instance);
-					FrameMain.getInstance().message(instance.toString());
+					Message.message(instance.toString());
 					DataProvider.getInstance().put("DATASET", instance.dataset());
 					AID client = new AID("" + instance.toString(0), false);
 					AID server = new AID("" + instance.toString(1), false);
@@ -95,12 +97,25 @@ public class LoaderBehaviour extends Behaviour {
 					stop();
 				}
 			} catch (NumberFormatException e) {
-				System.out.println(e.getMessage());
+				Message.message(e);				
 			} catch (IOException e) {
-				System.out.println(e.getMessage());
+				Message.message(e);	
 			}
 		}
 		block(1);
+	}
+
+	private void verifyDelay() {
+		try {
+			if (FrameProject.getInstance().getCurrentProject().isStep()) {
+				if (delay == null) {
+					delay = (long) (1000 * Double.parseDouble(FrameProject.getInstance().getCurrentProject().getDelay()));
+				}
+				Thread.sleep(delay);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void updateRound(String date) {
@@ -109,8 +124,8 @@ public class LoaderBehaviour extends Behaviour {
 
 	public void loadArff() {
 		try {
-			File file = new File((String)Runner.currentProject.getProperties().get("ARFF"));
-			if (!file.exists()){
+			File file = new File((String) Runner.currentProject.getProperties().get("ARFF"));
+			if (!file.exists()) {
 				throw new LemasException("ARFF não informado");
 			}
 			reader = new BufferedReader(new FileReader(file));
@@ -126,7 +141,7 @@ public class LoaderBehaviour extends Behaviour {
 			RatingCache.put(rating.getRound(), rating);
 			SendRating sr = new SendRating();
 			sr.addRating(rating);
-			
+
 			ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
 			message.setSender(agent.getAID());
 			message.addReceiver(client);
@@ -134,8 +149,8 @@ public class LoaderBehaviour extends Behaviour {
 			agent.fillContent(message, sr, agent.getCodec(), OpenJadeOntology.getInstance());
 			if (FrameProject.getInstance().getSimulated()) {
 				AgentCache.get(client.getLocalName()).message(message);
-			}else{
-				agent.sendMessage(message);				
+			} else {
+				agent.sendMessage(message);
 			}
 		}
 	}
@@ -147,30 +162,30 @@ public class LoaderBehaviour extends Behaviour {
 		return OpenJadeUtil.makeRating(clientAID, serverAID, Round.getInstance().getRound(), Data.instanceToRatingAttribute(instance), value);
 	}
 
-    private void createAgent(AID aid, String clazz, List<AID> cache) {
-        try {
-            if (!cache.contains(aid)) {
-                Object[] param = {trustModelClass};
-                if (FrameProject.getInstance().getSimulated()) {
-                	if (!AgentCache.contains(aid.getLocalName())){
-                		AgentCache.add(aid.getLocalName(), new AgentOO(aid.getLocalName(), param));
-                	}
-                } else {
-                    AgentController a = agent.getContainerController().createNewAgent(aid.getLocalName(), clazz, param);
-                    a.start();
-                    cache.add(aid);
-                }
-                if (cache.size() > CACHE_SIZE) {
-                    AID deleteAid = cache.get(0);
-                    agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");
-                }
-            }
-        } catch (StaleProxyException e) {
-            LemasLog.erro(e);
-        } catch (Exception e) {
-            LemasLog.erro(e);
-        }
-    }
+	private void createAgent(AID aid, String clazz, List<AID> cache) {
+		try {
+			if (!cache.contains(aid)) {
+				Object[] param = { trustModelClass };
+				if (FrameProject.getInstance().getSimulated()) {
+					if (!AgentCache.contains(aid.getLocalName())) {
+						AgentCache.add(aid.getLocalName(), new AgentOO(aid.getLocalName(), param));
+					}
+				} else {
+					AgentController a = agent.getContainerController().createNewAgent(aid.getLocalName(), clazz, param);
+					a.start();
+					cache.add(aid);
+				}
+				if (cache.size() > CACHE_SIZE) {
+					AID deleteAid = cache.get(0);
+					agent.sendMessage(deleteAid, ACLMessage.REQUEST, ConversationId.DO_DELETE, "");
+				}
+			}
+		} catch (StaleProxyException e) {
+			LemasLog.erro(e);
+		} catch (Exception e) {
+			LemasLog.erro(e);
+		}
+	}
 
 	public void removerCache(AID sender) {
 		if (agentCache_Client.contains(sender)) {
@@ -191,7 +206,7 @@ public class LoaderBehaviour extends Behaviour {
 		if (myAgent != null) {
 			myAgent.removeBehaviour(this);
 		}
-		Lemas.sleep(2000);	
+		Lemas.sleep(2000);
 		AgentCache.clear();
 	}
 

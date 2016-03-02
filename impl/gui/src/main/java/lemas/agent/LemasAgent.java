@@ -36,7 +36,7 @@ public class LemasAgent extends OpenAgent {
 		loadTrustModel((Class<ITrustModel>) getArguments()[0]);
 		trustModel.setProperties(Runner.currentProject.getProperties());
 		trustModel.loadSerialize();
-		LemasLog.info("created: " + _getLocalName());
+		LemasLog.info("agent setup: " + _getLocalName());
 		tb = new SendMessageBehavior(this);
 		addBehaviour(tb);
 		registerService(SERVICE);

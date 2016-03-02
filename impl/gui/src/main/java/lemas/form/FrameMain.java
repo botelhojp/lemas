@@ -22,6 +22,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import lemas.model.Project;
 import lemas.model.Workspace;
 import lemas.util.Data;
+import lemas.util.Message;
 
 public class FrameMain extends JFrame {
 	
@@ -81,7 +82,7 @@ public class FrameMain extends JFrame {
         menuProject.setMnemonic(KeyEvent.VK_N);
         menuProject.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	
+            	newProject();
             }
         });
         menu.add(menuProject);
@@ -94,17 +95,6 @@ public class FrameMain extends JFrame {
             }
         });
         menu.add(menuOpenProject);
-        
-        menu.add(new javax.swing.JPopupMenu.Separator());
-        
-        JMenuItem menuReset = new JMenuItem("Limpar Resultados");
-        menuReset.setMnemonic(KeyEvent.VK_N);
-        menuReset.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	clean();
-            }
-        });
-        menu.add(menuReset);
         
         menu.add(new javax.swing.JPopupMenu.Separator());
         
@@ -130,10 +120,21 @@ public class FrameMain extends JFrame {
 	}
 	
 	/**
+	 * Novo projeto
+	 */
+	public void newProject(){
+		Message.message("New project...");
+        FrameProject frame = FrameProject.getInstance();
+        frame.load();
+        frame.clean();
+        frame.setVisible(true);
+	}
+	
+	/**
 	 * Abertura de Projeto
 	 */
 	public void openProject(){
-		message("Open project...");
+		Message.message("Open project...");
         FrameProject frame = FrameProject.getInstance();        
         frame.setTitle("Open project");
         FileNameExtensionFilter filterExt = new FileNameExtensionFilter("Project Lesma file (.lma)", "lma");
@@ -142,7 +143,7 @@ public class FrameMain extends JFrame {
         fileChooser.setCurrentDirectory(new File(Workspace.FOLDER_PROJECT));
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-            message("open file: " + file.getAbsolutePath());
+            Message.message("open file: " + file.getAbsolutePath());
             Project project = Data.fileToProject(file);
             project.setSaveIn(file.getAbsolutePath());
             frame.updateScreen(project);
@@ -224,5 +225,5 @@ public class FrameMain extends JFrame {
 
 	public static FrameMain getInstance() {
 		return instance;
-	}
+	}	
 }
