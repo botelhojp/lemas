@@ -12,27 +12,25 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JInternalFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
-import openjade.trust.ITrustModel;
-import openjade.trust.TrustModelFactory;
-import lemas.Lemas;
 import lemas.db.LemasDB;
+import lemas.model.ClassBean;
 import lemas.model.LemasLog;
 import lemas.model.LemasReflection;
 import lemas.model.Project;
 import lemas.model.Runner;
-import lemas.model.ClassBean;
 import lemas.model.Workspace;
-import lemas.trust.Constants;
 import lemas.util.Data;
 import lemas.util.Message;
+import openjade.trust.ITrustModel;
+import openjade.trust.TrustModelFactory;
 
 @SuppressWarnings("all")
-public class FrameProject extends JDialog {
+public class FrameProject extends JInternalFrame {
 
     private static final long serialVersionUID = 1L;
     private static FrameProject instance;
@@ -66,9 +64,9 @@ public class FrameProject extends JDialog {
     private FrameProject() {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         initComponents();
-        setLocationRelativeTo(null);
+        //setLocationRelativeTo(null);
         setResizable(false);
-        setModal(false);
+        //setModal(false);
         String[] col = new String[]{"Properties", "Value"};
         DefaultTableModel dtm = new DefaultTableModel(col, 0);
         jTableProperties.setModel(dtm);
@@ -98,7 +96,6 @@ public class FrameProject extends JDialog {
         checkSimulated = new javax.swing.JCheckBox();
         checkSaveBD = new javax.swing.JCheckBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Project");
 
         cbTrustModelList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -166,7 +163,7 @@ public class FrameProject extends JDialog {
         panelProperties.setLayout(panelPropertiesLayout);
         panelPropertiesLayout.setHorizontalGroup(
             panelPropertiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
         );
         panelPropertiesLayout.setVerticalGroup(
             panelPropertiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,7 +252,7 @@ public class FrameProject extends JDialog {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btRun, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTabbedPane1))))
+                            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -334,7 +331,7 @@ public class FrameProject extends JDialog {
             updateProject();
             Data.projectToFile(project, project.getSaveIn());
             //this.setVisible(false);
-            FrameMain.getInstance().visibleWindows(true);
+//            FrameMain.getInstance().setVisible(true);
 //          Runner.run(project);
             Runner.run();
             LemasLog.clean();
@@ -354,8 +351,9 @@ public class FrameProject extends JDialog {
     }
 
     private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btCancelActionPerformed
-    	this.setVisible(false);
-        DialogResult.getInstance().setVisible(false);        
+    	FrameMain.visibleFrames(false);
+    	//this.setVisible(false);
+        //DialogResult.getInstance().setVisible(false);        
     }// GEN-LAST:event_btCancelActionPerformed
 
     private void txtIpKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtIpKeyReleased

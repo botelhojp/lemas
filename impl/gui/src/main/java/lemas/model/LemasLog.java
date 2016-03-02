@@ -34,7 +34,7 @@ public class LemasLog {
     }
 
     public static void clean() {
-        FrameMain.getInstance().clean();
+    	FrameMain.getInstance().clean();
     }
 
     public static void setEnable(boolean value) {

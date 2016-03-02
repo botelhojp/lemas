@@ -1,6 +1,6 @@
 package lemas.form;
 
-import javax.swing.JDialog;
+import javax.swing.JInternalFrame;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -9,7 +9,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-public class DialogResult extends JDialog {
+public class DialogResult extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static DialogResult instance = new DialogResult();
@@ -24,17 +24,13 @@ public class DialogResult extends JDialog {
 
 	public DialogResult() {
 		setVisible(false);
+		setResizable(true);
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setLocationRelativeTo(null);
-
-		setSize(300, 200);
 		xySerie = new XYSeriesCollection();
 		JFreeChart chart = ChartFactory.createXYLineChart("", "rounds", "metric value", xySerie, PlotOrientation.VERTICAL, true, true, false);
 		cp = new ChartPanel(chart);
 		getContentPane().add(cp);
 		cp.repaint();
-		setSize(getSize().width + 1, getSize().height + 1);
-
 		pack();
 
 	}
@@ -65,5 +61,15 @@ public class DialogResult extends JDialog {
 
 	public XYSeriesCollection getXSerie() {
 		return xySerie;
+	}
+
+	public void clean() {
+		getContentPane().removeAll();
+		xySerie = new XYSeriesCollection();
+		JFreeChart chart = ChartFactory.createXYLineChart("", "rounds", "metric value", xySerie, PlotOrientation.VERTICAL, true, true, false);
+		cp = new ChartPanel(chart);
+		getContentPane().add(cp);
+		cp.repaint();
+		pack();
 	}
 }
