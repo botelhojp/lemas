@@ -17,7 +17,6 @@ import javax.swing.JInternalFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
-import lemas.db.LemasDB;
 import lemas.model.ClassBean;
 import lemas.model.LemasLog;
 import lemas.model.LemasReflection;
@@ -365,7 +364,6 @@ public class FrameProject extends JInternalFrame {
 
     private void btRunActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btRunActionPerformed
         try {
-            cleanAll();
             updateProject();
             Data.projectToFile(project, project.getSaveIn());
             Runner.run();
@@ -377,14 +375,6 @@ public class FrameProject extends JInternalFrame {
         }
     }// GEN-LAST:event_btRunActionPerformed
     
-    
-    public void cleanAll() {
-        LemasDB db = new LemasDB(bSaveDB);
-        db.connect();
-        db.cleanAll();
-        db.close();
-    }
-
     private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btCancelActionPerformed
     	FrameMain.visibleFrames(false);
     }// GEN-LAST:event_btCancelActionPerformed
@@ -486,7 +476,7 @@ public class FrameProject extends JInternalFrame {
         updateScreen(project);
     }
 
-    private void updateProject() {
+    public void updateProject() {
         project.setHost(txtIp.getText());
         ClassBean tmb = (ClassBean) cbTrustModelList.getSelectedItem();
         ClassBean tmb2 = (ClassBean) cbMetrics.getSelectedItem();

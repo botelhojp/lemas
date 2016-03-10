@@ -1,16 +1,13 @@
 package lemas.trust;
 
-import jade.core.AID;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import jade.core.AID;
 import lemas.agent.LemasAgent;
-import lemas.db.LemasDB;
-import lemas.form.FrameProject;
 import lemas.trust.metrics.Classes;
 import lemas.trust.metrics.Clazz;
 import openjade.core.OpenAgent;
@@ -142,38 +139,6 @@ public  class AbstractModel implements ITrustModel {
 
 	public void setProperties(Properties properties) {
 		this.properties = properties;
-	}
-
-	public void serialize() {
-		try {
-			LemasDB db = new LemasDB(FrameProject.getInstance().getSaveDB());
-			db.connect();
-			db.save(myAgent, data);
-			
-		} catch (Exception e) {
-			throw new RuntimeException("Erro serialize trustmodel", e);
-		}
-	}
-
-	public void loadSerialize() {
-		try {
-			LemasDB db = new LemasDB(FrameProject.getInstance().getSaveDB());
-			db.connect();
-			if (db.exist(myAgent)){
-				data = db.load(myAgent);
-			}
-			db.close();
-//			if (tmpFile.exists()) {
-//				FileInputStream arquivoLeitura = new FileInputStream(tmpFile);
-//				ObjectInputStream objLeitura = new ObjectInputStream(arquivoLeitura);
-//				this.data = (HashMap<AID, TrustModelData>) objLeitura.readObject();
-//				objLeitura.close();
-//				arquivoLeitura.close();
-//				tmpFile.delete();
-//			}
-		} catch (Exception e) {
-			throw new RuntimeException("Erro serialize trustmodel", e);
-		}
 	}
 
 	public void findReputation(AID server) {

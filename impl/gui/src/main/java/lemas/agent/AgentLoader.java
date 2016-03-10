@@ -1,15 +1,13 @@
 package lemas.agent;
 
+import java.util.List;
+
 import jade.content.ContentElement;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
-
-import java.util.List;
-
 import lemas.Round;
 import lemas.agent.behaviour.LoaderBehaviour;
 import lemas.db.CSV;
-import lemas.db.LemasDB;
 import lemas.form.DialogResult;
 import lemas.form.FrameProject;
 import lemas.trust.metrics.IMetrics;
@@ -29,7 +27,6 @@ public class AgentLoader extends OpenAgent {
 	private int wait = 0;;
 	private static int executions = -1;
 	private LoaderBehaviour loader;
-	private LemasDB db;
 	private double sum;
 	private Round round = Round.getInstance();
 	
@@ -45,11 +42,9 @@ public class AgentLoader extends OpenAgent {
 		round.setRange(1);
 		sum=0;
 		executions++;
-		db = new LemasDB(FrameProject.getInstance().getSaveDB());
-		db.connect();
 		loader = new LoaderBehaviour(this, getTrustModelClass(), getMetricsClass());
 		addBehaviour(loader);
-		instance = this;
+		instance = this;		
 	}
 
 	/**
@@ -134,7 +129,7 @@ public class AgentLoader extends OpenAgent {
 	}
 
 	public void stop() {
-		db.close();
+//		db.close();
 		loader.stop();		
 	}
 }

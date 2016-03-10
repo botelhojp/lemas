@@ -19,6 +19,7 @@ import lemas.agent.AgentLoader;
 import lemas.agent.AgentOO;
 import lemas.agent.ConversationId;
 import lemas.agent.LemasAgent;
+import lemas.db.CSV;
 import lemas.exception.LemasException;
 import lemas.form.FrameProject;
 import lemas.model.LemasLog;
@@ -124,6 +125,7 @@ public class LoaderBehaviour extends Behaviour {
 
 	public void loadArff() {
 		try {
+			CSV.start(Runner.currentProject);
 			File file = new File((String) Runner.currentProject.getProperties().get("ARFF"));
 			if (!file.exists()) {
 				throw new LemasException("ARFF não informado");
@@ -208,6 +210,7 @@ public class LoaderBehaviour extends Behaviour {
 		}
 		Lemas.sleep(2000);
 		AgentCache.clear();
+		CSV.stop();
 	}
 
 	public double posProcess(ACLMessage msg) {

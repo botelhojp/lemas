@@ -35,7 +35,6 @@ public class LemasAgent extends OpenAgent {
 		super.setup();
 		loadTrustModel((Class<ITrustModel>) getArguments()[0]);
 		trustModel.setProperties(Runner.currentProject.getProperties());
-		trustModel.loadSerialize();
 		LemasLog.info("agent setup: " + _getLocalName());
 		tb = new SendMessageBehavior(this);
 		addBehaviour(tb);
@@ -50,7 +49,6 @@ public class LemasAgent extends OpenAgent {
 	@ReceiveSimpleMessage(performative = ACLMessage.REQUEST, conversationId = ConversationId.DO_DELETE)
 	public void dead(ACLMessage message) {
 		super.deregister(SERVICE);
-		trustModel.serialize();
 		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.DO_DELETE, "");
 		this.doDelete();
 	}
