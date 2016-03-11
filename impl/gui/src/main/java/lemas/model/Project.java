@@ -11,6 +11,7 @@ public class Project {
     private String metricsClass;
     private String saveIn;
     private String host;
+    private String arff;
     private String conteiner;
     private boolean verLog;
     private boolean verResult;
@@ -136,6 +137,14 @@ public class Project {
 
 	public void setDelay(String delay) {
 		this.delay = delay;
+	}
+
+	public String getArff() {
+		return arff;
+	}
+
+	public void setArff(String arff) {
+		this.arff = arff;
 	}
     
 }

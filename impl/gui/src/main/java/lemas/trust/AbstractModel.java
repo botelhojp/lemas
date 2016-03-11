@@ -29,7 +29,6 @@ public  class AbstractModel implements ITrustModel {
 	public AbstractModel() {
 		data = new HashMap<AID, TrustModelData>();
 		properties = new Properties();
-		properties.put("ARFF", "");
 	}
 
 	public String test(AID aid) {

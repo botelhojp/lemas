@@ -7,16 +7,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import openjade.ontology.RatingAttribute;
-import weka.core.Instance;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import lemas.model.LemasLog;
 import lemas.model.Project;
-
-import com.google.gson.Gson;
+import openjade.ontology.RatingAttribute;
+import weka.core.Instance;
 
 public class Data {
 
@@ -40,7 +42,7 @@ public class Data {
 
 	public static void projectToFile(Project project, String filePath) {
 		project.setSaveIn(filePath);
-		Gson gson = new Gson();
+		Gson gson = makeGson();
 		String json = gson.toJson(project);
 		try {
 			if (filePath == null)
@@ -51,6 +53,14 @@ public class Data {
 		} catch (IOException e) {
 			Message.message(e);
 			LemasLog.erro(e);
+		}
+	}
+
+	public static Gson makeGson() {
+		try {
+			return new GsonBuilder().enableComplexMapKeySerialization().serializeNulls().setDateFormat(DateFormat.LONG).setPrettyPrinting().setVersion(1.0).create();
+		} catch (Exception ex) {
+			throw new RuntimeException("erro", ex);
 		}
 	}
 
