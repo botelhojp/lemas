@@ -51,11 +51,17 @@
                       <Component id="checkSimulated" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="checkSaveBD" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="txtRound" min="-2" pref="55" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                       <Component id="checkStep" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtDelay" min="-2" pref="44" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="txtDelay" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -100,15 +106,18 @@
                   <Component id="txtARRF" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="6" max="32767" attributes="0"/>
+              <EmptySpace pref="14" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="checkLog" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="checkResult" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="checkSimulated" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="checkSaveBD" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="checkStep" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtDelay" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtRound" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="checkStep" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jTabbedPane1" min="-2" pref="157" max="-2" attributes="0"/>
@@ -294,7 +303,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="checkSaveBD">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Salvar em DB"/>
+        <Property name="text" type="java.lang.String" value="Export to CSV"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkSaveBDActionPerformed"/>
@@ -310,17 +319,20 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="checkStep">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Step-by-Step"/>
+        <Property name="text" type="java.lang.String" value="Delay"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkStepActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtDelay">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="100"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="segundos"/>
+        <Property name="text" type="java.lang.String" value="s"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtARRF">
@@ -328,6 +340,21 @@
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
         <Property name="text" type="java.lang.String" value="ARRF File:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtRound">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="100"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel7">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="rounds"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel8">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Group results"/>
       </Properties>
     </Component>
   </SubComponents>

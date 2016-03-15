@@ -125,8 +125,10 @@ public class LoaderBehaviour extends Behaviour {
 
 	public void loadArff() {
 		try {
+			agent.configure(Runner.currentProject);
 			CSV.start(Runner.currentProject);
 			File file = new File((String) Runner.currentProject.getArff());
+			Message.message("abrindo arquivo [" + file.getAbsolutePath()+ "]");
 			if (!file.exists()) {
 				throw new LemasException("ARFF não informado");
 			}

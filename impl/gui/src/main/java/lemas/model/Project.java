@@ -12,6 +12,7 @@ public class Project {
     private String saveIn;
     private String host;
     private String arff;
+    private String rounds;
     private String conteiner;
     private boolean verLog;
     private boolean verResult;
@@ -28,6 +29,12 @@ public class Project {
         results = new ArrayList<Result>();
         host = "-local-host, 127.0.0.1";
         conteiner = "-container, -container-name, Agents-Container";
+        delay = "0";
+        rounds = "1";
+        verLog = true;
+        verResult = true;
+        simulated = false;
+        step = false;
     }
 
     public String getTrustmodel() {
@@ -146,5 +153,12 @@ public class Project {
 	public void setArff(String arff) {
 		this.arff = arff;
 	}
-    
+
+	public String getRounds() {
+		return rounds;
+	}
+
+	public void setRounds(String rounds) {
+		this.rounds = rounds;
+	}
 }

@@ -43,7 +43,7 @@ public class FrameMain extends JFrame {
 	private static FrameMain instance = new FrameMain();
 
 	private FrameMain() {
-		JFrame frame = new JFrame("SITIM - Simulated Time Machine");
+		JFrame frame = new JFrame("TSISMA - Trust Simulator for SMA");
 		resize(frame);
 		jdpDesktop = new JDesktopPane() {
 			private static final long serialVersionUID = 1L;

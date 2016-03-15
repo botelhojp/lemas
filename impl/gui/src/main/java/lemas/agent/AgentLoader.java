@@ -10,6 +10,7 @@ import lemas.agent.behaviour.LoaderBehaviour;
 import lemas.db.CSV;
 import lemas.form.DialogResult;
 import lemas.form.FrameProject;
+import lemas.model.Project;
 import lemas.trust.metrics.IMetrics;
 import lesma.annotations.Metrics;
 import openjade.core.OpenAgent;
@@ -28,7 +29,7 @@ public class AgentLoader extends OpenAgent {
 	private static int executions = -1;
 	private LoaderBehaviour loader;
 	private double sum;
-	private Round round = Round.getInstance();
+	private Round round;
 	
 	public static AgentLoader getInstance(){
 		return instance;
@@ -38,8 +39,6 @@ public class AgentLoader extends OpenAgent {
 	public void setup() {
 		super.setup();
 		wait = 0;
-		round.clear();
-		round.setRange(1);
 		sum=0;
 		executions++;
 		loader = new LoaderBehaviour(this, getTrustModelClass(), getMetricsClass());
@@ -70,7 +69,7 @@ public class AgentLoader extends OpenAgent {
 		}
 		wait--;
 	}
-	
+
 	@ReceiveSimpleMessage(conversationId = ConversationId.NEXT)
 	public void getNextMessage(ACLMessage msg) {
 		System.out.println(msg.toString());
@@ -129,7 +128,14 @@ public class AgentLoader extends OpenAgent {
 	}
 
 	public void stop() {
-//		db.close();
 		loader.stop();		
+	}
+
+	public void configure(Project project) {
+		if (round == null){
+			round = Round.getInstance();
+		}
+		round.clear();
+		round.setRange(Integer.parseInt(project.getRounds()));
 	}
 }

@@ -22,7 +22,16 @@ public class CSV {
 
 	public static void start(Project _project) {
 		project = _project;
-		folder = (new File(project.getArff())).getParent();
+		
+		File aux = new File(project.getArff());
+		
+		folder = aux.getParent() + File.separatorChar +  aux.getName() + "_results";
+		
+		aux = new File(folder);
+		if (!aux.exists()){
+			aux.mkdirs();
+		}
+		
 		sufix = getSufix();
 	}
 

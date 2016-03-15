@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
+import lemas.Lemas;
+import lemas.util.Message;
 import weka.core.Attribute;
 import weka.core.Instances;
 
@@ -29,7 +31,7 @@ public class Classes {
 			double r_min = r_max - range;
 			int index = at.numValues() - i - 1;
 			Clazz clazz = new Clazz(at.value(i), step*index - max, r_min, r_max);
-			System.out.println(clazz);
+			Message.message(clazz.toString());
 			list.add(clazz);
 			hash.put(clazz.getName(), clazz);
 		}

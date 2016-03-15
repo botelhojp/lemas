@@ -101,6 +101,9 @@ public class FrameProject extends JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         txtARRF = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        txtRound = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
 
         setTitle("New Project");
 
@@ -215,7 +218,7 @@ public class FrameProject extends JInternalFrame {
             }
         });
 
-        checkSaveBD.setText("Salvar em DB");
+        checkSaveBD.setText("Export to CSV");
         checkSaveBD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkSaveBDActionPerformed(evt);
@@ -229,16 +232,24 @@ public class FrameProject extends JInternalFrame {
             }
         });
 
-        checkStep.setText("Step-by-Step");
+        checkStep.setText("Delay");
         checkStep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkStepActionPerformed(evt);
             }
         });
 
-        jLabel5.setText("segundos");
+        txtDelay.setText("100");
+
+        jLabel5.setText("s");
 
         jLabel6.setText("ARRF File:");
+
+        txtRound.setText("100");
+
+        jLabel7.setText("rounds");
+
+        jLabel8.setText("Group results");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -270,11 +281,17 @@ public class FrameProject extends JInternalFrame {
                         .addComponent(checkSimulated)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(checkSaveBD)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtRound, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7)
+                        .addGap(57, 57, 57)
                         .addComponent(checkStep)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDelay, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDelay)
+                        .addGap(2, 2, 2)
                         .addComponent(jLabel5))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -309,15 +326,18 @@ public class FrameProject extends JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtARRF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(checkLog)
                     .addComponent(checkResult)
                     .addComponent(checkSimulated)
                     .addComponent(checkSaveBD)
-                    .addComponent(checkStep)
                     .addComponent(txtDelay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(txtRound, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(checkStep))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
@@ -474,6 +494,8 @@ public class FrameProject extends JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTableProperties;
@@ -482,6 +504,7 @@ public class FrameProject extends JInternalFrame {
     private javax.swing.JTextField txtContainer;
     private javax.swing.JTextField txtDelay;
     private javax.swing.JTextField txtIp;
+    private javax.swing.JTextField txtRound;
     // End of variables declaration//GEN-END:variables
 
     void clean() {
@@ -504,6 +527,7 @@ public class FrameProject extends JInternalFrame {
         project.setStep(bStep);
         project.setArff(txtARRF.getText());
         project.setDelay(txtDelay.getText());
+        project.setRounds(txtRound.getText());
         project.getProperties().clear();        
         DefaultTableModel t = (DefaultTableModel) jTableProperties.getModel();        
         for (int row = 0; row < t.getRowCount(); row++) {
@@ -533,6 +557,9 @@ public class FrameProject extends JInternalFrame {
 
         bSaveDB = project.getSaveDB();
         checkSaveBD.setSelected(bSaveDB);
+        
+        txtRound.setText(project.getRounds());
+        txtDelay.setText(project.getDelay());
 
         for (int index = 0; index < cbMetrics.getItemCount(); index++) {
             ClassBean item = (ClassBean) cbMetrics.getItemAt(index);
