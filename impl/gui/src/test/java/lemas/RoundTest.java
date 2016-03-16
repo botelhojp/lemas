@@ -1,6 +1,7 @@
 package lemas;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -80,5 +81,63 @@ public class RoundTest {
 		r.update("01/02/2015");
 		assertEquals(3, r.getRound());
 		assertEquals(true, r.changed());
+	}
+	
+	
+	@Test
+	public void getRoundMesmoDia() {
+		Round r = Round.getInstance();		
+		assertEquals(0, r.getRound());
+		
+		r.update("26/03/2015");
+		assertEquals(1, r.getRound());
+		assertEquals(false, r.changed());
+		
+		r.update("26/03/2015");
+		assertEquals(1, r.getRound());
+		assertEquals(false, r.changed());
+		
+		r.update("26/03/2015");
+		assertEquals(1, r.getRound());
+		assertEquals(false, r.changed());
+		
+		r.update("26/03/2015");
+		assertEquals(1, r.getRound());
+		assertEquals(false, r.changed());
+		
+		r.update("28/03/2015");
+		assertEquals(1, r.getRound());
+		assertEquals(false, r.changed());
+		r.update("28/03/2015");
+		assertEquals(1, r.getRound());
+		assertEquals(false, r.changed());
+		r.update("28/03/2015");
+		assertEquals(1, r.getRound());
+		assertEquals(false, r.changed());
+		r.update("28/03/2015");
+		assertEquals(1, r.getRound());
+		assertEquals(false, r.changed());
+		
+		r.update("29/03/2015");
+		assertEquals(1, r.getRound());
+		assertEquals(false, r.changed());
+		r.update("30/03/2015");
+		assertEquals(2, r.getRound());
+		assertEquals(true, r.changed());
+		r.update("31/03/2015");		
+		assertEquals(2, r.getRound());
+		assertEquals(false, r.changed());
+		
+		r.update("31/03/2015");		
+		assertEquals(2, r.getRound());
+		assertEquals(false, r.changed());
+		
+		r.update("31/03/2015");		
+		assertEquals(2, r.getRound());
+		assertEquals(false, r.changed());
+		
+		r.update("01/02/2015");
+		assertEquals(2, r.getRound());
+		assertEquals(false, r.changed());
 	}
 }

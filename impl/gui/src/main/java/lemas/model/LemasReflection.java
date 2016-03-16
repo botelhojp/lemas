@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.reflections.Reflections;
+
 import lesma.annotations.Metrics;
 import lesma.annotations.TrustModel;
-
-import org.reflections.Reflections;
 
 public class LemasReflection {
 

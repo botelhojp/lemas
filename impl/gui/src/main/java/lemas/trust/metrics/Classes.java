@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-import lemas.Lemas;
 import lemas.util.Message;
 import weka.core.Attribute;
 import weka.core.Instances;

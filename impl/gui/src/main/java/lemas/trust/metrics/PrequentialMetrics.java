@@ -1,10 +1,9 @@
 package lemas.trust.metrics;
 
-import jade.lang.acl.ACLMessage;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import jade.lang.acl.ACLMessage;
 import lesma.annotations.Metrics;
 import weka.core.Instance;
 

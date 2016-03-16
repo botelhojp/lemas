@@ -1,11 +1,10 @@
 package lemas.trust.metrics;
 
-import jade.lang.acl.ACLMessage;
-
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.Method;
 
+import jade.lang.acl.ACLMessage;
 import lesma.annotations.Metrics;
 import weka.core.Instance;
 

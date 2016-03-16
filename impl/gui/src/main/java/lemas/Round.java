@@ -8,6 +8,7 @@ public class Round {
 	
 	private SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
 	private Date currentTime;
+	private Date lastTime;
 	private Date startTime;
 	private int range;
 	private int round;
@@ -46,7 +47,10 @@ public class Round {
 				startTime = dt.parse(date);
 				round = 1;
 			}
-			count++;
+			if (lastTime == null || !lastTime.equals(currentTime)){
+				count++;
+			}
+			lastTime = currentTime;
 		} catch (ParseException e) {
 			throw new RuntimeException("erro no parse da data: " + date, e);
 		}

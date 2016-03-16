@@ -22,38 +22,48 @@ public class CSV {
 
 	public static void start(Project _project) {
 		project = _project;
-		
-		File aux = new File(project.getArff());
-		
-		folder = aux.getParent() + File.separatorChar +  aux.getName() + "_results";
-		
-		aux = new File(folder);
-		if (!aux.exists()){
-			aux.mkdirs();
+
+		if (enabled()) {
+
+			File aux = new File(project.getArff());
+
+			folder = aux.getParent() + File.separatorChar + aux.getName() + "_results";
+
+			aux = new File(folder);
+			if (!aux.exists()) {
+				aux.mkdirs();
+			}
+			sufix = getSufix();
 		}
-		
-		sufix = getSufix();
+	}
+
+	private static boolean enabled() {
+		return project != null && project.getSaveDB();
 	}
 
 	public static void stop() {
-		project = null;
-		out.close();
-		out = null;
+		if (enabled()) {
+			project = null;
+			out.close();
+			out = null;
+		}
 	}
 
 	public static void save(String fileName, int executions, double round, double value) {
-		if (project == null) {
-			throw new LemasException("Modo CSV não iniciado!");
-		}
-		try {
-			String timer = format.format(((Calendar) GregorianCalendar.getInstance()).getTime());
-			String file = folder + File.separatorChar + fileName + "_" + sufix + ".csv";
-			if (out == null) {
-				out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
+		if (enabled()) {
+			if (project == null) {
+				throw new LemasException("Modo CSV não iniciado!");
 			}
-			out.println((executions + ";" + (int) round + (";" + value).replace(".", ",") + ";" + timer));
-		} catch (IOException e) {
-			e.printStackTrace();
+			try {
+				String timer = format.format(((Calendar) GregorianCalendar.getInstance()).getTime());
+				String file = folder + File.separatorChar + fileName + "_" + sufix + ".csv";
+				if (out == null) {
+					out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
+				}
+				out.println((executions + ";" + (int) round + (";" + value).replace(".", ",") + ";" + timer));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

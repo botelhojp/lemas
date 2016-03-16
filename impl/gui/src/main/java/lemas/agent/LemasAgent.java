@@ -1,15 +1,15 @@
 package lemas.agent;
 
+import java.util.List;
+
 import jade.content.ContentElement;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 import jade.util.leap.Iterator;
-
-import java.util.List;
-
 import lemas.agent.behaviour.SendMessageBehavior;
 import lemas.model.LemasLog;
 import lemas.model.Runner;
+import lemas.trust.metrics.Classes;
 import openjade.core.OpenAgent;
 import openjade.core.OpenJadeException;
 import openjade.core.annotation.ReceiveMatchMessage;
@@ -26,6 +26,7 @@ public class LemasAgent extends OpenAgent {
 	public static final String SERVICE = "LEMAS";
 	private SendMessageBehavior tb;
 	protected static long countMessages = 0;
+	protected boolean iamMalicious = false;
 
 	/**
 	 * Inicialização
@@ -39,6 +40,17 @@ public class LemasAgent extends OpenAgent {
 		tb = new SendMessageBehavior(this);
 		addBehaviour(tb);
 		registerService(SERVICE);
+		defineMalicious(getLocalName());
+	}
+
+	private void defineMalicious(String localName) {
+		String[] tokens = localName.toLowerCase().split("_");
+		if (tokens != null && tokens.length > 1){
+			String lastToken = tokens[tokens.length-1];
+			if (lastToken.equals("m")){
+				iamMalicious = true;
+			}
+		}
 	}
 
 	/**
@@ -126,6 +138,9 @@ public class LemasAgent extends OpenAgent {
 		SendRating sr = new SendRating();
 		List<Rating> rs = trustModel.getDossie();
 		for (Rating rating : rs) {
+			if (iamMalicious){
+				rating.setValue(Classes.getClass(1).getName());
+			}
 			sr.addRating(rating);
 		}
 		sendMessage(message.getSender(), ACLMessage.INFORM, ConversationId.GET_DOSSIE, sr);
