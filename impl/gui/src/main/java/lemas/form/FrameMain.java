@@ -20,6 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import lemas.agent.AgentLoader;
 import lemas.model.Project;
 import lemas.model.Workspace;
 import lemas.util.Data;
@@ -43,7 +44,7 @@ public class FrameMain extends JFrame {
 	private static FrameMain instance = new FrameMain();
 
 	private FrameMain() {
-		JFrame frame = new JFrame("TSISMA - Trust Simulator for SMA");
+		JFrame frame = new JFrame("SISMA - Trust Model Simulator for SMA");
 		resize(frame);
 		jdpDesktop = new JDesktopPane() {
 			private static final long serialVersionUID = 1L;
@@ -127,6 +128,7 @@ public class FrameMain extends JFrame {
 	 */
 	public void clean() {
 		DialogResult.getInstance().clean();
+		AgentLoader.cleanExecutions();
 		displayDonw(FrameProject.getInstance(), DialogResult.getInstance(), 5);
 	}
 

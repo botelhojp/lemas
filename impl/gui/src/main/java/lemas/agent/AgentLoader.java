@@ -45,6 +45,10 @@ public class AgentLoader extends OpenAgent {
 		addBehaviour(loader);
 		instance = this;		
 	}
+	
+	public static void cleanExecutions(){
+		executions = -1;
+	}
 
 	/**
 	 * Recebe confirmacao de destruicao do agente
