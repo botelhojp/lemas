@@ -10,18 +10,22 @@ import openjade.ontology.Rating;
 public class DossieModel extends AbstractModel {
 
 	protected List<Rating> dossie = new ArrayList<Rating>();
+	
+	public static final String DOSSIE_SIZE = "DOSSIE_SIZE";
+	public static final String PREFERENCES = "PREFERENCES";
 
 	private static final long serialVersionUID = 1L;
 	
 	public DossieModel() {
 		properties.clear();
-		properties.put("DOSSIE_SIZE", "50");
+		properties.put(DOSSIE_SIZE, "50");
+		properties.put(PREFERENCES, "l=centro");
 	}
 
 	@Override
 	public void addRating(Rating rating) {
 		if (isIamServer(rating)) {
-			Integer size = Integer.parseInt(properties.getProperty("DOSSIE_SIZE"));
+			Integer size = Integer.parseInt(properties.getProperty(DOSSIE_SIZE));
 			dossie.add(rating);
 			if (dossie.size() > size){
 				dossie.remove(0);

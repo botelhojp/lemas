@@ -52,6 +52,7 @@ public class LoaderBehaviour extends Behaviour {
 	private boolean done = false;
 	private Long delay = null;
 	private Instance instance = null;
+	private long count = 0;
 	// private int round = 1;
 	private Class<ITrustModel> trustModelClass;
 	private IMetrics metrics;
@@ -62,6 +63,7 @@ public class LoaderBehaviour extends Behaviour {
 
 	public LoaderBehaviour(AgentLoader _agent, Class<ITrustModel> trustModelClass, Class<IMetrics> metricsClass) {
 		try {
+			count = 0;
 			agent = _agent;
 			this.trustModelClass = trustModelClass;
 			metrics = metricsClass.newInstance();
@@ -83,7 +85,8 @@ public class LoaderBehaviour extends Behaviour {
 				if (instance != null) {
 					verifyDelay();
 					metrics.preProcess(instance);
-					Message.message(instance.toString());
+					
+					Message.message(++count + " : " + instance.toString());
 					DataProvider.getInstance().put("DATASET", instance.dataset());
 					AID client = new AID("" + instance.toString(0), false);
 					AID server = new AID("" + instance.toString(1), false);

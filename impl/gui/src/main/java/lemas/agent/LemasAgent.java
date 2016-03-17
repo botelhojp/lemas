@@ -40,7 +40,7 @@ public class LemasAgent extends OpenAgent {
 		tb = new SendMessageBehavior(this);
 		addBehaviour(tb);
 		registerService(SERVICE);
-		defineMalicious(getLocalName());
+		defineMalicious(_getLocalName());
 	}
 
 	private void defineMalicious(String localName) {

@@ -44,7 +44,7 @@ public class FrameMain extends JFrame {
 	private static FrameMain instance = new FrameMain();
 
 	private FrameMain() {
-		JFrame frame = new JFrame("SISMA - Trust Model Simulator for SMA");
+		JFrame frame = new JFrame("ICE - Test Environment");
 		resize(frame);
 		jdpDesktop = new JDesktopPane() {
 			private static final long serialVersionUID = 1L;
